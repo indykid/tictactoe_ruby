@@ -2,6 +2,10 @@ require 'board'
 describe Board do
   let(:board) { Board.new }
 
+  it 'has cells' do
+    expect(board.cells).to eq([0, 1, 2, 3, 4, 5, 6, 7, 8])
+  end
+
   it 'is empty at the start' do
     expect(board.moves).to eq([])
   end

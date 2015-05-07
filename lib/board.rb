@@ -1,8 +1,9 @@
 class Board
-  attr_reader :cells
+  attr_reader :cells, :size
   
-  def initialize
+  def initialize(size = 3)
     @cells = []
+    @size  = size
   end
 
 end

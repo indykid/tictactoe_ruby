@@ -5,5 +5,9 @@ class Board
     @cells = []
     @size  = size
   end
+  
+  def add_move(cell)
+    @cells << cell
+  end
 
 end

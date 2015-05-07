@@ -10,4 +10,9 @@ describe Board do
     expect(board.size).to eq(3)
   end
 
+  it 'records moves' do
+    board.add_move(0)
+    expect(board.cells).to eq([0])
+  
+  end
 end

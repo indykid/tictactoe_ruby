@@ -15,4 +15,7 @@ class Board
     @moves.include?(cell)
   end
 
+  def rows
+    @cells.each_slice(size)
+  end
 end

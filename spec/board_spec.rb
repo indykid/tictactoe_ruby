@@ -28,7 +28,7 @@ describe Board do
     expect(board.taken?(0)).to be(true)
   end
 
-  xit 'has rows' do
+  it 'knows its rows' do
     expect(board.rows).to match_array([[0, 1, 2], [3, 4, 5], [6, 7, 8]])
   end
 end

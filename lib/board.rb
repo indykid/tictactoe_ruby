@@ -7,12 +7,12 @@ class Board
     @size  = size
   end
 
-  def add_move(cell)
-    @moves << cell
+  def add_move(position, player)
+    @moves << {position: position, player: player}
   end
 
-  def taken?(cell)
-    @moves.include?(cell)
+  def taken?(position)
+    @moves.any? { |m| m[:position] == position }
   end
 
   def rows
@@ -57,10 +57,15 @@ class Board
     diagonal
   end
 
+  def full?(line)
+    moves = @moves.select{|move| 
+      line.include?(move[:position]) 
+    }
+    moves.length == size && same_player?(moves)
+  end
 
-
-
-
-
-
+  private
+  def same_player?(moves)
+    moves.map { |m| m[:player] }.uniq.length == 1
+  end
 end

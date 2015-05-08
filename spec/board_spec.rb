@@ -15,8 +15,8 @@ describe Board do
   end
 
   it 'records moves' do
-    board.add_move(0)
-    expect(board.moves).to eq([0])
+    board.add_move(0, 'x')
+    expect(board.moves).to eq([{position: 0, player: 'x'}])
   end
 
   it 'knows if cell is not taken' do
@@ -24,7 +24,7 @@ describe Board do
   end
 
   it 'knows if cell is taken' do
-    board.add_move(0)
+    board.add_move(0, 'x')
     expect(board.taken?(0)).to be(true)
   end
 
@@ -39,4 +39,44 @@ describe Board do
   it 'knows its diagonals' do
     expect(board.diagonals).to match_array([[0, 4, 8], [2, 4, 6]])
   end
+
+  it 'knows if a given line is full with the same player' do
+    board.add_move(0, 'x')
+    board.add_move(1, 'x')
+    board.add_move(2, 'x')
+    expect(board.full?([0, 1, 2])).to be(true)
+  end
+
+  it 'knows if a given line is not full with the same player' do
+    board.add_move(0, 'o')
+    board.add_move(1, 'x')
+    board.add_move(2, 'x')
+    expect(board.full?([0, 1, 2])).to be(false)
+  end
+
+  it 'knows if given line is not full even if same player' do
+    board.add_move(0, 'x')
+    board.add_move(1, 'x')
+    expect(board.full?([0, 1, 2])).to be(false)
+  end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

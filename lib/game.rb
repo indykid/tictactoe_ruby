@@ -4,6 +4,6 @@ class Game
   end
 
   def over?
-    @board.winner?
+    @board.winner? ||  @board.draw?
   end
 end

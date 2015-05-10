@@ -65,9 +65,21 @@ class Board
   end
 
   def winner?
-    rows.concat(columns).concat(diagonals).any? do |line|
+    lines.any? do |line|
       full?(line)
     end
+  end
+
+  def lines
+    rows.concat(columns).concat(diagonals)
+  end
+
+  def draw?
+    !winner? && all_taken?
+  end
+
+  def all_taken?
+    @moves.length == @cells.length
   end
 
   private

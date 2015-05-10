@@ -16,7 +16,7 @@ class Board
   end
 
   def rows
-    @cells.each_slice(size)
+    @cells.each_slice(size).to_a
   end
 
   def columns
@@ -62,6 +62,12 @@ class Board
       line.include?(move[:position]) 
     }
     moves.length == size && same_player?(moves)
+  end
+
+  def winner?
+    rows.concat(columns).concat(diagonals).any? do |line|
+      full?(line)
+    end
   end
 
   private

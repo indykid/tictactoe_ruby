@@ -6,6 +6,11 @@ describe Board do
     expect(board.cells).to eq([0, 1, 2, 3, 4, 5, 6, 7, 8])
   end
 
+  it 'has cells amount based on size' do
+    board = Board.new(4)
+    expect(board.cells).to eq([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])
+  end
+
   it 'is empty at the start' do
     expect(board.moves).to eq([])
   end
@@ -44,20 +49,37 @@ describe Board do
     board.add_move(0, 'x')
     board.add_move(1, 'x')
     board.add_move(2, 'x')
-    expect(board.full?([0, 1, 2])).to be(true)
+    expect(board.taken_by_same_player?([0, 1, 2])).to be(true)
   end
 
   it 'knows if a given line is not full with the same player' do
     board.add_move(0, 'o')
     board.add_move(1, 'x')
     board.add_move(2, 'x')
-    expect(board.full?([0, 1, 2])).to be(false)
+    expect(board.taken_by_same_player?([0, 1, 2])).to be(false)
   end
 
   it 'knows if given line is not full even if same player' do
     board.add_move(0, 'x')
     board.add_move(1, 'x')
-    expect(board.full?([0, 1, 2])).to be(false)
+    expect(board.taken_by_same_player?([0, 1, 2])).to be(false)
+  end
+
+  it 'knows it is not full' do
+    expect(board.full?).to be(false)
+  end
+
+  it 'knows it is full' do
+    board.add_move(0, 'x')
+    board.add_move(1, 'o')
+    board.add_move(2, 'x')
+    board.add_move(3, 'o')
+    board.add_move(4, 'o')
+    board.add_move(5, 'x')
+    board.add_move(6, 'x')
+    board.add_move(7, 'x')
+    board.add_move(8, 'o')
+    expect(board.full?).to be(true)
   end
 end
 

@@ -4,7 +4,14 @@ class Game
   end
 
   def over?
-    @board.winner? ||  @board.draw?
+    winner? || draw?
   end
   
+  def winner?
+    @board.any_same_player_line?
+  end
+
+  def draw?
+    !winner? && @board.full?
+  end
 end

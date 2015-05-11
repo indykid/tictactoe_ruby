@@ -23,4 +23,26 @@ describe Game do
     game = Game.new(board)
     expect(game.over?).to be(true)
   end
+
+  it 'gets moves from player' do
+    player = Puppet.new(:x, [0,1,2])
+    board = Board.new
+    game = Game.new(board, player)
+
+    game.play!
+    expect(game.over?).to be true
+  end
+
+  class Puppet
+    def initialize(mark, moves)
+      @mark = mark
+      @moves = moves
+    end
+
+    def play_turn(board)
+      board.add_move(@moves.unshift, @mark)
+      board
+    end
+
+  end
 end

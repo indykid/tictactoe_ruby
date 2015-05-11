@@ -1,4 +1,6 @@
 require 'board'
+require 'helpers'
+
 describe Board do
   let(:board) { Board.new }
 
@@ -46,18 +48,18 @@ describe Board do
   end
 
   it 'knows if a given line is full with the same player' do
-    add_multiple_moves(:x, [0, 1, 2])
+    add_multiple_moves(:x, [0, 1, 2], board)
     expect(board.taken_by_same_player?([0, 1, 2])).to be(true)
   end
 
   it 'knows if a given line is not full with the same player' do
-    add_multiple_moves(:x, [0, 1])
+    add_multiple_moves(:x, [0, 1], board)
     board.add_move(2, :o)
     expect(board.taken_by_same_player?([0, 1, 2])).to be(false)
   end
 
   it 'knows if given line is not full even if same player' do
-    add_multiple_moves(:x, [0, 1])
+    add_multiple_moves(:x, [0, 1], board)
     expect(board.taken_by_same_player?([0, 1, 2])).to be(false)
   end
 
@@ -66,15 +68,8 @@ describe Board do
   end
 
   it 'knows it is full' do
-    add_multiple_moves(:x, [0, 2, 5, 6, 7])
-    add_multiple_moves(:o, [1, 3, 4, 8])
+    fill_the_board(board)
     expect(board.full?).to be(true)
-  end
-
-  def add_multiple_moves(mark, positions)
-    positions.each do |position|
-      board.add_move(position, mark)
-    end
   end
 end
 

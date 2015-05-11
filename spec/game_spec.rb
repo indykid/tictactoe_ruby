@@ -1,31 +1,23 @@
 require 'game'
+require 'helpers'
+
 describe Game do
+
+  let(:board) { Board.new }
+
   it 'is over when there is a winner' do
-    board = Board.new
-    board.add_move(0, 'x')
-    board.add_move(1, 'x')
-    board.add_move(2, 'x')
+    add_multiple_moves(:x, [0, 1, 2], board)
     game = Game.new(board)
     expect(game.over?).to be(true)
   end
 
   it 'is over when drawn' do
-    board = Board.new
-    board.add_move(0, 'x')
-    board.add_move(1, 'o')
-    board.add_move(2, 'x')
-    board.add_move(3, 'o')
-    board.add_move(4, 'o')
-    board.add_move(5, 'x')
-    board.add_move(6, 'x')
-    board.add_move(7, 'x')
-    board.add_move(8, 'o')
+    fill_the_board(board)
     game = Game.new(board)
     expect(game.over?).to be(true)
   end
 
   it 'gets move from player' do
-    board = Board.new
     player = FakePlayer.new(:x, [0])
     game = Game.new(board, player)
     game.play

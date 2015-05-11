@@ -46,22 +46,18 @@ describe Board do
   end
 
   it 'knows if a given line is full with the same player' do
-    board.add_move(0, 'x')
-    board.add_move(1, 'x')
-    board.add_move(2, 'x')
+    add_multiple_moves(:x, [0, 1, 2])
     expect(board.taken_by_same_player?([0, 1, 2])).to be(true)
   end
 
   it 'knows if a given line is not full with the same player' do
-    board.add_move(0, 'o')
-    board.add_move(1, 'x')
-    board.add_move(2, 'x')
+    add_multiple_moves(:x, [0, 1])
+    board.add_move(2, :o)
     expect(board.taken_by_same_player?([0, 1, 2])).to be(false)
   end
 
   it 'knows if given line is not full even if same player' do
-    board.add_move(0, 'x')
-    board.add_move(1, 'x')
+    add_multiple_moves(:x, [0, 1])
     expect(board.taken_by_same_player?([0, 1, 2])).to be(false)
   end
 
@@ -70,16 +66,15 @@ describe Board do
   end
 
   it 'knows it is full' do
-    board.add_move(0, 'x')
-    board.add_move(1, 'o')
-    board.add_move(2, 'x')
-    board.add_move(3, 'o')
-    board.add_move(4, 'o')
-    board.add_move(5, 'x')
-    board.add_move(6, 'x')
-    board.add_move(7, 'x')
-    board.add_move(8, 'o')
+    add_multiple_moves(:x, [0, 2, 5, 6, 7])
+    add_multiple_moves(:o, [1, 3, 4, 8])
     expect(board.full?).to be(true)
+  end
+
+  def add_multiple_moves(mark, positions)
+    positions.each do |position|
+      board.add_move(position, mark)
+    end
   end
 end
 

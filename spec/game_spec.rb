@@ -29,7 +29,6 @@ describe Game do
     player = FakePlayer.new(:x, [0])
     game = Game.new(board, player)
     game.play
-    puts board.moves
     expect(board.taken?(0)).to be(true)
   end
 
@@ -46,3 +45,4 @@ class FakePlayer
     board.add_move(position, @mark)
   end
 end
+

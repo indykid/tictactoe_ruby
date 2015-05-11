@@ -20,7 +20,7 @@ describe Game do
   it 'gets move from player' do
     player = FakePlayer.new(:x, [0])
     game = Game.new(board, player)
-    game.play
+    game.play_turn
     expect(board.taken?(0)).to be(true)
   end
 

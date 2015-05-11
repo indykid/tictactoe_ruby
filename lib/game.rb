@@ -16,7 +16,7 @@ class Game
     !winner? && @board.full?
   end
 
-  def play
+  def play_turn
     @player.move(@board, @player.plays.shift)
   end
 end

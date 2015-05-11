@@ -1,6 +1,7 @@
 class Game
-  def initialize(board)
+  def initialize(board, player = nil)
     @board = board
+    @player = player
   end
 
   def over?
@@ -13,5 +14,9 @@ class Game
 
   def draw?
     !winner? && @board.full?
+  end
+
+  def play
+    @player.move(@board, @player.plays.shift)
   end
 end

@@ -7,8 +7,8 @@ class Board
     @size  = size
   end
 
-  def add_move(position, player)
-    @moves << {position: position, player: player}
+  def add_move(position, mark)
+    @moves << {position: position, mark: mark}
   end
 
   def taken?(position)
@@ -83,7 +83,7 @@ class Board
   end
 
   def same_player?(moves)
-    moves.map { |m| m[:player] }.uniq.length == 1
+    moves.map { |m| m[:mark] }.uniq.length == 1
   end
 
   def taken_moves_on(line)

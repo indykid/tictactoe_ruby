@@ -23,7 +23,7 @@ describe Board do
 
   it 'records moves' do
     board.add_move(0, 'x')
-    expect(board.moves).to eq([{position: 0, player: 'x'}])
+    expect(board.moves).to eq([{position: 0, mark: 'x'}])
   end
 
   it 'knows if cell is not taken' do

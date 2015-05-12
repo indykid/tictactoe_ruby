@@ -17,6 +17,5 @@ class Game
   end
 
   def play_turn
-    @player.move(@board, @player.plays.shift)
   end
 end

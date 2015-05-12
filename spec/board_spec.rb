@@ -72,23 +72,3 @@ describe Board do
     expect(board.full?).to be(true)
   end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

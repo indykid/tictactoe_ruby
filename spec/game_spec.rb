@@ -17,24 +17,13 @@ describe Game do
     expect(game.over?).to be(true)
   end
 
-  it 'gets move from player' do
+  xit 'gets move from player' do
     player = FakePlayer.new(:x, [0])
     game = Game.new(board, player)
     game.play_turn
     expect(board.taken?(0)).to be(true)
   end
-
 end
 
-class FakePlayer
-  attr_reader :plays
-  def initialize(mark, plays = [])
-    @mark = mark
-    @plays = plays
-  end
 
-  def move(board, position)
-    board.add_move(position, @mark)
-  end
-end
 

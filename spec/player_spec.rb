@@ -1,13 +1,22 @@
 require 'player'
 describe Player do
 
-  it 'makes moves' do
-    board = Board.new
+  it 'gets move from user' do
     player = Player.new(:x)
-
-    player.move(board, 0)
-
-    expect(board.moves.first[:position]).to eq(0)
-    expect(board.moves.first[:mark]).to eq(:x)
+    ui = FakeUi.new(StringIO.new('0'))
+    expect(player.move(ui)).to eq(0)
+   
   end
 end
+
+class FakeUi
+  def initialize(input)
+    @input = input
+  end
+
+  def ask_for_move
+    @input.gets.chomp.to_i
+  end
+end
+
+

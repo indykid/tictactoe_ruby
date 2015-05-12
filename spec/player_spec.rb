@@ -19,4 +19,23 @@ class FakeUi
   end
 end
 
+class Ui
+  attr_reader :output
+
+  def initialize(output)
+    @output = output
+  end
+
+  def show(message)
+    @output.puts(message)
+  end
+end
+
+describe Ui do
+  it 'displays messages' do
+    ui = Ui.new(StringIO.new)
+    ui.show('hello')
+    expect(ui.output.string).to eq("hello\n")
+  end
+end
 

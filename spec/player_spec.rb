@@ -35,8 +35,8 @@ class Ui
     show('enter next move')
   end
 
-  def capture_response
-    @input.gets.chomp
+  def capture_position
+    @input.gets.chomp.to_i
   end
 end
 
@@ -49,8 +49,13 @@ describe Ui do
 
   it 'receives input from user' do
     ui = Ui.new(StringIO.new, StringIO.new('0'))
-    ui.capture_response
+    ui.capture_position
     expect(ui.input.string).to eq('0')
+  end
+
+  it 'converts position input into an integer' do
+    ui = Ui.new(StringIO.new, StringIO.new('0'))
+    expect(ui.capture_position).to eq(0)
   end
 end
 

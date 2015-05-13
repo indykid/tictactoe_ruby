@@ -5,7 +5,7 @@ class Player
     @mark = mark
   end
   
-  def move(ui)
+  def pick_move(ui)
     ui.capture_position
   end
 end

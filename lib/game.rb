@@ -18,7 +18,7 @@ class Game
   end
 
   def play_turn
-    position = @player.move(@ui)
+    position = @player.pick_move(@ui)
     @board.add_move(position, @player.mark)
   end
 end

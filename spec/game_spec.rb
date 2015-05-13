@@ -51,6 +51,10 @@ describe Game do
     expect(board.moves.last[:mark]).to eq(:o)
   end
 
+  it "doesn't ask for moves if won" do
+
+  end
+
   def setup_game(inputs = [])
     ui = FakeUi.new(inputs, output)
     Game.new(board, player_x, player_o, ui)

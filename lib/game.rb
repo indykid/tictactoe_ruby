@@ -8,7 +8,7 @@ class Game
   def over?
     winner? || draw?
   end
-  
+
   def winner?
     @board.any_same_player_line?
   end
@@ -20,6 +20,12 @@ class Game
   def play_turn
     @ui.visualise(@board)
     position = @player.pick_move(@ui)
-    @board.add_move(position, @player.mark)
+    if valid_move?(position)
+      @board.add_move(position, @player.mark)
+    end
+  end
+
+  def valid_move?(position)
+    !@board.taken?(position)
   end
 end

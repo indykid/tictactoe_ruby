@@ -36,4 +36,15 @@ describe Game do
 
     expect(ui.output.string).to start_with("0 1 2\n3 4 5\n6 7 8\n")
   end
+
+  it 'only plays valid moves' do
+    player = Player.new(:x)
+    ui = Ui.new(StringIO.new, StringIO.new("0\n0"))
+    game = Game.new(board, player, ui)
+
+    game.play_turn
+    game.play_turn
+
+    expect(board.moves.length).to eq(1)
+  end
 end

@@ -17,13 +17,11 @@ describe Game do
     expect(game.over?).to be(true)
   end
 
-  xit 'gets move from player' do
-    player = FakePlayer.new(:x, [0])
-    game = Game.new(board, player)
+  it 'gets move from player' do
+    player = Player.new(:x)
+    ui = Ui.new(StringIO.new, StringIO.new('0'))
+    game = Game.new(board, player, ui)
     game.play_turn
     expect(board.taken?(0)).to be(true)
   end
 end
-
-
-

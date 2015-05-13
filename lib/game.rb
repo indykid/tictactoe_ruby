@@ -1,7 +1,8 @@
 class Game
-  def initialize(board, player = nil)
+  def initialize(board, player = nil, ui = nil)
     @board = board
     @player = player
+    @ui = ui
   end
 
   def over?
@@ -17,5 +18,7 @@ class Game
   end
 
   def play_turn
+    position = @player.move(@ui)
+    @board.add_move(position, @player.mark)
   end
 end

@@ -1,7 +1,8 @@
 class Game
-  def initialize(board, player = nil, ui = nil)
+  def initialize(board, player_x, player_o, ui)
     @board = board
-    @player = player
+    @player_x = player_x
+    @player_o = player_o
     @ui = ui
   end
 
@@ -19,13 +20,21 @@ class Game
 
   def play_turn
     @ui.visualise(@board)
-    position = @player.pick_move(@ui)
+    position = player_in_turn.pick_move(@ui)
     if valid_move?(position)
-      @board.add_move(position, @player.mark)
+      @board.add_move(position, player_in_turn.mark)
     end
   end
 
   def valid_move?(position)
     !@board.taken?(position)
+  end
+
+  def player_in_turn
+    if @board.moves.length == 0 || @board.moves.last[:mark] == :o
+      @player_x
+    else
+      @player_o
+    end
   end
 end

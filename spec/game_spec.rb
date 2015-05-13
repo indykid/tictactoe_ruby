@@ -21,23 +21,19 @@ describe Game do
   end
 
   it 'places move from player on the board' do
-    game = setup_game('0')
-
+    game = setup_game([0])
     game.play_turn
-
     expect(board.taken?(0)).to be(true)
   end
 
   it 'gets Ui to visualise board' do
-    game = setup_game("0")
-
+    game = setup_game([0])
     game.play_turn
-
     expect(output.string).to start_with("0 1 2\n3 4 5\n6 7 8\n")
   end
 
   it 'only plays valid moves' do
-    game = setup_game("0\n0")
+    game = setup_game([0, 0])
 
     game.play_turn
     game.play_turn
@@ -45,8 +41,8 @@ describe Game do
     expect(board.moves.length).to eq(1)
   end
 
-  it 'keeps track of turns' do
-    game = setup_game("0\n1")
+  it 'tracks player turns' do
+    game = setup_game([0, 1])
 
     game.play_turn
     game.play_turn
@@ -55,8 +51,47 @@ describe Game do
     expect(board.moves.last[:mark]).to eq(:o)
   end
 
-  def setup_game(input_string = '')
-    ui = Ui.new(output, StringIO.new(input_string))
-    game = Game.new(board, player_x, player_o, ui)
+  def setup_game(inputs = [])
+    ui = FakeUi.new(inputs, output)
+    Game.new(board, player_x, player_o, ui)
+  end
+
+end
+
+class FakeUi
+  def initialize(inputs, output)
+    @input = setup_input(inputs)
+    @output = output
+  end
+
+  def setup_input(inputs)
+    StringIO.new(inputs.join("\n"))
+  end
+
+  def visualise(board)
+    @output.puts(output_friendly(board)) 
+  end
+
+  def output_friendly(board)
+    split_into_lines(board).map do |line|
+      line.join(' ')
+    end
+  end
+
+  def split_into_lines(board)
+    board.state.each_slice(board.size)
+  end
+
+  def ask_for_position
+    @output.puts('enter next move')
+  end
+
+  def take_input
+    @input.gets.chomp
+  end
+
+  def capture_position
+    ask_for_position
+    take_input.to_i
   end
 end

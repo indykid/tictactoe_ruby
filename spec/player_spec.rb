@@ -41,12 +41,6 @@ class Ui
 end
 
 describe Ui do
-  it 'displays messages' do
-    ui = Ui.new(StringIO.new, StringIO.new)
-    ui.show('hello')
-    expect(ui.output.string).to eq("hello\n")
-  end
-
   it 'asks user for the position' do
     ui = Ui.new(StringIO.new, StringIO.new)
     ui.ask_for_position

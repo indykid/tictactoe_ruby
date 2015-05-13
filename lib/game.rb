@@ -31,10 +31,6 @@ class Game
   end
 
   def player_in_turn
-    if @board.moves.length == 0 || @board.moves.last[:mark] == :o
-      @player_x
-    else
-      @player_o
-    end
-  end
+    @board.moves.length.even? ? @player_x : @player_o
+  end 
 end

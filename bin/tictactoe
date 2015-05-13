@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+dirname = File.expand_path(File.dirname(File.dirname(__FILE__))) + "/lib"
+
+$LOAD_PATH.unshift(dirname) unless $LOAD_PATH.include?(dirname)
+require 'game'
+require 'ui'
+require 'player'
+require 'board'
+
+ui = Ui.new($stdout, $stdin)
+game = Game.new(Board.new, Player.new(:x), ui)
+game.play_turn

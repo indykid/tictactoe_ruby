@@ -71,4 +71,19 @@ describe Board do
     fill_the_board(board)
     expect(board.full?).to be(true)
   end
+
+  it 'knows its state in the beginning' do
+    expect(board.state).to eq([*0...board.size**2])
+  end
+
+  it 'knows its state at the end of the game' do
+    fill_the_board(board)
+    expect(board.state).to eq([:x, :o, :x, :o, :o, :x, :x, :x, :o])
+  end
+
+  it 'knows its state during the game' do
+    add_multiple_moves(:x, [0, 1], board)
+    add_multiple_moves(:o, [2, 3], board)
+    expect(board.state).to eq([:x, :x, :o, :o, 4, 5, 6, 7, 8])
+  end
 end

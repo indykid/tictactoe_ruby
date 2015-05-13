@@ -2,9 +2,9 @@ class Board
   attr_reader :cells, :moves, :size
 
   def initialize(size = 3)
-    @cells = generate_cells(size)
-    @moves = []
     @size  = size
+    @cells = generate_cells
+    @moves = []
   end
 
   def add_move(position, mark)
@@ -50,9 +50,26 @@ class Board
     @moves.length == @cells.length
   end
 
+  def state
+    @cells.map do |cell|
+      mark_at(cell) || cell
+    end
+  end
+
   private
+
+  def mark_at(position)
+    move = find_move_by(position)
+    move[:mark] if move
+  end
+
+  def find_move_by(position)
+    @moves.detect do |move|
+      move[:position] == position
+    end
+  end
  
-  def generate_cells(size)
+  def generate_cells
     [*0...size**2]
   end
 

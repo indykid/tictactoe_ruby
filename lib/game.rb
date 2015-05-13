@@ -18,6 +18,7 @@ class Game
   end
 
   def play_turn
+    @ui.visualise(@board)
     position = @player.pick_move(@ui)
     @board.add_move(position, @player.mark)
   end

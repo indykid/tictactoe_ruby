@@ -26,4 +26,14 @@ describe Game do
 
     expect(board.taken?(0)).to be(true)
   end
+
+  it 'gets Ui to visualise board' do
+    player = Player.new(:x)
+    ui = Ui.new(StringIO.new, StringIO.new('0'))
+    game = Game.new(board, player, ui)
+
+    game.play_turn
+
+    expect(ui.output.string).to start_with("0 1 2\n3 4 5\n6 7 8\n")
+  end
 end

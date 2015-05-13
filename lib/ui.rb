@@ -22,4 +22,18 @@ class Ui
     ask_for_position
     take_input.to_i
   end
+
+  def visualise(board)
+    show(output_friendly(board)) 
+  end
+
+  def output_friendly(board)
+    split_into_lines(board).map do |line|
+      line.join(' ')
+    end
+  end
+
+  def split_into_lines(board)
+    board.state.each_slice(board.size)
+  end
 end

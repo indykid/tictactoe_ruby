@@ -33,4 +33,11 @@ class Game
   def player_in_turn
     @board.moves.length.even? ? @player_x : @player_o
   end 
+
+  def play
+    while !over?
+      play_turn
+    end
+    @ui.visualise(@board)
+  end
 end

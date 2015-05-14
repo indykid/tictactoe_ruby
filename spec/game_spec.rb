@@ -51,8 +51,25 @@ describe Game do
     expect(board.moves.last[:mark]).to eq(:o)
   end
 
-  it "doesn't ask for moves if won" do
+  it "plays till there's a winner" do
+    game = setup_game([0, 1, 4, 2, 8])
 
+    game.play
+
+    expect(game.over?).to be(true)
+  end
+
+  it "plays till the draw" do 
+    game = setup_game([0, 4, 2, 1, 5, 8, 6, 3, 7])
+    game.play
+
+    expect(game.over?).to be(true)
+  end
+
+  it 'gets Ui to visualize the board one last time after it is over' do
+    game = setup_game([0, 4, 2, 1, 5, 8, 6, 3, 7])
+    game.play
+    expect(output.string).to end_with("x o x\no o x\nx x o\n")
   end
 
   def setup_game(inputs = [])

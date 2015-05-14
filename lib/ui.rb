@@ -21,9 +21,18 @@ class Ui
     @input.gets.chomp
   end
 
+  def take_valid_input
+    input = take_input
+    while input.to_i.to_s != input
+      show(ALERT)
+      input = take_input
+    end
+    input
+  end
+
   def capture_position
     ask_for_position
-    take_input.to_i
+    take_valid_input.to_i
   end
 
   def visualise(board)

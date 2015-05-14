@@ -13,10 +13,16 @@ describe Ui do
     expect(ui.input.string).to eq('0')
   end
 
-  xit 'does not allow non-number inputs' do
-    ui = Ui.new(StringIO.new, StringIO.new('a'))
-    ui.capture_position
-    expect(ui.output.string).to end_with(Ui::PROMPT)
+  it 'does not allow non-number inputs' do
+    ui = Ui.new(StringIO.new, StringIO.new("a\n0"))
+    expect(ui.take_valid_input).to eq('0')
+    #expect(ui.output.string).to end_with(Ui::PROMPT)
+  end
+
+  it 'alerts user about invalid non-number input' do
+    ui = Ui.new(StringIO.new, StringIO.new("a\n0"))
+    ui.take_valid_input
+    expect(ui.output.string.chomp).to end_with(Ui::ALERT)
   end
 
   it 'converts received position input into an integer' do

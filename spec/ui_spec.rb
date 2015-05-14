@@ -13,6 +13,12 @@ describe Ui do
     expect(ui.input.string).to eq('0')
   end
 
+  xit 'does not allow non-number inputs' do
+    ui = Ui.new(StringIO.new, StringIO.new('a'))
+    ui.capture_position
+    expect(ui.output.string).to end_with(Ui::PROMPT)
+  end
+
   it 'converts received position input into an integer' do
     ui = Ui.new(StringIO.new, StringIO.new('0'))
     expect(ui.capture_position).to eq(0)

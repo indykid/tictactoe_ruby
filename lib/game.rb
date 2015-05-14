@@ -28,6 +28,15 @@ class Game
     end
   end
 
+  def play
+    while !over?
+      play_turn
+    end
+    @ui.visualise(@board)
+  end
+
+  private
+
   def valid_move?(position)
     !@board.taken?(position)
   end
@@ -36,10 +45,4 @@ class Game
     @board.moves.length.even? ? @player_x : @player_o
   end 
 
-  def play
-    while !over?
-      play_turn
-    end
-    @ui.visualise(@board)
-  end
 end

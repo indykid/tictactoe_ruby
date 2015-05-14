@@ -1,6 +1,9 @@
 class Ui
   attr_reader :output, :input
 
+  PROMPT = "Enter next move"
+  ALERT = "INVALID MOVE, please try again"
+
   def initialize(output, input)
     @output = output
     @input  = input
@@ -11,7 +14,7 @@ class Ui
   end
 
   def ask_for_position
-    show('enter next move')
+    show(PROMPT)
   end
 
   def take_input

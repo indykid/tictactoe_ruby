@@ -24,7 +24,7 @@ class Game
     if valid_move?(position)
       @board.add_move(position, player_in_turn.mark)
     else
-      @ui.show("invalid move please try again")
+      @ui.show(Ui::ALERT)
     end
   end
 

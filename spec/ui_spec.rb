@@ -4,7 +4,7 @@ describe Ui do
   it 'asks user for the position' do
     ui = Ui.new(StringIO.new, StringIO.new)
     ui.ask_for_position
-    expect(ui.output.string).to eq("enter next move\n")
+    expect(ui.output.string).to eq(Ui::PROMPT + "\n")
   end
 
   it 'receives input from user' do

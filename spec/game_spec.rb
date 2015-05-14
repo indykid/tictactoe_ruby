@@ -55,7 +55,7 @@ describe Game do
     game = setup_game([0, 0])
     game.play_turn
     game.play_turn
-    expect(output.string).to include("invalid move please try again")
+    expect(output.string).to include(Ui::PROMPT)
   end
 
   it "plays till there's a winner" do
@@ -101,7 +101,7 @@ class FakeUi
   end
 
   def show(message)
-@output.puts(message)
+    @output.puts(message)
   end
 
   def output_friendly(board)
@@ -115,7 +115,7 @@ class FakeUi
   end
 
   def ask_for_position
-    @output.puts('enter next move')
+    @output.puts(Ui::PROMPT)
   end
 
   def take_input

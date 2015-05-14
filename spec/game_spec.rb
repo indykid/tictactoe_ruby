@@ -51,6 +51,13 @@ describe Game do
     expect(board.moves.last[:mark]).to eq(:o)
   end
 
+  it 'gets Ui to display invalid move message' do
+    game = setup_game([0, 0])
+    game.play_turn
+    game.play_turn
+    expect(output.string).to include("invalid move please try again")
+  end
+
   it "plays till there's a winner" do
     game = setup_game([0, 1, 4, 2, 8])
 
@@ -90,7 +97,11 @@ class FakeUi
   end
 
   def visualise(board)
-    @output.puts(output_friendly(board)) 
+    show(output_friendly(board)) 
+  end
+
+  def show(message)
+@output.puts(message)
   end
 
   def output_friendly(board)

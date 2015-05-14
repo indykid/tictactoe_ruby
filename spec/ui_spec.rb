@@ -25,7 +25,7 @@ describe Ui do
 
     ui.visualise(board)
 
-    expect(ui.output.string).to eq("x 1 2\n3 4 5\n6 7 8\n")
+    expect(ui.output.string).to end_with("x 1 2\n3 4 5\n6 7 8\n")
   end
 end
 

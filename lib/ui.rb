@@ -24,6 +24,7 @@ class Ui
   end
 
   def visualise(board)
+    show(line_break)
     show(output_friendly(board)) 
   end
 
@@ -35,5 +36,9 @@ class Ui
 
   def split_into_lines(board)
     board.state.each_slice(board.size)
+  end
+
+  def line_break
+    "\n"
   end
 end

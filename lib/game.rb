@@ -23,6 +23,8 @@ class Game
     position = player_in_turn.pick_move(@ui)
     if valid_move?(position)
       @board.add_move(position, player_in_turn.mark)
+    else
+      @ui.show("invalid move please try again")
     end
   end
 

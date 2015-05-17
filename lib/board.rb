@@ -36,7 +36,7 @@ class Board
   end
 
   def taken_by_same_player?(line)
-    line_moves = taken_moves_on(line)
+    line_moves = taken_cells_on(line)
     full_line?(line_moves) && same_player?(line_moves)
   end
 
@@ -54,6 +54,10 @@ class Board
     @cells.map do |cell|
       mark_at(cell) || cell
     end
+  end
+  
+  def available
+    @cells - taken_cells
   end
 
   private
@@ -103,7 +107,7 @@ class Board
     moves.map { |m| m[:mark] }.uniq.length == 1
   end
 
-  def taken_moves_on(line)
+  def taken_cells_on(line)
     @moves.select{|move| 
       line.include?(move[:position]) 
     }
@@ -111,5 +115,11 @@ class Board
 
   def full_line?(moves)
     moves.length == size
+  end
+
+  def taken_cells
+    @moves.map do |move|
+      move[:position]
+    end
   end
 end

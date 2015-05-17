@@ -86,4 +86,18 @@ describe Board do
     add_multiple_moves(:o, [2, 3], board)
     expect(board.state).to eq([:x, :x, :o, :o, 4, 5, 6, 7, 8])
   end
+
+  it 'all cells available at the start' do
+    expect(board.available).to eq(board.cells)
+  end
+
+  it 'no cells available at the end' do
+    fill_the_board(board)
+    expect(board.available).to eq([])
+  end
+
+  it 'know how which cells are available' do
+    board.add_move(0, :x)
+    expect(board.available).to match_array([1, 2, 3, 4, 5, 6, 7, 8])
+  end
 end

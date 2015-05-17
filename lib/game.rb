@@ -38,7 +38,7 @@ class Game
   private
 
   def valid_move?(position)
-    !board.taken?(position) && board.cells.include?(position)
+    board.available.include?(position)
   end
 
   def player_in_turn

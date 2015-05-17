@@ -43,11 +43,9 @@ describe Game do
     expect(board.moves.length).to eq(1)
   end
 
-  it 'only plays into actual cells' do
-    game = setup_game([0, 'a'])
-    2.times { game.play_turn }
-
-    expect(board.moves.count).to eq(1)
+  it 'plays only existing cells' do
+    game = setup_game(['10'])
+    expect { game.play_turn }.to_not change { board.moves }
   end
 
   it 'gets Ui to display invalid move message' do

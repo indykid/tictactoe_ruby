@@ -11,18 +11,18 @@ class Game
   end
 
   def winner?
-    @board.any_same_player_line?
+    board.any_same_player_line?
   end
 
   def draw?
-    !winner? && @board.full?
+    !winner? && board.full?
   end
 
   def play_turn
-    @ui.visualise(@board)
+    @ui.visualise(board)
     position = player_in_turn.pick_move(@ui)
     if valid_move?(position)
-      @board.add_move(position, player_in_turn.mark)
+      board.add_move(position, player_in_turn.mark)
     else
       @ui.show(Ui::ALERT)
     end
@@ -32,17 +32,20 @@ class Game
     while !over?
       play_turn
     end
-    @ui.visualise(@board)
+    @ui.visualise(board)
   end
 
   private
 
   def valid_move?(position)
-    !@board.taken?(position)
+    !board.taken?(position) && board.cells.include?(position)
   end
 
   def player_in_turn
-    @board.moves.length.even? ? @player_x : @player_o
+    board.moves.length.even? ? @player_x : @player_o
   end 
 
+  private
+
+  attr_reader :board
 end

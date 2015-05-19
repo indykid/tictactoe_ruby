@@ -65,13 +65,13 @@ describe Game do
   end
 
   def setup_game(inputs = [])
-    ui = FakeUi.new(inputs, output)
+    ui = FakeUi.new(inputs)
     Game.new(board, player_x, player_o, ui)
   end
 end
 
 class FakeUi
-  def initialize(inputs, output)
+  def initialize(inputs)
     @inputs = inputs
   end
 

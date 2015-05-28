@@ -1,6 +1,7 @@
-class Player
-  attr_reader :mark
+class FakePlayer
 
+  attr_reader :mark
+  
   def initialize(mark)
     @mark = mark
   end
@@ -8,4 +9,5 @@ class Player
   def pick_position(ui)
     ui.get_move_from_user
   end
+
 end

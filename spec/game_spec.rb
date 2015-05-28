@@ -44,7 +44,7 @@ describe Game do
     expect(board.player_at(1)).to eq(:o)
   end
   
-  it 'checks move is valid before placing on the board' do
+  it 'does not play into occupied cells' do
     game = game_setup([0, 0, 1])
     game.play_turn
     game.play_turn
@@ -52,5 +52,14 @@ describe Game do
     expect(board.player_at(0)).to be(:x)
   end
 
+  it 'only playes moves within range' do
+    game = game_setup([0, 10, 1])
+
+    game.play_turn
+    game.play_turn
+
+    expect(board.player_at(10)).to be(nil)
+    expect(board.player_at(1)).to eq(:o)
+  end
 end
 

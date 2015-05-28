@@ -13,13 +13,13 @@ class Game
   end
 
   def play_turn
-    position = current_player.pick_position(ui)
-    if valid?(position)
-      board.add_move(position, current_player.mark)
-      reset_current_player
-    else
-      play_turn
+    position = nil
+    loop do
+      position = current_player.pick_position(ui)
+      break if valid?(position)
     end
+    board.add_move(position, current_player.mark)
+    reset_current_player
   end
 
   private

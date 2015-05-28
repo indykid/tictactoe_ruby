@@ -61,5 +61,20 @@ describe Game do
     expect(board.player_at(10)).to be(nil)
     expect(board.player_at(1)).to eq(:o)
   end
-end
 
+  it 'plays till won' do
+    game = game_setup([0, 3, 1, 4, 2])
+
+    game.play
+
+    expect(game.over?).to be(true)
+  end
+
+  it 'plays till draw' do
+    game = game_setup([0, 1, 2, 3, 5, 4, 6, 8, 7])
+
+    game.play
+
+    expect(game.over?).to be(true)
+  end
+end

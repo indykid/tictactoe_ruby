@@ -1,5 +1,7 @@
 class Game
 
+  attr_writer :board
+
   def initialize(board, ui, player_x, player_o)
     @board  = board
     @ui     = ui 
@@ -10,6 +12,12 @@ class Game
 
   def over?
     won? || drawn?
+  end
+
+  def play
+    while !over?
+      play_turn
+    end
   end
 
   def play_turn

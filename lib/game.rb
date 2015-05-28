@@ -1,7 +1,5 @@
 class Game
 
-  attr_writer :board
-
   def initialize(board, ui, player_x, player_o)
     @board  = board
     @ui     = ui 

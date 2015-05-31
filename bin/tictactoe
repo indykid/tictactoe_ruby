@@ -8,6 +8,6 @@ require 'ui'
 require 'player'
 require 'board'
 
-ui = Ui.new($stdout, $stdin)
+ui = Ui.new($stdin, $stdout)
 game = Game.new(Board.new, ui, Player.new(:X), Player.new(:O))
 game.play

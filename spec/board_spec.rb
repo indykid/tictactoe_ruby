@@ -10,10 +10,17 @@ describe Board do
     expect(board.player_at(0)).to eq(:x)
   end
 
-  it 'knows all its available moves' do
-    add_moves([0, 2], :x)
-    board.add_move(1, :o)
-    expect(board.available_positions).to match_array([3, 4, 5, 6, 7, 8])
+  it 'knows if move is valid' do
+    expect(board.valid?(0)).to be(true)
+  end
+
+  it 'knows that occupied position is not valid' do
+    board.add_move(0, :x)
+    expect(board.valid?(0)).to be(false)
+  end
+
+  it 'knows that position outside the board is not valid' do
+    expect(board.valid?(10)).to be(false)
   end
 
   it 'knows when it is not full' do

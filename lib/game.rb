@@ -19,6 +19,7 @@ class Game
   end
 
   def play_turn
+    # simplify this loop?
     position = nil
     loop do
       position = current_player.pick_position(ui)
@@ -45,7 +46,7 @@ class Game
   end
 
   def valid?(position)
-    board.available_positions.include?(position)
+    board.valid?(position)
   end
 
   def reset_current_player
@@ -53,9 +54,6 @@ class Game
   end
 
   def swap_players
-    current_player == player_x ? player_o : player_x
+    @current_player == player_x ? player_o : player_x
   end
-end
-
-class InvalidMoveError < StandardError
 end

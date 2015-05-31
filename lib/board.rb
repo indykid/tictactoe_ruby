@@ -1,5 +1,4 @@
 class Board
-
   def initialize(size = 3)
     @size = size
     @moves = Array.new(size**2)
@@ -13,15 +12,12 @@ class Board
     moves[position]
   end
 
-  def available_positions
-    moves.each_index.reduce([]) do |available, position|
-      available << position unless moves[position]
-      available
-    end
+  def valid?(position)
+    available_positions.include?(position)
   end
 
   def full?
-    moves.all? {|move| !!move}
+    moves.all? {|move| !move.nil?}
   end
 
   def any_same_player_line?
@@ -40,14 +36,22 @@ class Board
   def lines
     rows.concat(columns).concat(diagonals)
   end
+  
+  def available_positions
+    moves.each_index.reduce([]) do |available, position|
+      available << position unless moves[position]
+      available
+    end
+  end
 
   def rows
     positions.each_slice(size).to_a
   end
 
   def columns
+    #rows.transpose
     columns = [[],[],[]]
-    #puts Array.new(size, []).to_s
+    #puts Array.new(size, {[]}).to_s
     rows.each do |row|
       row.each_index do |cell_index|
         columns[cell_index] << row[cell_index]

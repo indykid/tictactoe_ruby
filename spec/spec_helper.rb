@@ -1,5 +1,4 @@
-require 'simplecov'
-SimpleCov.start
+#SimpleCov.start
 
 require 'support/helpers/helpers.rb'
 

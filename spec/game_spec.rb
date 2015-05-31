@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'board'
 require 'game'
 require 'support/doubles/fake_player.rb'
 require 'support/doubles/fake_ui.rb'
@@ -44,23 +45,6 @@ describe Game do
 
     2.times { game.play_turn }
 
-    expect(board.player_at(1)).to eq(:o)
-  end
-  
-  it 'does not play into occupied cells' do
-    game = game_setup([0, 0, 1])
-
-    2.times { game.play_turn }
-
-    expect(board.player_at(0)).to be(:x)
-  end
-
-  it 'only playes moves within range' do
-    game = game_setup([0, 10, 1])
-
-    2.times { game.play_turn }
-
-    expect(board.player_at(10)).to be(nil)
     expect(board.player_at(1)).to eq(:o)
   end
 

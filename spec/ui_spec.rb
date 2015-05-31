@@ -37,6 +37,30 @@ describe Ui do
   end
 
   it 'errors if non-numeric input' do
+    input = StringIO.new("a")
+    ui = Ui.new(input, output)
 
+    expect { ui.get_move_from_user }.to raise_error(InvalidMoveError)
+  end
+
+  it 'shows the board' do
+    board = FakeBoard.new
+    ui.display(board.state)
+
+    expect(output.string).to eq(
+      " 0 | 1 | 2 \n-----------\n 3 | 4 | 5 \n-----------\n 6 | 7 | 8 \n"
+    )
+  end
+end
+
+class FakeBoard
+
+  attr_reader :size
+
+  def initialize(size = 3)
+    @size = size
+  end
+  def state
+    [0, 1, 2, 3, 4, 5, 6, 7, 8]
   end
 end

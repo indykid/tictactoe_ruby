@@ -10,22 +10,43 @@ class Ui
   MOVE_REQUEST = "Please enter position to play into"
 
   def greet
-    display(GREETING)
+    show(GREETING)
   end
 
   def alert
-    display(ALERT)
+    show(ALERT)
   end
 
   def get_move_from_user
-    display(MOVE_REQUEST)
-    input.gets
+    show(MOVE_REQUEST)
+    get_numeric_input
+  end
+
+  def display(state)
+    show(user_friendly(state))
   end
 
   private
   attr_reader :input, :output
 
-  def display(message)
+  def get_numeric_input
+    move = input.gets
+    raise InvalidMoveError if move.to_i.to_s != move
+    move
+  end
+
+  def show(message)
     output.puts(message)
   end
+
+  def user_friendly(state)
+    rows = state.each_slice(3).to_a
+    rows.map do |row|
+      " " + row.join(" | ") + " "
+    end
+    .join("\n-----------\n")
+  end
+end
+
+class InvalidMoveError < StandardError
 end

@@ -40,8 +40,7 @@ class Ui
   end
 
   def user_friendly(state)
-    rows = state.each_slice(3).to_a
-    rows.map do |row|
+    state.map do |row|
       " " + row.join(" | ") + " "
     end
     .join("\n-----------\n")

@@ -26,6 +26,13 @@ class Board
     end
   end
 
+  def state_by_rows
+    moves.map.with_index do |move, i|
+      move || i
+    end
+    .each_slice(size).to_a
+  end
+
   private
   attr_reader :moves, :size
 

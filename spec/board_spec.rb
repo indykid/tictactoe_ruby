@@ -38,5 +38,8 @@ describe Board do
     expect(board.any_same_player_line?).to be(true)
   end
 
-
+  it 'returns state split by rows' do
+    board.add_move(0, :x)
+    expect(board.state_by_rows).to eq([[:x, 1, 2], [3, 4, 5], [6, 7, 8]])
+  end
 end

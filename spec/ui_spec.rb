@@ -1,4 +1,5 @@
 require 'ui'
+require 'board'
 
 describe Ui do
 
@@ -44,23 +45,11 @@ describe Ui do
   end
 
   it 'shows the board' do
-    board = FakeBoard.new
-    ui.display(board.state)
+    board = Board.new
+    ui.display(board.state_by_rows)
 
     expect(output.string).to eq(
       " 0 | 1 | 2 \n-----------\n 3 | 4 | 5 \n-----------\n 6 | 7 | 8 \n"
     )
-  end
-end
-
-class FakeBoard
-
-  attr_reader :size
-
-  def initialize(size = 3)
-    @size = size
-  end
-  def state
-    [0, 1, 2, 3, 4, 5, 6, 7, 8]
   end
 end

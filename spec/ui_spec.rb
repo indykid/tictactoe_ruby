@@ -10,52 +10,38 @@ describe Ui do
   it 'greets' do
     ui.greet
 
-    expect(output.string).to start_with(Ui::GREETING)
+    expect(output.string).to include(Ui::GREETING)
   end
 
   it 'alerts' do
     ui.alert
 
-    expect(output.string).to start_with(Ui::ALERT)
+    expect(output.string).to include(Ui::ALERT)
   end
 
   it 'asks user for input' do
     input = StringIO.new("0")
     ui = Ui.new(input, output)
 
-    ui.get_move_from_user
+    ui.get_move_from_user(:x)
 
-    expect(output.string).to start_with(Ui::MOVE_REQUEST)
+    expect(output.string).to include(Ui::MOVE_REQUEST)
   end
 
   it 'gets input for move from user' do
     input = StringIO.new("0")
     ui = Ui.new(input, output)
 
-    ui.get_move_from_user
+    ui.get_move_from_user(:x)
 
     expect(input.string).to eq('0')
   end
 
-  it 'errors if non-numeric input' do
-    input = StringIO.new("a\n")
-    ui = Ui.new(input, output)
-
-    expect { ui.get_move_from_user }.to raise_error(InvalidMoveError)
-  end
-
-  it 'does not error if numeric input' do
-    input = StringIO.new("0\n")
-    ui = Ui.new(input, output)
-
-    expect{ui.get_move_from_user}.not_to raise_error
-  end
-
   it 'shows user friendly board' do
-    ui.display([[0, 1, 2], [3, 4, 5], [6, 7, 8]])
+    ui.display([[:x, 1, 2], [3, 4, 5], [6, 7, 8]])
 
     expect(output.string).to eq(
-      " 0 | 1 | 2 \n-----------\n 3 | 4 | 5 \n-----------\n 6 | 7 | 8 \n"
+      "\n x | 2 | 3 \n-----------\n 4 | 5 | 6 \n-----------\n 7 | 8 | 9 \n"
     )
   end
 end

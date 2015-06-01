@@ -8,7 +8,7 @@ class Ui
   end
 
   GREETING = "Welcome to TicTacToe\nThis game requires two players\nEach player enters move in turn\nFirst player is assigned 'X' mark"
-  ALERT    = "INVALID move, please try again"
+  ALERT    = "*****************************\nINVALID move, please try again\n******************************"
   MOVE_REQUEST = "Please enter position to play into"
 
   def greet
@@ -19,9 +19,9 @@ class Ui
     show(ALERT)
   end
 
-  def get_move_from_user
-    show(MOVE_REQUEST)
-    get_numeric_input
+  def get_move_from_user(player)
+    show("Player #{player} " + MOVE_REQUEST)
+    get_move
   end
 
   def display(board_state)
@@ -31,29 +31,35 @@ class Ui
   private
   attr_reader :input, :output
 
-  def get_numeric_input
-    move_input = input.gets.chomp
-    convert_to_number(move_input)
+  def get_move
+    normalize(input.gets)
   end
 
   def show(message)
-    output.puts(message)
+    output.puts("\n" + message)
   end
 
   def draw(board_state)
-    board_state.map do |row|
+      offset(board_state).map do |row|
       " " + row.join(" | ") + " "
+      end
+    .join("\n-----------\n") +
+      "\n"
+  end
+
+  def offset(board_state)
+    board_state.map do |row|
+      offset_line(row)
     end
-    .join("\n-----------\n") + "\n"
   end
 
-  def convert_to_number(move_input)
-    move = move_input.to_i
-    validate_number(move, move_input)
+  def offset_line(line)
+    line.map do |p| 
+      p.is_a?(Numeric) ? p + 1 : p
+    end
   end
 
-  def validate_number(move, move_input)
-    raise InvalidMoveError if move.to_s != move_input
-    move
+  def normalize(move)
+    move.to_i - 1
   end
 end

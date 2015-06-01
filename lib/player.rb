@@ -7,7 +7,7 @@ class Player
   end
   
   def pick_position
-    ui.get_move_from_user
+    ui.get_move_from_user(mark)
   end
 
   private

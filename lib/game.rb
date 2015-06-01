@@ -19,7 +19,6 @@ class Game
   end
 
   def play_turn
-    ui.display(board.state_by_rows)
     begin
       position = get_position
     rescue InvalidMoveError
@@ -48,6 +47,7 @@ class Game
   end
 
   def get_position
+    ui.display(board.state_by_rows)
     position = current_player.pick_position
     raise InvalidMoveError if !valid?(position)
     position

@@ -6,10 +6,8 @@ class FakeUi
     @output = output
   end
 
-  def get_move_from_user
-    move = input.gets.chomp
-    raise InvalidMoveError if move.to_i.to_s != move
-    move.to_i
+  def get_move_from_user(player)
+    input.gets.to_i - 1
   end
 
   def alert

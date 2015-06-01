@@ -42,6 +42,10 @@ class Game
 
   def get_position
     ui.display(board.state_by_rows)
+    valid_position
+  end
+
+  def valid_position
     position = current_player.pick_position
     until valid?(position)
       position = current_player.pick_position

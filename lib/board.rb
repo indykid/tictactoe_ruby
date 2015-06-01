@@ -20,7 +20,7 @@ class Board
     moves.all? {|move| !move.nil?}
   end
 
-  def any_same_player_line?
+  def same_player_line?
     lines.any? do |line|
       full_line?(line) && same_player?(line)
     end
@@ -56,15 +56,7 @@ class Board
   end
 
   def columns
-    #rows.transpose
-    columns = [[],[],[]]
-    #puts Array.new(size, {[]}).to_s
-    rows.each do |row|
-      row.each_index do |cell_index|
-        columns[cell_index] << row[cell_index]
-      end
-    end
-    columns
+    rows.transpose
   end
 
   def diagonals
@@ -72,19 +64,17 @@ class Board
   end
 
   def first_diagonal
-    diagonal = []
-    rows.each_with_index do |row, index|
-      diagonal << row[index]
+    rows.each_with_index.reduce([]) do |diagonal, (row, i)|
+      diagonal << row[i]
+      diagonal
     end
-    diagonal
   end
 
   def second_diagonal
-    diagonal = []
-    rows.each_with_index do |row, index|
-      diagonal << row.reverse[index]
+    rows.each_with_index.reduce([]) do |diagonal, (row, i)|
+      diagonal << row.reverse[i]
+      diagonal
     end
-    diagonal
   end
 
   def full_line?(positions)

@@ -1,3 +1,5 @@
+require 'invalid_move_error'
+
 class Ui
 
   def initialize(input, output)
@@ -22,30 +24,36 @@ class Ui
     get_numeric_input
   end
 
-  def display(state)
-    show(user_friendly(state))
+  def display(board_state)
+    show(draw(board_state))
   end
 
   private
   attr_reader :input, :output
 
   def get_numeric_input
-    move = input.gets
-    raise InvalidMoveError if move.to_i.to_s != move
-    move
+    move_input = input.gets.chomp
+    convert_to_number(move_input)
   end
 
   def show(message)
     output.puts(message)
   end
 
-  def user_friendly(state)
-    state.map do |row|
+  def draw(board_state)
+    board_state.map do |row|
       " " + row.join(" | ") + " "
     end
-    .join("\n-----------\n")
+    .join("\n-----------\n") + "\n"
   end
-end
 
-class InvalidMoveError < StandardError
+  def convert_to_number(move_input)
+    move = move_input.to_i
+    validate_number(move, move_input)
+  end
+
+  def validate_number(move, move_input)
+    raise InvalidMoveError if move.to_s != move_input
+    move
+  end
 end

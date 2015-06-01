@@ -19,15 +19,9 @@ class Game
   end
 
   def play_turn
-    begin
-      position = get_position
-    rescue InvalidMoveError
-      ui.alert
-      play_turn
-    else
-      board.add_move(position, current_player.mark)
-      swap_players
-    end
+    position = get_position
+    board.add_move(position, current_player.mark)
+    swap_players
   end
 
   private
@@ -49,7 +43,9 @@ class Game
   def get_position
     ui.display(board.state_by_rows)
     position = current_player.pick_position
-    raise InvalidMoveError if !valid?(position)
+    until valid?(position)
+      position = current_player.pick_position
+    end
     position
   end
 

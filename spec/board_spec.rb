@@ -35,7 +35,7 @@ describe Board do
 
   it 'knows if there is a same player line' do
     add_moves([0, 1, 2], :x)
-    expect(board.any_same_player_line?).to be(true)
+    expect(board.same_player_line?).to be(true)
   end
 
   it 'returns state split by rows' do

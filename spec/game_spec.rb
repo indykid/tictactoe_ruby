@@ -7,8 +7,6 @@ require 'support/doubles/fake_ui.rb'
 describe Game do
 
   let(:board) { Board.new }
-  let(:player_x) { FakePlayer.new(:x) }
-  let(:player_o) { FakePlayer.new(:o) }
 
   it 'is not over at the start' do
     game = game_setup
@@ -48,7 +46,7 @@ describe Game do
     expect(board.player_at(1)).to eq(:o)
   end
 
-  it 'plays till won' do
+  it 'plays till win' do
     game = game_setup([0, 3, 1, 4, 2])
 
     game.play
@@ -62,5 +60,11 @@ describe Game do
     game.play
 
     expect(game.over?).to be(true)
+  end
+
+  it 'will not error if non-numeric move given' do
+    game = game_setup(['a', 0])
+
+    expect { game.play_turn }.not_to raise_error
   end
 end

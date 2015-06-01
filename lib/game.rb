@@ -19,14 +19,16 @@ class Game
   end
 
   def play_turn
-    # simplify this loop?
-    position = nil
-    loop do
-      position = current_player.pick_position(ui)
-      break if valid?(position)
+    ui.display(board.state_by_rows)
+    begin
+      position = get_position
+    rescue InvalidMoveError
+      ui.alert
+      play_turn
+    else
+      board.add_move(position, current_player.mark)
+      swap_players
     end
-    board.add_move(position, current_player.mark)
-    reset_current_player
   end
 
   private
@@ -34,7 +36,7 @@ class Game
   attr_reader :board, :player_x, :player_o, :ui, :current_player
 
   def won?
-    board.any_same_player_line?
+    board.same_player_line?
   end
 
   def drawn?
@@ -45,15 +47,21 @@ class Game
     board.full?
   end
 
+  def get_position
+    position = current_player.pick_position
+    raise InvalidMoveError if !valid?(position)
+    position
+  end
+
   def valid?(position)
     board.valid?(position)
   end
 
-  def reset_current_player
-    @current_player = swap_players
+  def swap_players
+    @current_player = reset_current_player
   end
 
-  def swap_players
+  def reset_current_player
     @current_player == player_x ? player_o : player_x
   end
 end

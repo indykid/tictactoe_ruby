@@ -9,5 +9,5 @@ require 'player'
 require 'board'
 
 ui = Ui.new($stdin, $stdout)
-game = Game.new(Board.new, ui, Player.new(:X), Player.new(:O))
+game = Game.new(Board.new, ui, Player.new(:X, ui), Player.new(:O, ui))
 game.play

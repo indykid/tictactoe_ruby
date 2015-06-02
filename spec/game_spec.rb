@@ -43,7 +43,7 @@ describe Game do
 
     2.times { game.play_turn }
 
-    expect(board.player_at(1)).to eq(:o)
+    expect(board.player_at(1)).not_to eq(board.player_at(0))
   end
 
   it 'plays till win' do
@@ -72,5 +72,14 @@ describe Game do
     game = game_setup([10, 1])
 
     expect { game.play_turn }.not_to raise_error
+  end
+
+  def game_setup(inputs = [])
+    input    = StringIO.new(inputs.join("\n"))
+    ui       = FakeUi.new(input, StringIO.new)
+    player_x = FakePlayer.new(:x, ui) 
+    player_o = FakePlayer.new(:o, ui)
+
+    Game.new(board, ui, player_x, player_o)
   end
 end

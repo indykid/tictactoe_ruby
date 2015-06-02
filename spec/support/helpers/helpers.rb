@@ -15,13 +15,3 @@ module BoardSetUpHelpers
     add_moves([3, 4], :o)
   end
 end
-
-module GameSetUpHelpers
-  def game_setup(inputs = [])
-    input  = StringIO.new(inputs.join("\n"))
-    ui = FakeUi.new(input, StringIO.new)
-    player_x= FakePlayer.new(:x, ui) 
-    player_o = FakePlayer.new(:o, ui)
-    Game.new(board, ui, player_x, player_o)
-  end
-end

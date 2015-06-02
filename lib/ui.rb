@@ -8,7 +8,7 @@ class Ui
   end
 
   GREETING = "Welcome to TicTacToe\nThis game requires two players\nEach player enters move in turn\nFirst player is assigned 'X' mark"
-  ALERT    = "*****************************\nINVALID move, please try again\n******************************"
+  ALERT    = "******************************\nINVALID move, please try again\n******************************"
   MOVE_REQUEST = "Please enter position to play into"
 
   def greet

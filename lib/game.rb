@@ -13,14 +13,15 @@ class Game
   end
 
   def play
+    greet
     while !over?
       play_turn
     end
+    display_board
   end
 
   def play_turn
-    position = get_position
-    board.add_move(position, current_player.mark)
+    add_to_board(get_position, current_player.mark)
     swap_players
   end
 
@@ -40,14 +41,19 @@ class Game
     board.full?
   end
 
+  def add_to_board(position, mark)
+    board.add_move(position, mark)
+  end
+
   def get_position
-    ui.display(board.state_by_rows)
+    display_board
     valid_position
   end
 
   def valid_position
     position = current_player.pick_position
     until valid?(position)
+      alert
       position = current_player.pick_position
     end
     position
@@ -63,5 +69,17 @@ class Game
 
   def reset_current_player
     @current_player == player_x ? player_o : player_x
+  end
+
+  def display_board
+    ui.display(board.state_by_rows)
+  end
+
+  def greet
+    ui.greet
+  end
+
+  def alert
+    ui.alert
   end
 end

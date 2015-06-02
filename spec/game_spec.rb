@@ -31,7 +31,7 @@ describe Game do
   end
 
   it 'places player moves on the board' do
-    game = game_setup([0])
+    game = game_setup(FakeUi.new([0]))
 
     game.play_turn
 
@@ -39,15 +39,42 @@ describe Game do
   end
 
   it 'keeps track of player turns' do
-    game = game_setup([0, 1])
+    game = game_setup(FakeUi.new([0, 1]))
 
     2.times { game.play_turn }
 
     expect(board.player_at(1)).not_to eq(board.player_at(0))
   end
 
+  it 'gets Ui to display the board' do
+    ui = FakeUi.new([0])
+    game = game_setup(ui)
+
+    game.play_turn
+
+    expect(ui.display_count).to eq(1)
+  end
+
+  it 'get Ui to alert on invalid move' do
+    ui = FakeUi.new(['a', 1])
+    game = game_setup(ui)
+
+    game.play_turn
+
+    expect(ui.alert_count).to eq(1)
+  end
+
+  it 'gets Ui to greet' do
+    ui = FakeUi.new([0, 3, 1, 4, 2])
+    game = game_setup(ui)
+
+    game.play
+
+    expect(ui.greet_count).to eq(1)
+  end
+
   it 'plays till win' do
-    game = game_setup([0, 3, 1, 4, 2])
+    game = game_setup(FakeUi.new([0, 3, 1, 4, 2]))
 
     game.play
 
@@ -55,7 +82,7 @@ describe Game do
   end
 
   it 'plays till draw' do
-    game = game_setup([0, 1, 2, 3, 4, 5, 6, 7, 8])
+    game = game_setup(FakeUi.new([0, 1, 2, 3, 4, 5, 6, 7, 8]))
 
     game.play
 
@@ -63,19 +90,27 @@ describe Game do
   end
 
   it 'will not error if non-numeric move given' do
-    game = game_setup(['a', 1])
+    game = game_setup(FakeUi.new(['a', 1]))
 
     expect { game.play_turn }.not_to raise_error
   end
 
-  it 'does not error if invalid move give' do
-    game = game_setup([10, 1])
+  it 'does not error if invalid move given' do
+    game = game_setup(FakeUi.new([10, 1]))
 
     expect { game.play_turn }.not_to raise_error
   end
 
-  def game_setup(inputs = [])
-    ui       = FakeUi.new(inputs)
+  it 'gets ui to display board at the end' do
+    ui = FakeUi.new([0, 3, 1, 4, 2])
+    game = game_setup(ui)
+
+    game.play
+
+    expect(ui.display_count).to eq(6)
+  end
+
+  def game_setup(ui = FakeUi.new)
     player_x = FakePlayer.new(:x, ui) 
     player_o = FakePlayer.new(:o, ui)
 

@@ -38,10 +38,28 @@ describe Ui do
   end
 
   it 'shows user friendly board' do
-    ui.display([[:x, 1, 2], [3, 4, 5], [6, 7, 8]])
+    ui.display_board([[:x, 1, 2], [3, 4, 5], [6, 7, 8]])
 
     expect(output.string).to eq(
       "\n x | 2 | 3 \n-----------\n 4 | 5 | 6 \n-----------\n 7 | 8 | 9 \n"
     )
+  end
+
+  it 'displays winner' do
+    ui.display_winner(:x)
+
+    expect(output.string).to end_with(Ui::WINNER_ANNOUNCEMENT + 'x' + "\n")
+  end
+
+  it 'display game over message' do
+    ui.display_game_over
+
+    expect(output.string).to end_with(Ui::GAME_OVER + "\n")
+  end
+
+  it 'displays game is drawn' do
+    ui.display_draw
+
+    expect(output.string).to end_with(Ui::GAME_DRAWN + "\n")
   end
 end

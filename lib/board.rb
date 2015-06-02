@@ -34,7 +34,7 @@ class Board
   end
 
   def winner_mark
-    find_same_player_line.first
+    moves[mark_on_the_same_player_line]
   end
 
   private
@@ -99,5 +99,12 @@ class Board
   end
 
   def find_same_player_line
+    lines.detect do |line|
+      full_line?(line) && same_player?(line)
+    end
+  end
+
+  def mark_on_the_same_player_line
+    find_same_player_line.first
   end
 end

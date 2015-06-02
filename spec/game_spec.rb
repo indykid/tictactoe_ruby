@@ -30,7 +30,7 @@ describe Game do
     expect(game.over?).to be(true)
   end
 
-  it 'places player moves on the board' do
+  it 'adds player moves to the board' do
     game = game_setup(FakeUi.new([0]))
 
     game.play_turn
@@ -38,7 +38,7 @@ describe Game do
     expect(board.player_at(0)).to eq(:x)
   end
 
-  it 'keeps track of player turns' do
+  it 'tracks player turns' do
     game = game_setup(FakeUi.new([0, 1]))
 
     2.times { game.play_turn }
@@ -52,10 +52,10 @@ describe Game do
 
     game.play_turn
 
-    expect(ui.display_count).to eq(1)
+    expect(ui.board_display_count).to eq(1)
   end
 
-  it 'get Ui to alert on invalid move' do
+  it 'gets Ui to alert on invalid move' do
     ui = FakeUi.new(['a', 1])
     game = game_setup(ui)
 
@@ -89,13 +89,13 @@ describe Game do
     expect(game.over?).to be(true)
   end
 
-  it 'will not error if non-numeric move given' do
+  xit 'will not error if non-numeric move given' do
     game = game_setup(FakeUi.new(['a', 1]))
 
     expect { game.play_turn }.not_to raise_error
   end
 
-  it 'does not error if invalid move given' do
+  xit 'does not error if invalid move given' do
     game = game_setup(FakeUi.new([10, 1]))
 
     expect { game.play_turn }.not_to raise_error
@@ -107,7 +107,34 @@ describe Game do
 
     game.play
 
-    expect(ui.display_count).to eq(6)
+    expect(ui.board_display_count).to eq(6)
+  end
+
+  it 'gets Ui to display game over at the end' do
+    ui = FakeUi.new([0, 4, 2, 1, 7, 5, 3, 6, 8])
+    game = game_setup(ui)
+
+    game.play
+
+    expect(ui.game_over_count).to eq(1)
+  end
+
+  it 'gets Ui to display winner at the end of the won game' do
+    ui = FakeUi.new([0, 3, 1, 4, 2])
+    game = game_setup(ui)
+
+    game.play
+
+    expect(ui.winner_display_count).to eq(1)
+  end
+
+  it 'gets Ui to announce draw when drawn' do
+    ui = FakeUi.new([0, 4, 2, 1, 7, 5, 3, 6, 8])
+    game = game_setup(ui)
+
+    game.play
+
+    expect(ui.draw_display_count).to eq(1)
   end
 
   def game_setup(ui = FakeUi.new)

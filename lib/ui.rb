@@ -10,6 +10,9 @@ class Ui
   GREETING = "Welcome to TicTacToe\nThis game requires two players\nEach player enters move in turn\nFirst player is assigned 'X' mark"
   ALERT    = "******************************\nINVALID move, please try again\n******************************"
   MOVE_REQUEST = "Please enter position to play into"
+  WINNER_ANNOUNCEMENT = "And the winner is - "
+  GAME_OVER = "GAME OVER"
+  GAME_DRAWN = "It's a DRAW"
 
   def greet
     show(GREETING)
@@ -24,8 +27,20 @@ class Ui
     get_move
   end
 
-  def display(board_state)
+  def display_board(board_state)
     show(draw(board_state))
+  end
+
+  def display_winner(player)
+    show(WINNER_ANNOUNCEMENT + player.to_s)
+  end
+
+  def display_game_over
+    show(GAME_OVER)
+  end
+
+  def display_draw
+    show(GAME_DRAWN)
   end
 
   private

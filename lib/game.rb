@@ -17,7 +17,7 @@ class Game
     while !over?
       play_turn
     end
-    display_board
+    finish
   end
 
   def play_turn
@@ -71,8 +71,34 @@ class Game
     @current_player == player_x ? player_o : player_x
   end
 
+  def finish
+    display_board
+    display_game_over
+    display_result
+  end
+
   def display_board
-    ui.display(board.state_by_rows)
+    ui.display_board(board.state_by_rows)
+  end
+
+  def display_game_over
+    ui.display_game_over
+  end
+
+  def display_winner
+    ui.display_winner(winner)
+  end
+
+  def display_draw
+    ui.display_draw
+  end
+
+  def winner
+    board.winner_mark
+  end
+
+  def display_result
+    won? ? display_winner : display_draw
   end
 
   def greet

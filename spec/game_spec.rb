@@ -31,7 +31,7 @@ describe Game do
   end
 
   it 'places player moves on the board' do
-    game = game_setup([1])
+    game = game_setup([0])
 
     game.play_turn
 
@@ -39,7 +39,7 @@ describe Game do
   end
 
   it 'keeps track of player turns' do
-    game = game_setup([1, 2])
+    game = game_setup([0, 1])
 
     2.times { game.play_turn }
 
@@ -47,7 +47,7 @@ describe Game do
   end
 
   it 'plays till win' do
-    game = game_setup([1, 4, 2, 5, 3])
+    game = game_setup([0, 3, 1, 4, 2])
 
     game.play
 
@@ -55,7 +55,7 @@ describe Game do
   end
 
   it 'plays till draw' do
-    game = game_setup([1, 2, 3, 4, 5, 6, 7, 8, 9])
+    game = game_setup([0, 1, 2, 3, 4, 5, 6, 7, 8])
 
     game.play
 
@@ -75,8 +75,7 @@ describe Game do
   end
 
   def game_setup(inputs = [])
-    input    = StringIO.new(inputs.join("\n"))
-    ui       = FakeUi.new(input, StringIO.new)
+    ui       = FakeUi.new(inputs)
     player_x = FakePlayer.new(:x, ui) 
     player_o = FakePlayer.new(:o, ui)
 

@@ -1,28 +1,21 @@
 require 'invalid_move_error'
 
 class FakeUi
-  def initialize(input, output)
-    @input = input
-    @output = output
+  def initialize(inputs)
+    @inputs        = inputs
+    @alert_count   = 0
+    @display_count = 0
   end
 
   def get_move_from_user(player)
-    input.gets.to_i - 1
+    @inputs.shift
   end
 
   def alert
+    @alert_count += 1
   end
 
   def display(board_state)
-    show(user_friendly(board_state))
-  end
-
-  private
-  attr_reader :input
-
-  def show(message)
-  end
-
-  def user_friendly(board_state)
+    @display_count += 1
   end
 end

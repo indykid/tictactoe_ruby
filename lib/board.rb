@@ -33,6 +33,10 @@ class Board
     .each_slice(size).to_a
   end
 
+  def winner_mark
+    find_same_player_line.first
+  end
+
   private
   attr_reader :moves, :size
 
@@ -92,5 +96,8 @@ class Board
     positions.map do |position|
       moves[position]
     end
+  end
+
+  def find_same_player_line
   end
 end

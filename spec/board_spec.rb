@@ -42,4 +42,9 @@ describe Board do
     board.add_move(0, :x)
     expect(board.state_by_rows).to eq([[:x, 1, 2], [3, 4, 5], [6, 7, 8]])
   end
+  
+  xit 'returns the mark for the same player line' do
+    make_win
+    expect(board.winner_mark).to eq(:x)
+  end
 end

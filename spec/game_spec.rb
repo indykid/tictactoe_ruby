@@ -25,7 +25,7 @@ describe Game do
   it 'is over when drawn' do
     game = game_setup
 
-    fill_up
+    make_draw
 
     expect(game.over?).to be(true)
   end
@@ -87,18 +87,6 @@ describe Game do
     game.play
 
     expect(game.over?).to be(true)
-  end
-
-  xit 'will not error if non-numeric move given' do
-    game = game_setup(FakeUi.new(['a', 1]))
-
-    expect { game.play_turn }.not_to raise_error
-  end
-
-  xit 'does not error if invalid move given' do
-    game = game_setup(FakeUi.new([10, 1]))
-
-    expect { game.play_turn }.not_to raise_error
   end
 
   it 'gets ui to display board at the end' do

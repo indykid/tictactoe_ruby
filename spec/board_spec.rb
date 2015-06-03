@@ -29,7 +29,7 @@ describe Board do
   end
 
   it 'knows when its full' do
-    fill_up
+    make_draw
     expect(board.full?).to be(true)
   end
 

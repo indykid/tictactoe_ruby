@@ -5,7 +5,7 @@ module BoardSetUpHelpers
     end
   end
 
-  def fill_up
+  def make_draw
     add_moves([0, 2, 5, 6, 7], :x)
     add_moves([1, 3, 4, 8], :o)
   end

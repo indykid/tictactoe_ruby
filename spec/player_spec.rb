@@ -1,10 +1,9 @@
 require 'player'
-require 'support/doubles/fake_ui.rb'
 
 describe Player do
 
   it 'gets move from user' do
-    ui = FakeUi.new([0])
+    ui = instance_double(Ui, get_move_from_user: 0).as_null_object
     player = Player.new(:x, ui)
     expect(player.pick_position).to eq(0)
   end

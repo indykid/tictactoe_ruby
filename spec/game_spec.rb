@@ -2,7 +2,6 @@ require 'spec_helper'
 require 'board'
 require 'game'
 require 'support/doubles/fake_player.rb'
-require 'support/doubles/fake_ui.rb'
 
 describe Game do
 
@@ -31,7 +30,8 @@ describe Game do
   end
 
   it 'adds player moves to the board' do
-    game = game_setup(FakeUi.new([0]))
+    ui = instance_double(Ui, get_move_from_user: 0).as_null_object
+    game = game_setup(ui)
 
     game.play_turn
 
@@ -39,7 +39,9 @@ describe Game do
   end
 
   it 'tracks player turns' do
-    game = game_setup(FakeUi.new([0, 1]))
+    ui = instance_double(Ui).as_null_object
+    allow(ui).to receive(:get_move_from_user).and_return(0, 1)
+    game = game_setup(ui)
 
     2.times { game.play_turn }
 
@@ -47,34 +49,38 @@ describe Game do
   end
 
   it 'gets Ui to display the board' do
-    ui = FakeUi.new([0])
+    ui = instance_double(Ui, get_move_from_user: 0).as_null_object
     game = game_setup(ui)
 
     game.play_turn
 
-    expect(ui.board_display_count).to eq(1)
+    expect(ui).to have_received(:display_board)
   end
 
   it 'gets Ui to alert on invalid move' do
-    ui = FakeUi.new(['a', 1])
+    ui = instance_double(Ui).as_null_object
+    allow(ui).to receive(:get_move_from_user).and_return('a', 1)
     game = game_setup(ui)
 
     game.play_turn
 
-    expect(ui.alert_count).to eq(1)
+    expect(ui).to have_received(:alert)
   end
 
   it 'gets Ui to greet' do
-    ui = FakeUi.new([0, 3, 1, 4, 2])
+    ui = instance_double(Ui).as_null_object
+    allow(ui).to receive(:get_move_from_user).and_return(0, 3, 1, 4, 2)
     game = game_setup(ui)
 
     game.play
 
-    expect(ui.greet_count).to eq(1)
+    expect(ui).to have_received(:greet)
   end
 
   it 'plays till win' do
-    game = game_setup(FakeUi.new([0, 3, 1, 4, 2]))
+    ui = instance_double(Ui).as_null_object
+    allow(ui).to receive(:get_move_from_user).and_return(0, 3, 1, 4, 2)
+    game = game_setup(ui)
 
     game.play
 
@@ -82,7 +88,9 @@ describe Game do
   end
 
   it 'plays till draw' do
-    game = game_setup(FakeUi.new([0, 1, 2, 3, 4, 5, 6, 7, 8]))
+    ui = instance_double(Ui).as_null_object
+    allow(ui).to receive(:get_move_from_user).and_return(0, 4, 2, 1, 7, 5, 3, 6, 8)
+    game = game_setup(ui)
 
     game.play
 
@@ -90,42 +98,55 @@ describe Game do
   end
 
   it 'gets ui to display board at the end' do
-    ui = FakeUi.new([0, 3, 1, 4, 2])
+    ui = instance_double(Ui).as_null_object
+    allow(ui).to receive(:get_move_from_user).and_return(0, 3, 1, 4, 2)
     game = game_setup(ui)
 
     game.play
 
-    expect(ui.board_display_count).to eq(6)
+    expect(ui).to have_received(:display_board).exactly(6).times
   end
 
   it 'gets Ui to display game over at the end' do
-    ui = FakeUi.new([0, 4, 2, 1, 7, 5, 3, 6, 8])
+    ui = instance_double(Ui).as_null_object
+    allow(ui).to receive(:get_move_from_user).and_return(0, 4, 2, 1, 7, 5, 3, 6, 8)
     game = game_setup(ui)
 
     game.play
 
-    expect(ui.game_over_count).to eq(1)
+    expect(ui).to have_received(:display_game_over)
   end
 
   it 'gets Ui to display winner at the end of the won game' do
-    ui = FakeUi.new([0, 3, 1, 4, 2])
+    ui = instance_double(Ui).as_null_object
+    allow(ui).to receive(:get_move_from_user).and_return(0, 3, 1, 4, 2)
     game = game_setup(ui)
 
     game.play
 
-    expect(ui.winner_display_count).to eq(1)
+    expect(ui).to have_received(:display_winner)
   end
 
   it 'gets Ui to announce draw when drawn' do
-    ui = FakeUi.new([0, 4, 2, 1, 7, 5, 3, 6, 8])
+    ui = instance_double(Ui).as_null_object
+    allow(ui).to receive(:get_move_from_user).and_return(0, 4, 2, 1, 7, 5, 3, 6, 8)
     game = game_setup(ui)
 
     game.play
 
-    expect(ui.draw_display_count).to eq(1)
+    expect(ui).to have_received(:display_draw)
   end
 
-  def game_setup(ui = FakeUi.new)
+  def another_setup(inputs )
+    ui = instance_double(Ui).as_null_object
+    allow(ui).to receive(:get_move_from_user).and_return(inputs)
+    player_x = FakePlayer.new(:x, ui) 
+    player_o = FakePlayer.new(:o, ui)
+
+    Game.new(board, ui, player_x, player_o)
+  end
+
+  def game_setup(ui = instance_double(Ui).as_null_object)
     player_x = FakePlayer.new(:x, ui) 
     player_o = FakePlayer.new(:o, ui)
 

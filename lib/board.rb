@@ -1,7 +1,7 @@
 class Board
-  def initialize(size = 3)
+  def initialize(moves = nil, size = 3)
     @size = size
-    @moves = Array.new(size**2)
+    @moves = moves || Array.new(size**2)
   end
 
   def add_move(position, mark)

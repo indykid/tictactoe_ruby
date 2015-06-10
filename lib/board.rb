@@ -34,7 +34,7 @@ class Board
   end
 
   def winner_mark
-    moves[mark_on_the_same_player_line]
+    moves[position_on_the_same_player_line]
   end
 
   private
@@ -104,7 +104,7 @@ class Board
     end
   end
 
-  def mark_on_the_same_player_line
+  def position_on_the_same_player_line
     find_same_player_line.first
   end
 end

@@ -22,8 +22,8 @@ class Ui
     show(ALERT)
   end
 
-  def get_move_from_user(player)
-    show("Player #{player} " + MOVE_REQUEST)
+  def get_move_from_user(mark)
+    show("Player #{mark} " + MOVE_REQUEST)
     get_move
   end
 

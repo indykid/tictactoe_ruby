@@ -21,7 +21,8 @@ class Game
   end
 
   def play_turn
-    add_to_board(get_position, current_player.mark)
+    display_board
+    add_to_board(valid_position)
     swap_players
   end
 
@@ -41,22 +42,16 @@ class Game
     board.full?
   end
 
-  def add_to_board(position, mark)
-    board.add_move(position, mark)
-  end
-
-  def get_position
-    display_board
-    valid_position
+  def add_to_board(position)
+    board.add_move(position, current_player.mark)
   end
 
   def valid_position
-    position = current_player.pick_position
-    until valid?(position)
-      alert
+    loop do
       position = current_player.pick_position
+      return position if valid?(position)
+      display_invalid_move_notification
     end
-    position
   end
 
   def valid?(position)
@@ -105,7 +100,7 @@ class Game
     ui.greet
   end
 
-  def alert
+  def display_invalid_move_notification
     ui.alert
   end
 end

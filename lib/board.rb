@@ -15,6 +15,13 @@ class Board
   def valid?(position)
     available_positions.include?(position)
   end
+  
+  def available_positions
+    moves.each_index.reduce([]) do |available, position|
+      available << position unless moves[position]
+      available
+    end
+  end
 
   def full?
     moves.all? {|move| !move.nil?}
@@ -37,8 +44,13 @@ class Board
     moves[position_on_the_same_player_line]
   end
 
+  def make_copy
+    new_moves = moves.dup
+    Board.new(new_moves)
+  end
+
   private
-  attr_reader :moves, :size
+  attr_reader :size, :moves
 
   def positions
     [*0...size**2]
@@ -46,13 +58,6 @@ class Board
 
   def lines
     rows.concat(columns).concat(diagonals)
-  end
-  
-  def available_positions
-    moves.each_index.reduce([]) do |available, position|
-      available << position unless moves[position]
-      available
-    end
   end
 
   def rows

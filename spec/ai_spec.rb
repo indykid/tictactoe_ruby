@@ -10,21 +10,21 @@ describe Ai do
     expect(ai.pick_position).to eq(2)
   end
   
-  it 'assigns score 10 to a win' do
+  it 'assigns winning score to a win' do
     ai = Ai.new(:x)
     board = make_win_board
      
     expect(ai.score(board)).to eq(Ai::WIN_SCORE)
   end
 
-  it 'assigns score -10 to a loss' do
+  it 'assigns losing score to a loss' do
     ai = Ai.new(:x)
     board = make_loss_board
 
     expect(ai.score(board)).to eq(Ai::LOSE_SCORE)
   end
 
-  it 'assigns score 0 to a draw' do
+  it 'assigns draw score to a draw' do
     ai = Ai.new(:x)
     board = make_draw_board
 

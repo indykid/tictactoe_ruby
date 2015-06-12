@@ -26,7 +26,6 @@ class Ai
     board.available_positions.reduce([]) do |boards, position|
       board_copy = board.make_copy
       board_copy.add_move(position, mark)
-      puts board_copy.inspect
       boards << board_copy
       boards
     end

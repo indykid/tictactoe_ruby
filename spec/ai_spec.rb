@@ -37,8 +37,24 @@ describe Ai do
     children = ai.find_children(board, ai.mark)
     available = children.map {|c| c.available_positions }
 
-    expect(available).to match_array([[7, 8], [2, 8], [2, 7]])
+    expect(available).to match_array(possible_combinations_for(board.available_positions))
+  end
 
+  it 'knows child states of the board with one move' do
+    ai = Ai.new(:x)
+    board = make_one_move_board
+    children = ai.find_children(board, ai.mark)
+    available = children.map {|c| c.available_positions }
+
+    expect(available).to match_array(possible_combinations_for(board.available_positions))
+  end
+
+  it 'produces as many child states as there are available moves' do
+    ai = Ai.new(:x)
+    board = Board.new([:x, nil, nil, :x, :x, :o, :o, nil, nil])
+    children = ai.find_children(board, ai.mark)
+
+    expect(children.count).to eq(board.available_positions.count)
   end
 
   def make_draw_board
@@ -55,5 +71,10 @@ describe Ai do
 
   def make_one_move_board
     Board.new([:x, nil, nil, nil, nil, nil, nil, nil, nil])
+  end
+
+  def possible_combinations_for(available_positions)
+    remaining_available_count = available_positions.count - 1
+    available_positions.combination(remaining_available_count)
   end
 end

@@ -80,6 +80,15 @@ describe Ai do
     expect(ai.score(board)).to eq(Ai::WIN_SCORE)
   end
 
+  it 'scores intermediate board states based on the following end state', focus: true do
+    ai = Ai.new(:x)
+    board = Board.new([nil, :o, :x,
+                       nil, :o, nil,
+                       :x, :x, :o])
+
+    expect(ai.score(board)).to eq(Ai::DRAW_SCORE)
+  end
+
   def make_draw_board
     Board.new([:x, :x, :o,
                :o, :x, :x,

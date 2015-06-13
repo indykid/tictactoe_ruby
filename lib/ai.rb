@@ -53,7 +53,7 @@ class Ai
       WIN_SCORE
     elsif drew?(board)
       DRAW_SCORE
-    else
+    elsif lost?(board)
       LOSE_SCORE
     end
   end

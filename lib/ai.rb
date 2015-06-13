@@ -16,7 +16,7 @@ class Ai
       score_end_state(board)
     else
       find_children(board, mark).map do |child|
-        score_end_state(child)
+        score(child)
       end.max
     end
   end

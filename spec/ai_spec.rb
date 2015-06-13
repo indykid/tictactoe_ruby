@@ -3,6 +3,7 @@ require 'ai'
 describe Ai do
 
   let(:board) { Board.new }
+
   xit 'picks winning move if there is one' do
     ai = Ai.new(:x)
     add_moves([0, 1], :x)
@@ -33,7 +34,9 @@ describe Ai do
 
   it 'knows child states of the given board' do
     ai = Ai.new(:x)
-    board = Board.new([:x, :o, nil, :x, :x, :o, :o, nil, nil])
+    board = Board.new([:x, :o, nil,
+                       :x, :x, :o, 
+                       :o, nil, nil])
     children = ai.find_children(board, ai.mark)
     available = children.map {|c| c.available_positions }
 
@@ -51,26 +54,36 @@ describe Ai do
 
   it 'produces as many child states as there are available moves' do
     ai = Ai.new(:x)
-    board = Board.new([:x, nil, nil, :x, :x, :o, :o, nil, nil])
+    board = Board.new([:x, nil, nil,
+                       :x, :x,  :o,
+                       :o, nil, nil])
     children = ai.find_children(board, ai.mark)
 
-    expect(children.count).to eq(board.available_positions.count)
+    expect(children.count).to eq(4)
   end
 
   def make_draw_board
-    Board.new([:x, :x, :o, :o, :x, :x, :x, :o, :o])
+    Board.new([:x, :x, :o,
+               :o, :x, :x,
+               :x, :o, :o])
   end
 
   def make_win_board
-    Board.new([:x, :x, :x, :o, :o, nil, nil, nil, nil])
+    Board.new([:x,  :x,  :x,
+               :o,  :o,  nil,
+               nil, nil, nil])
   end
 
   def make_loss_board
-    Board.new([:x, :x, :o, :x, :o, nil, :o, nil, nil])
+    Board.new([:x, :x,  :o,
+               :x, :o,  nil,
+               :o, nil, nil])
   end
 
   def make_one_move_board
-    Board.new([:x, nil, nil, nil, nil, nil, nil, nil, nil])
+    Board.new([:x,  nil, nil,
+               nil, nil, nil,
+               nil, nil, nil])
   end
 
   def possible_combinations_for(available_positions)

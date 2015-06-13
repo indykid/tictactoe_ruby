@@ -13,13 +13,7 @@ class Ai
   end
 
   def score(board)
-    if board.same_player_line? && board.winner_mark == mark
-      WIN_SCORE
-    elsif board.full? && !board.same_player_line?
-      DRAW_SCORE
-    else
-      LOSE_SCORE
-    end
+    score_end_state(board)
   end
   
   def find_children(board, mark)
@@ -28,6 +22,34 @@ class Ai
       board_copy.add_move(position, mark)
       boards << board_copy
       boards
+    end
+  end
+
+  private
+
+  def end_state?(board)
+    won?(board) || drew?(board) || lost?(board)
+  end
+
+  def won?(board)
+    board.same_player_line? && board.winner_mark == mark
+  end
+
+  def drew?(board)
+    board.full? && !board.same_player_line?
+  end
+
+  def lost?(board)
+    board.same_player_line? && board.winner_mark != mark
+  end
+
+  def score_end_state(board)
+    if won?(board)
+      WIN_SCORE
+    elsif drew?(board)
+      DRAW_SCORE
+    else
+      LOSE_SCORE
     end
   end
 end

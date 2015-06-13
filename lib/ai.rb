@@ -9,11 +9,16 @@ class Ai
   DRAW_SCORE = 0
 
   def pick_position
-  
   end
 
   def score(board)
-    score_end_state(board)
+    if end_state?(board)
+      score_end_state(board)
+    else
+      find_children(board, mark).map do |child|
+        score_end_state(child)
+      end.max
+    end
   end
   
   def find_children(board, mark)

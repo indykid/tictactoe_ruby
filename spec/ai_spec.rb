@@ -62,6 +62,24 @@ describe Ai do
     expect(children.count).to eq(4)
   end
 
+  it 'scores intermediate board state based on the following end state' do
+    ai = Ai.new(:x)
+    board = Board.new([:x, :o,  :x,
+                       :x, :x,  :o,
+                       :o, :o, nil])
+
+    expect(ai.score(board)).to eq(Ai::WIN_SCORE)
+  end
+
+  it 'scores intermediate board states based on the following end state' do
+    ai = Ai.new(:o)
+    board = Board.new([:x, :x, :o,
+                       :o, :x, :o,
+                       :x, nil, nil])
+
+    expect(ai.score(board)).to eq(Ai::WIN_SCORE)
+  end
+
   def make_draw_board
     Board.new([:x, :x, :o,
                :o, :x, :x,

@@ -2,6 +2,7 @@ class Ai
   attr_reader :mark
   def initialize(mark)
     @mark = mark
+    @opponent_mark = set_opponent_mark
   end
 
   WIN_SCORE  = 10
@@ -31,6 +32,10 @@ class Ai
   end
 
   private
+
+  def set_opponent_mark
+    mark == :x ? :o : :x
+  end
 
   def end_state?(board)
     won?(board) || drew?(board) || lost?(board)

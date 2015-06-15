@@ -1,7 +1,8 @@
 class Ai
   attr_reader :mark
-  def initialize(mark)
+  def initialize(mark, board)
     @mark = mark
+    @board = board
     @opponent_mark = set_opponent_mark
   end
 
@@ -35,7 +36,7 @@ class Ai
 
   private
 
-  attr_reader :opponent_mark
+  attr_reader :board, :opponent_mark
 
   def set_opponent_mark
     mark == :x ? :o : :x

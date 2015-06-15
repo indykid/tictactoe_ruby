@@ -12,16 +12,22 @@ class Ai
   def pick_position
   end
 
-  def score(board)
+  def score(board, current_mark)
     if end_state?(board)
       score_end_state(board)
     else
-      find_children(board, mark).map do |child|
-        score(child)
-      end.max
+      results = find_children(board, current_mark).map do |child|
+        score(child, swap_current_mark(current_mark))
+      end
+      
+      if current_mark == mark
+        results.max
+      elsif current_mark == opponent_mark
+        results.min
+      end
     end
   end
-  
+
   def find_children(board, mark)
     board.available_positions.reduce([]) do |boards, position|
       board_copy = board.make_copy
@@ -32,6 +38,8 @@ class Ai
   end
 
   private
+
+  attr_reader :opponent_mark
 
   def set_opponent_mark
     mark == :x ? :o : :x
@@ -61,5 +69,9 @@ class Ai
     elsif lost?(board)
       LOSE_SCORE
     end
+  end
+
+  def swap_current_mark(current_mark)
+    current_mark == mark ? opponent_mark : mark
   end
 end

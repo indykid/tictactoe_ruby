@@ -15,21 +15,21 @@ describe Ai do
     ai = Ai.new(:x)
     board = make_win_board
      
-    expect(ai.score(board)).to eq(Ai::WIN_SCORE)
+    expect(ai.score(board, :x)).to eq(Ai::WIN_SCORE)
   end
 
   it 'assigns losing score to a loss' do
     ai = Ai.new(:x)
     board = make_loss_board
 
-    expect(ai.score(board)).to eq(Ai::LOSE_SCORE)
+    expect(ai.score(board, :x)).to eq(Ai::LOSE_SCORE)
   end
 
   it 'assigns draw score to a draw' do
     ai = Ai.new(:x)
     board = make_draw_board
 
-    expect(ai.score(board)).to eq(Ai::DRAW_SCORE)
+    expect(ai.score(board, :x)).to eq(Ai::DRAW_SCORE)
   end
 
   it 'knows child states of the given board' do
@@ -52,7 +52,7 @@ describe Ai do
     expect(available).to match_array(possible_combinations_for(board.available_positions))
   end
 
-  it 'produces as many child states as there are available moves' do
+  it 'calculates as many child states as there are available moves' do
     ai = Ai.new(:x)
     board = Board.new([:x, nil, nil,
                        :x, :x,  :o,
@@ -68,7 +68,7 @@ describe Ai do
                        :x, :x,  :o,
                        :o, :o, nil])
 
-    expect(ai.score(board)).to eq(Ai::WIN_SCORE)
+    expect(ai.score(board, :x)).to eq(Ai::WIN_SCORE)
   end
 
   it 'scores intermediate board states based on the following end state' do
@@ -77,7 +77,7 @@ describe Ai do
                        :o, :x, :o,
                        :x, nil, nil])
 
-    expect(ai.score(board)).to eq(Ai::WIN_SCORE)
+    expect(ai.score(board, :o)).to eq(Ai::WIN_SCORE)
   end
 
   it 'scores intermediate board states based on the following end state', focus: true do
@@ -86,7 +86,7 @@ describe Ai do
                        nil, :o, nil,
                        :x, :x, :o])
 
-    expect(ai.score(board)).to eq(Ai::DRAW_SCORE)
+    expect(ai.score(board, :x)).to eq(Ai::DRAW_SCORE)
   end
 
   def make_draw_board

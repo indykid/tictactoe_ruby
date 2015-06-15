@@ -96,7 +96,7 @@ describe Ai do
     expect(ai.score(board, :o)).to eq(Ai::LOSE_SCORE)
   end
 
-  xit 'knows to play into winning position' do
+  it 'knows to play into winning position' do
     board = Board.new([ :x, :x, nil, 
                         :o, :o, nil,
                        nil, nil, nil ])

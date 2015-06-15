@@ -16,11 +16,13 @@ class Ai
   end
 
   def score(board, current_mark)
+    scores = []
+
     if end_state?(board)
       score_end_state(board)
     else
-      scores = possible_boards(board, current_mark).map do |child|
-        score(child, swap_current_mark(current_mark))
+      possible_boards(board, current_mark).map do |child|
+        scores << score(child, swap_current_mark(current_mark))
       end
       
       current_mark == mark ? scores.max : scores.min

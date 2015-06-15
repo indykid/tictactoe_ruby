@@ -32,15 +32,14 @@ class Ai
 
       if current_mark == mark
         board_score = scores.max
-        max_score_index = scores.each_with_index.max[1]
-        self.next_position = positions[max_score_index]
+        score_index = scores.each_with_index.max[1]
       elsif current_mark == opponent_mark
         board_score = scores.min
-        min_score_index = scores.each_with_index.min[1]
-        self.next_position = positions[min_score_index]
+        score_index = scores.each_with_index.min[1]
       end
-
+      self.next_position = positions[score_index]
     end
+
     board_score
   end
 

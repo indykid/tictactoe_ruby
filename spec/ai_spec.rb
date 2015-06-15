@@ -96,6 +96,15 @@ describe Ai do
     expect(ai.score(board, :o)).to eq(Ai::LOSE_SCORE)
   end
 
+  xit 'knows to play into winning position' do
+    board = Board.new([ :x, :x, nil, 
+                        :o, :o, nil,
+                       nil, nil, nil ])
+    ai = Ai.new(:x, board)
+
+    expect(ai.pick_position).to eq(2)
+  end
+
   def make_draw_board
     Board.new([:x, :x, :o,
                :o, :x, :x,

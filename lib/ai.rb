@@ -11,6 +11,8 @@ class Ai
   DRAW_SCORE = 0
 
   def pick_position
+    score(board, mark)
+    next_move
   end
 
   def score(board, current_mark)
@@ -36,7 +38,7 @@ class Ai
 
   private
 
-  attr_reader :board, :opponent_mark
+  attr_reader :board, :opponent_mark, :next_move
 
   def set_opponent_mark
     mark == :x ? :o : :x

@@ -16,19 +16,15 @@ class Ai
     if end_state?(board)
       score_end_state(board)
     else
-      results = find_children(board, current_mark).map do |child|
+      scores = possible_boards(board, current_mark).map do |child|
         score(child, swap_current_mark(current_mark))
       end
       
-      if current_mark == mark
-        results.max
-      elsif current_mark == opponent_mark
-        results.min
-      end
+      current_mark == mark ? scores.max : scores.min
     end
   end
 
-  def find_children(board, mark)
+  def possible_boards(board, mark)
     board.available_positions.reduce([]) do |boards, position|
       board_copy = board.make_copy
       board_copy.add_move(position, mark)

@@ -13,7 +13,6 @@ class Game
   end
 
   def play
-    greet
     while !over?
       play_turn
     end

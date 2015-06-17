@@ -11,36 +11,33 @@ class Ai
   DRAW_SCORE = 0
 
   def pick_position
-    score(board, mark)
-    next_position
+    positions = board.available_positions
+    possible_scores = scores(board, mark)
+
+    score_index = possible_scores.each_with_index.max[1]
+    positions[score_index]
   end
 
   def score(board, current_mark)
-    scores = []
-    positions = []
-
     if end_state?(board)
-      board_score = score_end_state(board)
+      score_end_state(board)
     else
-      board.available_positions.each do |position|
-        possible_board = board.make_copy
-        possible_board.add_move(position, current_mark)
-
-        scores << score(possible_board, swap_current_mark(current_mark))
-        positions << position 
+      scores = possible_boards(board, current_mark).map do |child|
+        score(child, swap_current_mark(current_mark))
       end
 
-      if current_mark == mark
-        board_score = scores.max
-        score_index = scores.each_with_index.max[1]
-      elsif current_mark == opponent_mark
-        board_score = scores.min
-        score_index = scores.each_with_index.min[1]
-      end
-      self.next_position = positions[score_index]
+      current_mark == mark ? scores.max : scores.min
     end
+  end
 
-    board_score
+  def scores(board, current_mark)
+    board.available_positions.reduce([]) do |scores, position|
+      possible_board = board.make_copy
+      possible_board.add_move(position, current_mark)
+
+      scores << score(possible_board, swap_current_mark(current_mark))
+      scores
+    end
   end
 
   def possible_boards(board, mark)
@@ -51,10 +48,10 @@ class Ai
       boards
     end
   end
+
   private
 
   attr_reader :board, :opponent_mark
-  attr_accessor :next_position
 
   def set_opponent_mark
     mark == :x ? :o : :x

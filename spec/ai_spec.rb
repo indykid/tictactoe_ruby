@@ -114,6 +114,15 @@ describe Ai do
     expect(ai.pick_position).to eq(6)
   end
 
+  it 'plays into blocking position at a threat' do
+    board = Board.new([nil, nil, nil,
+                       nil, :x, nil,
+                       nil, :x, :o ])
+    ai = Ai.new(:o, board)
+
+    expect(ai.pick_position).to eq(1)
+  end
+
   def make_draw_board
     Board.new([:x, :x, :o,
                :o, :x, :x,

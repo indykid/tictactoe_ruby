@@ -27,16 +27,16 @@ describe Ai do
     board = Board.new([:x, :o, nil,
                        :x, :x, :o, 
                        :o, nil, nil])
-    children = ai.possible_boards(board, ai.mark)
-    available = children.map {|c| c.available_positions }
+    boards = ai.possible_boards(board, ai.mark)
+    available = boards.map {|c| c.available_positions }
 
     expect(available).to match_array(possible_combinations_for(board.available_positions))
   end
 
   it 'knows child states of the board with one move' do
     board = make_one_move_board
-    children = ai.possible_boards(board, ai.mark)
-    available = children.map {|c| c.available_positions }
+    boards = ai.possible_boards(board, ai.mark)
+    available = boards.map {|c| c.available_positions }
 
     expect(available).to match_array(possible_combinations_for(board.available_positions))
   end
@@ -45,9 +45,9 @@ describe Ai do
     board = Board.new([:x, nil, nil,
                        :x, :x,  :o,
                        :o, nil, nil])
-    children = ai.possible_boards(board, ai.mark)
+    boards = ai.possible_boards(board, ai.mark)
 
-    expect(children.count).to eq(4)
+    expect(boards.count).to eq(4)
   end
 
   it 'scores intermediate board state based on the following end state' do
@@ -121,6 +121,41 @@ describe Ai do
     ai = Ai.new(:o, board)
 
     expect(ai.pick_position).to eq(1)
+  end
+
+  it 'plays into blocking position at a threat' do
+    board = Board.new([nil, :o, :o,
+                       nil, nil, :x,
+                       nil, nil, :x ])
+    ai = Ai.new(:x, board)
+
+    expect(ai.pick_position).to eq(0)
+  end
+
+  it 'scores correctly' do
+    board = Board.new([nil, :o, :o,
+                       nil, nil, :x,
+                       nil, nil, :x ])
+
+    ai = Ai.new(:o, board)
+    expect(ai.score(board, ai.mark)).to eq(Ai::WIN_SCORE)
+  end
+
+  it 'plays into blocking position at a threat' do
+    board = Board.new([nil, nil, nil,
+                       nil, :x, :x,
+                       nil, nil, :o ])
+    ai = Ai.new(:o, board)
+
+    expect(ai.pick_position).to eq(3)
+  end
+
+  it 'blocks' do
+    board = Board.new([:o, nil, :x,
+                       nil, :x, nil,
+                       nil, nil, nil ])
+    ai = Ai.new(:o, board)
+    expect(ai.pick_position).to eq(6)
   end
 
   def make_draw_board

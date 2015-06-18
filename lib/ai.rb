@@ -10,45 +10,44 @@ class Ai
   LOSE_SCORE = -10
   DRAW_SCORE = 0
 
+  ScoredPosition = Struct.new(:position, :score)
+
   def pick_position
-    positions = board.available_positions
-    possible_scores = scores(board, mark)
-
-    score_index = possible_scores.each_with_index.max[1]
-    positions[score_index]
+    scores = possible_scores(mark)
+    puts "scores: "
+    puts scores
+    position = scores.max_by { |scored_position| scored_position.score }.position
+    puts "position: #{position}"
+    position
   end
 
-  def score(board, current_mark)
-    if end_state?(board)
-      score_end_state(board)
-    else
-      scores = possible_boards(board, current_mark).map do |child|
-        score(child, swap_current_mark(current_mark))
-      end
-
-      current_mark == mark ? scores.max : scores.min
+  def score(current_board, current_mark)
+    if end_state?(current_board)
+      return score_end_state(current_board)
     end
+
+    scores = possible_boards(current_board, current_mark).map do |possible_board|
+      score(possible_board, swap_current_mark(current_mark))
+    end
+
+    current_mark == mark ? scores.max : scores.min
   end
 
-  def scores(board, current_mark)
-    board.available_positions.reduce([]) do |scores, position|
+  def possible_scores(mark)
+    board.available_positions.map do |position|
       possible_board = board.make_copy
-      possible_board.add_move(position, current_mark)
-
-      scores << score(possible_board, swap_current_mark(current_mark))
-      scores
+      possible_board.add_move(position, mark)
+      ScoredPosition.new(position, score(possible_board, swap_current_mark(mark)))
     end
   end
 
   def possible_boards(board, mark)
-    board.available_positions.reduce([]) do |boards, position|
-      board_copy = board.make_copy
-      board_copy.add_move(position, mark)
-      boards << board_copy
-      boards
+    board.available_positions.map do |position|
+      possible_board = board.make_copy
+      possible_board.add_move(position, mark)
+      possible_board
     end
   end
-
   private
 
   attr_reader :board, :opponent_mark

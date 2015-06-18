@@ -28,7 +28,7 @@ describe Ai do
                        :x, :x, :o, 
                        :o, nil, nil])
     boards = ai.possible_boards(board, ai.mark)
-    available = boards.map {|c| c.available_positions }
+    available = boards.map {|b| b.available_positions }
 
     expect(available).to match_array(possible_combinations_for(board.available_positions))
   end
@@ -97,12 +97,12 @@ describe Ai do
   end
 
   it 'plays into winning position' do
-    board = Board.new([ :x, :x, nil, 
-                        :o, :o, nil,
+    board = Board.new([ :o, :o, nil,
+                        :x, :x, nil,
                        nil, nil, nil ])
     ai = Ai.new(:x, board)
 
-    expect(ai.pick_position).to eq(2)
+    expect(ai.pick_position).to eq(5)
   end
 
   it 'plays into blocking position at a threat' do

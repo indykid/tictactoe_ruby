@@ -13,31 +13,24 @@ class Ai
   ScoredPosition = Struct.new(:position, :score)
 
   def pick_position
-    scores = possible_scores(mark)
-    puts "scores: "
-    puts scores
-    position = scores.max_by { |scored_position| scored_position.score }.position
-    puts "position: #{position}"
-    position
+    possible_scored_positions.max_by(&:score).position
   end
 
   def score(current_board, current_mark)
-    if end_state?(current_board)
-      return score_end_state(current_board)
-    end
+    return score_end_state(current_board) if end_state?(current_board)
 
     scores = possible_boards(current_board, current_mark).map do |possible_board|
-      score(possible_board, swap_current_mark(current_mark))
+      score(possible_board, swap_mark(current_mark))
     end
 
     current_mark == mark ? scores.max : scores.min
   end
 
-  def possible_scores(mark)
+  def possible_scored_positions
     board.available_positions.map do |position|
-      possible_board = board.make_copy
-      possible_board.add_move(position, mark)
-      ScoredPosition.new(position, score(possible_board, swap_current_mark(mark)))
+      ScoredPosition.new(
+              position, 
+              score(make_next_board(position), swap_mark(mark)))
     end
   end
 
@@ -82,7 +75,13 @@ class Ai
     end
   end
 
-  def swap_current_mark(current_mark)
+  def make_next_board(position)
+    next_board = board.make_copy
+    next_board.add_move(position, mark)
+    next_board
+  end
+
+  def swap_mark(current_mark)
     current_mark == mark ? opponent_mark : mark
   end
 end

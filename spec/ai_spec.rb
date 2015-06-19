@@ -90,19 +90,55 @@ describe Ai do
   end
 
   it 'correctly scores intermediate state with immediate possible loss' do
-    board = Board.new([ :o, nil, :x,
+    board = Board.new([ :o, :x, :x,
                         :x, nil, nil,
                         :x, :o,  :o ])
     expect(ai.score(board, :o)).to eq(Ai::LOSE_SCORE)
   end
 
-  it 'plays into winning position' do
+  it 'scores correctly' do
+    board = Board.new([nil, :o, :o,
+                       nil, nil, :x,
+                       nil, nil, :x ])
+
+    ai = Ai.new(:o, board)
+    expect(ai.score(board, ai.mark)).to eq(Ai::WIN_SCORE)
+  end
+
+  xit 'plays into winning position' do
     board = Board.new([ :o, :o, nil,
                         :x, :x, nil,
                        nil, nil, nil ])
     ai = Ai.new(:x, board)
 
     expect(ai.pick_position).to eq(5)
+  end
+
+  xit 'plays into winning position' do
+    board = Board.new([ :o, nil, nil,
+                        :x, :x, nil,
+                       nil, :o, nil ])
+    ai = Ai.new(:x, board)
+
+    expect(ai.pick_position).to eq(5)
+  end
+
+  it 'plays into winning position' do
+    board = Board.new([ :x, :o, nil,
+                        nil, :o, nil,
+                       :x, nil, nil ])
+    ai = Ai.new(:x, board)
+
+    expect(ai.pick_position).to eq(3)
+  end
+
+  xit 'plays into winning position' do
+    board = Board.new([ :x, :o, nil,
+                        nil, nil, :o,
+                       :x, nil, nil ])
+    ai = Ai.new(:x, board)
+
+    expect(ai.pick_position).to eq(3)
   end
 
   it 'plays into blocking position at a threat' do
@@ -130,15 +166,6 @@ describe Ai do
     ai = Ai.new(:x, board)
 
     expect(ai.pick_position).to eq(0)
-  end
-
-  it 'scores correctly' do
-    board = Board.new([nil, :o, :o,
-                       nil, nil, :x,
-                       nil, nil, :x ])
-
-    ai = Ai.new(:o, board)
-    expect(ai.score(board, ai.mark)).to eq(Ai::WIN_SCORE)
   end
 
   it 'plays into blocking position at a threat' do

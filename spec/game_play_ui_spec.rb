@@ -1,36 +1,36 @@
-require 'ui'
+require 'game_play_ui'
 require 'board'
 
-describe Ui do
+describe GamePlayUi do
 
   let(:output) { StringIO.new }
   let(:input) { StringIO.new } 
-  let(:ui) { Ui.new(input, output) }
+  let(:ui) { GamePlayUi.new(input, output) }
 
   it 'greets' do
     ui.greet
 
-    expect(output.string).to include(Ui::GREETING)
+    expect(output.string).to include(GamePlayUi::GREETING)
   end
 
   it 'alerts' do
     ui.alert
 
-    expect(output.string).to include(Ui::ALERT)
+    expect(output.string).to include(GamePlayUi::ALERT)
   end
 
   it 'asks user for input' do
     input = StringIO.new("0")
-    ui = Ui.new(input, output)
+    ui = GamePlayUi.new(input, output)
 
     ui.get_move_from_user(:x)
 
-    expect(output.string).to include(Ui::MOVE_REQUEST)
+    expect(output.string).to include(GamePlayUi::MOVE_REQUEST)
   end
 
   it 'gets input for move from user' do
     input = StringIO.new("0")
-    ui = Ui.new(input, output)
+    ui = GamePlayUi.new(input, output)
 
     ui.get_move_from_user(:x)
 
@@ -48,18 +48,18 @@ describe Ui do
   it 'displays winner' do
     ui.display_winner(:x)
 
-    expect(output.string).to end_with(Ui::WINNER_ANNOUNCEMENT + 'x' + "\n")
+    expect(output.string).to end_with(GamePlayUi::WINNER_ANNOUNCEMENT + 'x' + "\n")
   end
 
   it 'display game over message' do
     ui.display_game_over
 
-    expect(output.string).to end_with(Ui::GAME_OVER + "\n")
+    expect(output.string).to end_with(GamePlayUi::GAME_OVER + "\n")
   end
 
   it 'displays game is drawn' do
     ui.display_draw
 
-    expect(output.string).to end_with(Ui::GAME_DRAWN + "\n")
+    expect(output.string).to end_with(GamePlayUi::GAME_DRAWN + "\n")
   end
 end

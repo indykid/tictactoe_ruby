@@ -1,26 +1,21 @@
 #!/usr/bin/env ruby
 
 dirname = File.expand_path(File.dirname(File.dirname(__FILE__))) + "/lib"
-
 $LOAD_PATH.unshift(dirname) unless $LOAD_PATH.include?(dirname)
-require 'game'
-require 'ai'
-require 'ui'
-require 'player'
-require 'board'
 
-board = Board.new
-ui = Ui.new($stdin, $stdout)
-game_option = ui.main_menu
-if game_option == 'c'
-  player_x = Ai.new(:X, board)
-  player_o = Player.new(:O, ui)
-elsif game_option == 'h'
-  player_x = Player.new(:X, ui)
-  player_o = Ai.new(:O, board)
-elsif game_option == 'hvh'
-  player_x = Player.new(:X, ui)
-  player_o = Player.new(:O, ui)
-end
-game = Game.new(board, ui, player_x, player_o)
+require 'ai'
+require 'game'
+require 'board'
+require 'player'
+require 'game_play_ui'
+require 'game_selector'
+
+game_selector = GameSelector.new(Game, 
+                                 Player, 
+                                 Ai, 
+                                 Board.new, 
+                                 GameSelectorUi.new($stdin, $stdout),
+                                 GamePlayUi.new($stdin, $stdout))
+
+game = game_selector.make_game
 game.play

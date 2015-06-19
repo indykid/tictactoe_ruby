@@ -4,7 +4,7 @@ require 'game'
 
 describe Game do
 
-  let(:ui)       { instance_double(Ui).as_null_object }
+  let(:ui)       { instance_double(GamePlayUi).as_null_object }
   let(:board)    { Board.new }
   let(:player_x) { FakePlayer.new(:x) }
   let(:player_o) { FakePlayer.new(:o) }

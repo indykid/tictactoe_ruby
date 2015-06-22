@@ -13,10 +13,10 @@ describe GamePlayUi do
     expect(output.string).to include(GamePlayUi::GREETING)
   end
 
-  it 'alerts' do
-    ui.alert
+  it 'notifies about invalid input' do
+    ui.notify_of_invalid_option
 
-    expect(output.string).to include(GamePlayUi::ALERT)
+    expect(output.string).to include(GamePlayUi::INVALID_OPTION_NOTICE)
   end
 
   it 'asks user for input' do

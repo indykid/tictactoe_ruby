@@ -9,7 +9,7 @@ class GamePlayUi
 
   GREETING = "Welcome to TicTacToe"
   HUMAN_GAME_INSTRUCTIONS = "Each player enters move in turn\nFirst player is assigned 'X' mark"
-  ALERT    = "******************************\nINVALID option, please try again\n******************************"
+  INVALID_OPTION_NOTICE    = "******************************\nINVALID option, please try again\n******************************"
   MOVE_REQUEST = "Please enter position to play into"
   WINNER_ANNOUNCEMENT = "And the winner is - "
   GAME_OVER = "GAME OVER"
@@ -19,8 +19,8 @@ class GamePlayUi
     show(GREETING)
   end
 
-  def alert
-    show(ALERT)
+  def notify_of_invalid_option
+    show(INVALID_OPTION_NOTICE)
   end
 
   def get_move_from_user(mark)

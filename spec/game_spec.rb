@@ -61,7 +61,7 @@ describe Game do
 
     game.play_turn
 
-    expect(ui).to have_received(:alert)
+    expect(ui).to have_received(:notify_of_invalid_option)
   end
 
   it 'plays till win' do

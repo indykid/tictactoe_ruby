@@ -49,7 +49,7 @@ class Game
     loop do
       position = current_player.pick_position
       return position if valid?(position)
-      display_invalid_move_notification
+      notify_of_invalid_option
     end
   end
 
@@ -95,7 +95,7 @@ class Game
     board.winner_mark
   end
 
-  def display_invalid_move_notification
-    ui.alert
+  def notify_of_invalid_option
+    ui.notify_of_invalid_option
   end
 end

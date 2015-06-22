@@ -64,14 +64,6 @@ describe Game do
     expect(ui).to have_received(:alert)
   end
 
-  xit 'gets Ui to greet' do
-    game = setup_for_win
-
-    game.play
-
-    expect(ui).to have_received(:greet)
-  end
-
   it 'plays till win' do
     game = setup_for_win
 

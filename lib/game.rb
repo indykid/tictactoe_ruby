@@ -1,8 +1,8 @@
 class Game
 
   def initialize(board, ui, player_x, player_o)
-    @board  = board
-    @ui     = ui 
+    @ui       = ui 
+    @board    = board
     @player_x = player_x
     @player_o = player_o
     @current_player = player_x
@@ -16,7 +16,7 @@ class Game
     while !over?
       play_turn
     end
-    finish
+    finalize
   end
 
   def play_turn
@@ -65,7 +65,7 @@ class Game
     @current_player == player_x ? player_o : player_x
   end
 
-  def finish
+  def finalize
     display_board
     display_game_over
     display_result
@@ -79,6 +79,10 @@ class Game
     ui.display_game_over
   end
 
+  def display_result
+    won? ? display_winner : display_draw
+  end
+
   def display_winner
     ui.display_winner(winner)
   end
@@ -89,14 +93,6 @@ class Game
 
   def winner
     board.winner_mark
-  end
-
-  def display_result
-    won? ? display_winner : display_draw
-  end
-
-  def greet
-    ui.greet
   end
 
   def display_invalid_move_notification

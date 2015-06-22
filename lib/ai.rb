@@ -16,11 +16,12 @@ class Ai
     possible_scored_positions.max_by(&:score).position
   end
 
-  def score(current_board, current_mark)
-    return score_end_state(current_board) if end_state?(current_board)
+  def score(current_board, current_mark, depth)
+    return score_end_state(current_board, depth) if end_state?(current_board)
+    depth += 1
 
     scores = possible_boards(current_board, current_mark).map do |possible_board|
-      score(possible_board, swap_mark(current_mark))
+      score(possible_board, swap_mark(current_mark), depth)
     end
 
     current_mark == mark ? scores.max : scores.min
@@ -30,7 +31,7 @@ class Ai
     board.available_positions.map do |position|
       ScoredPosition.new(
               position, 
-              score(make_next_board(position), swap_mark(mark)))
+              score(make_next_board(position), swap_mark(mark), 0))
     end
   end
 
@@ -65,13 +66,13 @@ class Ai
     board.same_player_line? && board.winner_mark != mark
   end
 
-  def score_end_state(board)
+  def score_end_state(board, depth)
     if won?(board)
-      WIN_SCORE
+      WIN_SCORE - depth
     elsif drew?(board)
       DRAW_SCORE
     elsif lost?(board)
-      LOSE_SCORE
+      LOSE_SCORE + depth
     end
   end
 

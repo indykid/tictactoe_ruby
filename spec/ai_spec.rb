@@ -8,22 +8,22 @@ describe Ai do
   it 'assigns winning score to a win' do
     board = make_win_board
      
-    expect(ai.score(board, :x)).to eq(Ai::WIN_SCORE)
+    expect(ai.score(board, :x, 0)).to eq(10)
   end
 
   it 'assigns losing score to a loss' do
     board = make_loss_board
 
-    expect(ai.score(board, :x)).to eq(Ai::LOSE_SCORE)
+    expect(ai.score(board, :x, 0)).to eq(-10)
   end
 
   it 'assigns draw score to a draw' do
     board = make_draw_board
 
-    expect(ai.score(board, :x)).to eq(Ai::DRAW_SCORE)
+    expect(ai.score(board, :x, 0)).to eq(0)
   end
 
-  it 'knows child states of the given board' do
+  it 'knows possible states of the given board' do
     board = Board.new([:x, :o, nil,
                        :x, :x, :o, 
                        :o, nil, nil])
@@ -55,7 +55,7 @@ describe Ai do
                        :x, :x,  :o,
                        :o, :o, nil])
 
-    expect(ai.score(board, :x)).to eq(Ai::WIN_SCORE)
+    expect(ai.score(board, :x, 0)).to eq(9)
   end
 
   it 'correctly scores intermediate board states based on the following end state regardless of Ai mark' do
@@ -64,7 +64,7 @@ describe Ai do
                        :x, nil, nil])
     ai = Ai.new(:o, board)
 
-    expect(ai.score(board, :o)).to eq(Ai::WIN_SCORE)
+    expect(ai.score(board, :o, 0)).to eq(9)
   end
 
   it 'correctly scores intermediate board state with 6 possible outcomes' do
@@ -72,28 +72,30 @@ describe Ai do
                        nil, :o, nil,
                        :x, :x, :o])
 
-    expect(ai.score(board, :x)).to eq(Ai::DRAW_SCORE)
+    expect(ai.score(board, :x, 0)).to eq(0)
   end
 
   it 'scores intermediate state with max 24 potential outcomes' do
     board = Board.new([ :x, :o, :x,
                        nil, :o, nil,
                        nil, :x, nil ])
-    expect(ai.score(board, :o)).to eq(Ai::DRAW_SCORE)
+    expect(ai.score(board, :o, 0)).to eq(0)
   end
 
-  it 'correctly scores intermediate state with immediate possible win' do
+  it 'returns win score for intermediate state with possible win for x player' do
     board = Board.new([ :o, nil, :x,
                         :x, nil, nil,
                         :x, :o,  :o ])
-    expect(ai.score(board, :x)).to eq(Ai::WIN_SCORE)
+    expect(ai.score(board, :x, 0)).to eq(9)
   end
 
-  it 'correctly scores intermediate state with immediate possible loss' do
+  it 'returns win score for intermediate state with immediate possible win' do
     board = Board.new([ :o, :x, :x,
                         :x, nil, nil,
                         :x, :o,  :o ])
-    expect(ai.score(board, :o)).to eq(Ai::LOSE_SCORE)
+
+    ai = Ai.new(:o, board)
+    expect(ai.score(board, :o, 0)).to eq(9)
   end
 
   it 'scores correctly' do
@@ -102,25 +104,7 @@ describe Ai do
                        nil, nil, :x ])
 
     ai = Ai.new(:o, board)
-    expect(ai.score(board, ai.mark)).to eq(Ai::WIN_SCORE)
-  end
-
-  xit 'plays into winning position' do
-    board = Board.new([ :o, :o, nil,
-                        :x, :x, nil,
-                       nil, nil, nil ])
-    ai = Ai.new(:x, board)
-
-    expect(ai.pick_position).to eq(5)
-  end
-
-  xit 'plays into winning position' do
-    board = Board.new([ :o, nil, nil,
-                        :x, :x, nil,
-                       nil, :o, nil ])
-    ai = Ai.new(:x, board)
-
-    expect(ai.pick_position).to eq(5)
+    expect(ai.score(board, ai.mark, 0)).to eq(9)
   end
 
   it 'plays into winning position' do
@@ -183,6 +167,24 @@ describe Ai do
                        nil, nil, nil ])
     ai = Ai.new(:o, board)
     expect(ai.pick_position).to eq(6)
+  end
+
+  it 'wins fast' do
+    board = Board.new([ :o, :o, nil,
+                        :x, :x, nil,
+                       nil, nil, nil ])
+    ai = Ai.new(:x, board)
+
+    expect(ai.pick_position).to eq(5)
+  end
+
+  it 'wins fast' do
+    board = Board.new([ :o, nil, nil,
+                        :x, :x, nil,
+                       nil, :o, nil ])
+    ai = Ai.new(:x, board)
+
+    expect(ai.pick_position).to eq(5)
   end
 
   def make_draw_board

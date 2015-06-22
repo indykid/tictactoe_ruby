@@ -90,22 +90,8 @@ class GameSelectorUi
     get_clean_input
   end
 
-  def ask_for_first_player
-    
-  end
-
   private
   include Ui
 
   attr_reader :input, :output
 end
-
-
-  def get_player_options
-    display_player_options
-    get_clean_input
-  end
-  
-  def get_first_player
-    get_clean_input
-  end

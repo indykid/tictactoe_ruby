@@ -13,35 +13,27 @@ class Ai
   ScoredPosition = Struct.new(:position, :score)
 
   def pick_position
-    possible_scored_positions.max_by(&:score).position
+    board.available_positions.map do |position|
+      ScoredPosition.new(
+        position, 
+        score(make_next_board(position), swap_mark(mark), 0))
+    end
+    .max_by(&:score).position
   end
 
   def score(current_board, current_mark, depth)
     return score_end_state(current_board, depth) if end_state?(current_board)
     depth += 1
 
-    scores = possible_boards(current_board, current_mark).map do |possible_board|
-      score(possible_board, swap_mark(current_mark), depth)
+    scores = current_board.available_positions.map do |position|
+      score(current_board.make_next_board(position, current_mark),
+            swap_mark(current_mark),
+            depth)
     end
 
     current_mark == mark ? scores.max : scores.min
   end
 
-  def possible_scored_positions
-    board.available_positions.map do |position|
-      ScoredPosition.new(
-              position, 
-              score(make_next_board(position), swap_mark(mark), 0))
-    end
-  end
-
-  def possible_boards(board, mark)
-    board.available_positions.map do |position|
-      possible_board = board.make_copy
-      possible_board.add_move(position, mark)
-      possible_board
-    end
-  end
   private
 
   attr_reader :board, :opponent_mark
@@ -77,9 +69,7 @@ class Ai
   end
 
   def make_next_board(position)
-    next_board = board.make_copy
-    next_board.add_move(position, mark)
-    next_board
+    board.make_next_board(position, mark)
   end
 
   def swap_mark(current_mark)

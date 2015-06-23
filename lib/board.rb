@@ -44,8 +44,9 @@ class Board
     moves[position_on_the_same_player_line]
   end
 
-  def make_copy
+  def make_next_board(position, mark)
     new_moves = moves.dup
+    new_moves[position] = mark
     Board.new(new_moves)
   end
 

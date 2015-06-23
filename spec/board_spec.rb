@@ -63,27 +63,26 @@ describe Board do
     expect(board.winner_mark).to eq(:x)
   end
 
-  it 'makes a copy of itself with the same moves' do
+  it 'makes next possible board' do
     board = make_one_move_board
-    board_copy = board.make_copy
+    next_board = board.make_next_board(1, :o)
 
-    expect(board.available_positions).to match_array(board_copy.available_positions)
+    expect(next_board.available_positions).to match_array([2, 3, 4, 5, 6, 7, 8])
   end
 
-  it 'ensures that copy has its own unique moves' do
+  it 'changes to the next possible board have no affect on the original board used to make it' do
     board = make_one_move_board
-    board_first_copy = board.make_copy
-    board_second_copy = board.make_copy
-    board_first_copy.add_move(1, :x)
-
-    expect(board_second_copy.available_positions).to match_array([1, 2, 3, 4, 5, 6, 7, 8])
+    next_board = board.make_next_board(1, :o)
+    
+    expect { next_board.add_move(2, :x) }.to_not change { board }
   end
 
-  it 'makes a shallow copy of itself' do
+  it 'changes to one next possible board have no affect on another next board even if they both came from the same original board' do
     board = make_one_move_board
-    board_copy = board.make_copy
-
-    expect(board_copy.object_id).to_not eq(board.object_id) 
+    next_board_one = board.make_next_board(1, :o)
+    next_board_two = board.make_next_board(2, :o)
+    
+    expect { next_board_one.add_move(3, :x) }.to_not change { next_board_two }
   end
 
   def make_draw_board

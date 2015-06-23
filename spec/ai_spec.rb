@@ -23,33 +23,6 @@ describe Ai do
     expect(ai.score(board, :x, 0)).to eq(0)
   end
 
-  it 'knows possible states of the given board' do
-    board = Board.new([:x, :o, nil,
-                       :x, :x, :o, 
-                       :o, nil, nil])
-    boards = ai.possible_boards(board, ai.mark)
-    available = boards.map {|b| b.available_positions }
-
-    expect(available).to match_array(possible_combinations_for(board.available_positions))
-  end
-
-  it 'knows child states of the board with one move' do
-    board = make_one_move_board
-    boards = ai.possible_boards(board, ai.mark)
-    available = boards.map {|c| c.available_positions }
-
-    expect(available).to match_array(possible_combinations_for(board.available_positions))
-  end
-
-  it 'calculates as many child states as there are available moves' do
-    board = Board.new([:x, nil, nil,
-                       :x, :x,  :o,
-                       :o, nil, nil])
-    boards = ai.possible_boards(board, ai.mark)
-
-    expect(boards.count).to eq(4)
-  end
-
   it 'scores intermediate board state based on the following end state' do
     board = Board.new([:x, :o,  :x,
                        :x, :x,  :o,

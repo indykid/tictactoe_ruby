@@ -1,23 +1,16 @@
-require 'ui'
+require 'cli'
 
 class GamePlayUi
 
-  def initialize(input, output)
-    @input = input
-    @output = output
+  def initialize(cli)
+    @cli = cli
   end
 
-  GREETING = "Welcome to TicTacToe"
-  HUMAN_GAME_INSTRUCTIONS = "Each player enters move in turn\nFirst player is assigned 'X' mark"
   INVALID_OPTION_NOTICE    = "******************************\nINVALID option, please try again\n******************************"
   MOVE_REQUEST = "Please enter position to play into"
   WINNER_ANNOUNCEMENT = "And the winner is - "
   GAME_OVER = "GAME OVER"
   GAME_DRAWN = "It's a DRAW"
-
-  def greet
-    show(GREETING)
-  end
 
   def notify_of_invalid_option
     show(INVALID_OPTION_NOTICE)
@@ -45,9 +38,15 @@ class GamePlayUi
   end
 
   private
-  attr_reader :input, :output
+  attr_reader :cli
 
-  include Ui
+  def show(message)
+    cli.show(message)
+  end
+
+  def get_input
+    cli.get_input
+  end
 
   def display_player_options
     show(PLAYER_OPTIONS)

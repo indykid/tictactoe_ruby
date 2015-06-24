@@ -25,6 +25,9 @@ class GameSelector
     when 'hvc'
       player_x = make_human_player(:x)
       player_o = make_ai_player(:o)
+    when 'cvc'
+      player_x = make_ai_player(:x)
+      player_o = make_ai_player(:o)
     end
     [player_x, player_o]
   end
@@ -34,13 +37,6 @@ class GameSelector
 
   def get_game_type
     game_type = game_selector_ui.get_game_type
-    case game_type
-    when 'c'
-      get_first_player
-    when 'h'
-      show_human_instructions
-      'hvh'
-    end
   end
 
   def greet

@@ -17,17 +17,17 @@ class GameSelector
   def make_players(players_code)
     case players_code
     when 'hvh'
-      player_x = make_human_player(:x)
-      player_o = make_human_player(:o)
+      player_x = make_human_player("x")
+      player_o = make_human_player("o")
     when 'cvh'
-      player_x = make_ai_player(:x)
-      player_o = make_human_player(:o)
+      player_x = make_ai_player("x")
+      player_o = make_human_player("o")
     when 'hvc'
-      player_x = make_human_player(:x)
-      player_o = make_ai_player(:o)
+      player_x = make_human_player("x")
+      player_o = make_ai_player("o")
     when 'cvc'
-      player_x = make_ai_player(:x)
-      player_o = make_ai_player(:o)
+      player_x = make_ai_player("x")
+      player_o = make_ai_player("o")
     end
     [player_x, player_o]
   end

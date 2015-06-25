@@ -8,7 +8,7 @@ class Board
     moves[position] = mark
   end
 
-  def player_at(position)
+  def mark_at(position)
     moves[position]
   end
 
@@ -27,9 +27,9 @@ class Board
     moves.all? {|move| !move.nil?}
   end
 
-  def same_player_line?
+  def winner_line?
     lines.any? do |line|
-      full_line?(line) && same_player?(line)
+      full_line?(line) && same_mark?(line)
     end
   end
 
@@ -41,7 +41,7 @@ class Board
   end
 
   def winner_mark
-    moves[position_on_the_same_player_line]
+    find_winner_line.first
   end
 
   def make_next_board(position, mark)
@@ -53,16 +53,12 @@ class Board
   private
   attr_reader :size, :moves
 
-  def positions
-    [*0...size**2]
-  end
-
   def lines
     rows.concat(columns).concat(diagonals)
   end
 
   def rows
-    positions.each_slice(size).to_a
+    moves.each_slice(size).to_a
   end
 
   def columns
@@ -88,29 +84,19 @@ class Board
   end
 
   def full_line?(positions)
-    moves_for(positions)
-    .all? {|move| !move.nil?}
+    positions
+    .all? {|position| !position.nil?}
   end
 
-  def same_player?(positions)
-    moves_for(positions)
+  def same_mark?(positions)
+    positions
     .uniq
     .length == 1
   end
 
-  def moves_for(positions)
-    positions.map do |position|
-      moves[position]
-    end
-  end
-
-  def find_same_player_line
+  def find_winner_line
     lines.detect do |line|
-      full_line?(line) && same_player?(line)
+      full_line?(line) && same_mark?(line)
     end
-  end
-
-  def position_on_the_same_player_line
-    find_same_player_line.first
   end
 end

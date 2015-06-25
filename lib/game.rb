@@ -30,7 +30,7 @@ class Game
   attr_reader :board, :player_x, :player_o, :ui, :current_player
 
   def won?
-    board.same_player_line?
+    board.winner_line?
   end
 
   def drawn?

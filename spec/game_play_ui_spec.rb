@@ -13,13 +13,13 @@ describe GamePlayUi do
 
   it 'asks user for move' do
     allow(cli).to receive(:get_input).and_return('0')
-    ui.get_move_from_user(:x)
+    ui.get_move_from_user("x")
 
     expect(cli).to have_received(:show).with("Player x " + GamePlayUi::MOVE_REQUEST)
   end
 
   it 'shows user friendly board' do
-    ui.display_board([[:x, 1, 2], [3, 4, 5], [6, 7, 8]])
+    ui.display_board([["x", 1, 2], [3, 4, 5], [6, 7, 8]])
 
     expect(cli).to have_received(:show).with(
       " x | 2 | 3 \n-----------\n 4 | 5 | 6 \n-----------\n 7 | 8 | 9 \n"
@@ -27,7 +27,7 @@ describe GamePlayUi do
   end
 
   it 'displays winner' do
-    ui.display_winner(:x)
+    ui.display_winner("x")
 
     expect(cli).to have_received(:show).with(GamePlayUi::WINNER_ANNOUNCEMENT + 'x')
   end

@@ -1,3 +1,6 @@
+require 'ruby-prof'
+require 'benchmark'
+
 class Ai
   attr_reader :mark
   def initialize(mark, board)
@@ -13,12 +16,33 @@ class Ai
   ScoredPosition = Struct.new(:position, :score)
 
   def pick_position
-    board.available_positions.map do |position|
-      ScoredPosition.new(
-        position, 
-        score(make_next_board(position), swap_mark(mark), 0))
+    position = ''
+
+    result = RubyProf.profile do
+    #result = Benchmark.measure do
+
+      position = board.available_positions.map do |position|
+        ScoredPosition.new(
+          position, 
+          score(make_next_board(position), swap_mark(mark), 0))
+      end
+      .max_by(&:score).position
+
+
     end
-    .max_by(&:score).position
+    #puts result 
+   # printer = RubyProf::FlatPrinter.new(result)
+    File.open("./prof_flat.txt", "w") do |file|
+      RubyProf::FlatPrinter.new(result).print(file)
+    end
+    File.open("./prof_graph.txt", "w") do |file|
+      RubyProf::GraphPrinter.new(result).print(file)
+    end
+    File.open("./prof_graph.html", "w") do |file|
+      RubyProf::GraphHtmlPrinter.new(result).print(file)
+    end
+   # printer.print('./prof_result.txt')
+    position
   end
 
   def score(current_board, current_mark, depth)
@@ -39,7 +63,7 @@ class Ai
   attr_reader :board, :opponent_mark
 
   def set_opponent_mark
-    mark == :x ? :o : :x
+    mark == "x" ? "o" : "x"
   end
 
   def end_state?(board)
@@ -47,15 +71,15 @@ class Ai
   end
 
   def won?(board)
-    board.same_player_line? && board.winner_mark == mark
+    board.winner_line? && board.winner_mark == mark
   end
 
   def drew?(board)
-    board.full? && !board.same_player_line?
+    board.full? && !board.winner_line?
   end
 
   def lost?(board)
-    board.same_player_line? && board.winner_mark != mark
+    board.winner_line? && board.winner_mark != mark
   end
 
   def score_end_state(board, depth)

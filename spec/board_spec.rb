@@ -40,17 +40,17 @@ describe Board do
 
   it 'knows if there is a win on a row' do
     board = make_win_board
-    expect(board.winner_line?).to be(true)
+    expect(board.winner_line).to_not be(nil)
   end
 
   it 'knows if there is a win on a diagonal' do
     board = Board.new(["x", nil, nil, nil, "x", nil, nil, nil, "x"])
-    expect(board.winner_line?).to be(true)
+    expect(board.winner_line).to_not be(nil)
   end
 
   it 'knows if there is a win on a column' do
     board = Board.new([nil, nil, "x", nil, nil, "x", nil, nil, "x"])
-    expect(board.winner_line?).to be(true)
+    expect(board.winner_line).to_not be(nil)
   end
 
   it 'returns state split by rows' do

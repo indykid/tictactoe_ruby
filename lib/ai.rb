@@ -19,7 +19,6 @@ class Ai
     position = ''
 
     result = RubyProf.profile do
-    #result = Benchmark.measure do
 
       position = board.available_positions.map do |position|
         ScoredPosition.new(
@@ -30,18 +29,13 @@ class Ai
 
 
     end
-    #puts result 
-   # printer = RubyProf::FlatPrinter.new(result)
-    File.open("./prof_flat.txt", "w") do |file|
-      RubyProf::FlatPrinter.new(result).print(file)
-    end
+
     File.open("./prof_graph.txt", "w") do |file|
       RubyProf::GraphPrinter.new(result).print(file)
     end
     File.open("./prof_graph.html", "w") do |file|
       RubyProf::GraphHtmlPrinter.new(result).print(file)
     end
-   # printer.print('./prof_result.txt')
     position
   end
 
@@ -67,28 +61,36 @@ class Ai
   end
 
   def end_state?(board)
-    won?(board) || drew?(board) || lost?(board)
+    winner?(board) || drew?(board)
+  end
+
+  def winner?(board)
+    board.winner_line
   end
 
   def won?(board)
-    board.winner_line? && board.winner_mark == mark
+    board.winner_line && board.winner_mark == mark
   end
 
   def drew?(board)
-    board.full? && !board.winner_line?
+    board.full? && !board.winner_line
   end
 
   def lost?(board)
-    board.winner_line? && board.winner_mark != mark
+    board.winner_line && board.winner_mark != mark
   end
 
   def score_end_state(board, depth)
-    if won?(board)
-      WIN_SCORE - depth
-    elsif drew?(board)
+    winner = board.winner_line
+    if winner
+      winner_mark = board.winner_mark
+      if winner_mark == mark
+        WIN_SCORE - depth
+      else
+        LOSE_SCORE + depth
+      end
+    elsif !winner && board.full?
       DRAW_SCORE
-    elsif lost?(board)
-      LOSE_SCORE + depth
     end
   end
 

@@ -27,8 +27,8 @@ class Board
     moves.all? {|move| !move.nil?}
   end
 
-  def winner_line?
-    lines.any? do |line|
+  def winner_line
+    lines.detect do |line|
       full_line?(line) && same_mark?(line)
     end
   end
@@ -41,7 +41,7 @@ class Board
   end
 
   def winner_mark
-    find_winner_line.first
+    winner_line.first
   end
 
   def make_next_board(position, mark)
@@ -92,11 +92,5 @@ class Board
     positions
     .uniq
     .length == 1
-  end
-
-  def find_winner_line
-    lines.detect do |line|
-      full_line?(line) && same_mark?(line)
-    end
   end
 end

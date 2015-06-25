@@ -61,37 +61,35 @@ class Ai
   end
 
   def end_state?(board)
-    winner?(board) || drew?(board)
+    winner_line(board) || full?(board)
   end
 
-  def winner?(board)
+  def winner_line(board)
     board.winner_line
   end
 
-  def won?(board)
-    board.winner_line && board.winner_mark == mark
-  end
-
-  def drew?(board)
-    board.full? && !board.winner_line
-  end
-
-  def lost?(board)
-    board.winner_line && board.winner_mark != mark
+  def full?(board)
+    board.full?
   end
 
   def score_end_state(board, depth)
-    winner = board.winner_line
-    if winner
-      winner_mark = board.winner_mark
-      if winner_mark == mark
-        WIN_SCORE - depth
-      else
-        LOSE_SCORE + depth
-      end
-    elsif !winner && board.full?
+    if board.winner_line
+      score_win_or_loss(board, depth)
+    elsif board.full?
       DRAW_SCORE
     end
+  end
+
+  def score_win_or_loss(board, depth)
+    if winner_mark(board) == mark
+      WIN_SCORE - depth
+    else
+      LOSE_SCORE + depth
+    end
+  end
+
+  def winner_mark(board)
+    board.winner_mark
   end
 
   def make_next_board(position)

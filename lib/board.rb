@@ -1,11 +1,14 @@
 class Board
+  attr_reader :available
   def initialize(moves = nil, size = 3)
     @size = size
     @moves = moves || Array.new(size**2)
+    @available = available_positions
   end
 
   def add_move(position, mark)
     moves[position] = mark
+    @available.delete(position)
   end
 
   def mark_at(position)
@@ -13,22 +16,15 @@ class Board
   end
 
   def valid?(position)
-    available_positions.include?(position)
-  end
-  
-  def available_positions
-    moves.each_index.reduce([]) do |available, position|
-      available << position unless moves[position]
-      available
-    end
+    @available.include?(position)
   end
 
   def full?
-    moves.all? {|move| !move.nil?}
+    moves.count(nil) == 0
   end
 
   def winner_line
-    lines.detect do |line|
+    lines.find do |line|
       full_line?(line) && same_mark?(line)
     end
   end
@@ -52,45 +48,61 @@ class Board
 
   private
   attr_reader :size, :moves
-
-  def lines
-    rows.concat(columns).concat(diagonals)
+  
+  def available_positions
+    moves.each_index.reduce([]) do |available, position|
+      available << position unless moves[position]
+      available
+    end
   end
 
-  def rows
-    moves.each_slice(size).to_a
+  def line_positions
+    @line_positions ||= diagonal_positions.concat(row_positions).concat(column_positions)
+
   end
 
-  def columns
-    rows.transpose
+  def row_positions
+    moves.each_index.each_slice(size).to_a
   end
 
-  def diagonals
-    [first_diagonal, second_diagonal]
+  def column_positions
+    row_positions.transpose
   end
 
-  def first_diagonal
-    rows.each_with_index.reduce([]) do |diagonal, (row, i)|
+  def diagonal_positions
+    [first_diagonal_positions, second_diagonal_positions]
+  end
+
+  def first_diagonal_positions
+    row_positions.each_with_index.reduce([]) do |diagonal, (row, i)|
       diagonal << row[i]
       diagonal
     end
   end
 
-  def second_diagonal
-    rows.each_with_index.reduce([]) do |diagonal, (row, i)|
+  def second_diagonal_positions
+    row_positions.each_with_index.reduce([]) do |diagonal, (row, i)|
       diagonal << row.reverse[i]
       diagonal
     end
   end
 
-  def full_line?(positions)
-    positions
-    .all? {|position| !position.nil?}
+  def lines
+    line_positions.map do |line|
+      line.map do |position|
+        moves[position]
+      end
+    end
   end
 
-  def same_mark?(positions)
-    positions
-    .uniq
-    .length == 1
+  def full_line?(marks)
+    marks.count(nil) == 0
+  end
+
+  def same_mark?(marks)
+    marks.count(marks.first) == size
+  #  marks
+  #  .uniq
+  #  .length == 1
   end
 end

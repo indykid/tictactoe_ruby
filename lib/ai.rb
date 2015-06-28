@@ -20,7 +20,7 @@ class Ai
 
     result = RubyProf.profile do
 
-      position = board.available_positions.map do |position|
+      position = board.available.map do |position|
         ScoredPosition.new(
           position, 
           score(make_next_board(position), swap_mark(mark), 0))
@@ -43,7 +43,7 @@ class Ai
     return score_end_state(current_board, depth) if end_state?(current_board)
     depth += 1
 
-    scores = current_board.available_positions.map do |position|
+    scores = current_board.available.map do |position|
       score(current_board.make_next_board(position, current_mark),
             swap_mark(current_mark),
             depth)

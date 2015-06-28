@@ -7,8 +7,7 @@ class Board
   end
 
   def add_move(position, mark)
-    moves[position] = mark
-    @available.delete(position)
+    update_moves(position, mark)
   end
 
   def mark_at(position)
@@ -24,8 +23,9 @@ class Board
   end
 
   def winner_line
-    lines.find do |line|
-      full_line?(line) && same_mark?(line)
+    win_positions.find do |line|
+      marks = get_marks(line)
+      full_line?(marks) && same_mark?(marks)
     end
   end
 
@@ -37,7 +37,7 @@ class Board
   end
 
   def winner_mark
-    winner_line.first
+    moves[winner_line.first]
   end
 
   def make_next_board(position, mark)
@@ -56,9 +56,8 @@ class Board
     end
   end
 
-  def line_positions
-    @line_positions ||= diagonal_positions.concat(row_positions).concat(column_positions)
-
+  def win_positions
+    @win_positions ||= diagonal_positions.concat(row_positions).concat(column_positions)
   end
 
   def row_positions
@@ -87,12 +86,16 @@ class Board
     end
   end
 
-  def lines
-    line_positions.map do |line|
-      line.map do |position|
-        moves[position]
-      end
-    end
+  def get_marks(positions)
+    positions.map { |position| moves[position] }
+  end
+
+  def update_moves(position, mark)
+    moves[position] = mark
+  end
+
+  def update_available(position)
+    @available.delete(position)
   end
 
   def full_line?(marks)
@@ -101,8 +104,5 @@ class Board
 
   def same_mark?(marks)
     marks.count(marks.first) == size
-  #  marks
-  #  .uniq
-  #  .length == 1
   end
 end

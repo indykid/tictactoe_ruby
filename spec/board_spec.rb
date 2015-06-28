@@ -35,7 +35,7 @@ describe Board do
 
   it 'knows available positions' do
     board = make_one_move_board
-    expect(board.available_positions).to match_array([1, 2, 3, 4, 5, 6, 7, 8])
+    expect(board.available).to match_array([1, 2, 3, 4, 5, 6, 7, 8])
   end
 
   it 'knows if there is a win on a row' do
@@ -67,7 +67,7 @@ describe Board do
     board = make_one_move_board
     next_board = board.make_next_board(1, "o")
 
-    expect(next_board.available_positions).to match_array([2, 3, 4, 5, 6, 7, 8])
+    expect(next_board.available).to match_array([2, 3, 4, 5, 6, 7, 8])
   end
 
   it 'changes to the next possible board have no affect on the original board used to make it' do

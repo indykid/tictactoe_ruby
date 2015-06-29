@@ -6,8 +6,8 @@ describe Game do
 
   let(:ui)       { instance_double(GamePlayUi).as_null_object }
   let(:board)    { Board.new }
-  let(:player_x) { FakePlayer.new("x") }
-  let(:player_o) { FakePlayer.new("o") }
+  let(:player_x) { FakePlayer.new(:x) }
+  let(:player_o) { FakePlayer.new(:o) }
 
   it 'is not over at the start' do
     game = Game.new(board, ui, player_x, player_o)
@@ -15,8 +15,8 @@ describe Game do
   end
 
   it 'is over if won' do
-    board = Board.new(["x", "x", "x", 
-                       "o", "o", nil, 
+    board = Board.new([:x, :x, :x, 
+                       :o, :o, nil, 
                        nil, nil, nil])
     game = Game.new(board, ui, player_x, player_o)
 
@@ -24,9 +24,9 @@ describe Game do
   end
 
   it 'is over when drawn' do
-    board = Board.new(["x", "x", "o", 
-                       "o", "x", "x", 
-                       "x", "o", "o"])
+    board = Board.new([:x, :x, :o, 
+                       :o, :x, :x, 
+                       :x, :o, :o])
     game = Game.new(board, ui, player_x, player_o)
 
     expect(game.over?).to be(true)
@@ -37,7 +37,7 @@ describe Game do
 
     game.play_turn
 
-    expect(board.mark_at(0)).to eq("x")
+    expect(board.mark_at(0)).to eq(:x)
   end
 
   it 'switches player turns' do
@@ -121,7 +121,7 @@ describe Game do
   end
 
   def setup_players(x_moves, o_moves)
-    [FakePlayer.new("x", x_moves), FakePlayer.new("o", o_moves)]
+    [FakePlayer.new(:x, x_moves), FakePlayer.new(:o, o_moves)]
   end
 
   class FakePlayer

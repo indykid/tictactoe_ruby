@@ -26,8 +26,8 @@ describe GameSelector do
   it 'creates players with correct marks' do
     player_x, player_o = game_selector.make_players('hvh')
 
-    expect(player_x.mark).to eq("x")
-    expect(player_o.mark).to eq("o")
+    expect(player_x.mark).to eq(:x)
+    expect(player_o.mark).to eq(:o)
   end
 
   it 'returns human players for human vs human game' do

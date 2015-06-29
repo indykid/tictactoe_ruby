@@ -99,7 +99,8 @@ class Board
   end
 
   def full_line?(marks)
-    marks.count(nil) == 0
+#    marks.count(nil) == 0
+    marks.delete(nil).nil?
   end
 
   def same_mark?(marks)

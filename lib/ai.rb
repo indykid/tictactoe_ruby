@@ -57,14 +57,14 @@ class Ai
   attr_reader :board, :opponent_mark
 
   def set_opponent_mark
-    mark == "x" ? "o" : "x"
+    mark == :x ? :o : :x
   end
 
   def end_state?(board)
-    winner_line(board) || full?(board)
+    won?(board) || full?(board)
   end
 
-  def winner_line(board)
+  def won?(board)
     board.winner_line
   end
 
@@ -73,7 +73,7 @@ class Ai
   end
 
   def score_end_state(board, depth)
-    if board.winner_line
+    if won?(board)
       score_win_or_loss(board, depth)
     elsif board.full?
       DRAW_SCORE

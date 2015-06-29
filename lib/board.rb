@@ -24,7 +24,7 @@ class Board
   end
 
   def valid?(position)
-    @available.include?(position)
+    available.include?(position)
   end
 
   def full?
@@ -74,11 +74,15 @@ class Board
   end
 
   def update_available(position)
-    @available.delete(position)
+    available.delete(position)
   end
 
   def full_line?(marks)
-    !marks.any?(&:nil?)
+    marks.each do |mark|
+      return false if mark.nil?
+    end
+    #!marks.any?(&:nil?)
+    true
   end
 
   def same_mark?(marks)

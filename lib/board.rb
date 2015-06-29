@@ -8,6 +8,7 @@ class Board
 
   def add_move(position, mark)
     update_moves(position, mark)
+    update_available(position)
   end
 
   def mark_at(position)
@@ -99,7 +100,7 @@ class Board
   end
 
   def full_line?(marks)
-    marks.count(nil) == 0
+    !marks.any?(&:nil?)
   end
 
   def same_mark?(marks)

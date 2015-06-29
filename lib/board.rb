@@ -4,6 +4,14 @@ class Board
     @size = size
     @moves = moves || Array.new(size**2)
     @available = available_positions
+    @win_positions = [[0, 1, 2],
+                      [3, 4, 5],
+                      [6, 7, 8],
+                      [0, 3, 6],
+                      [1, 4, 7],
+                      [2, 5, 8],
+                      [0, 4, 8],
+                      [2, 4, 6]]
   end
 
   def add_move(position, mark)
@@ -48,7 +56,7 @@ class Board
   end
 
   private
-  attr_reader :size, :moves
+  attr_reader :size, :moves, :win_positions
   
   def available_positions
     moves.each_index.reduce([]) do |available, position|
@@ -57,9 +65,29 @@ class Board
     end
   end
 
-  def win_positions
-    @win_positions ||= diagonal_positions.concat(row_positions).concat(column_positions)
+  def get_marks(positions)
+    positions.map { |position| moves[position] }
   end
+
+  def update_moves(position, mark)
+    moves[position] = mark
+  end
+
+  def update_available(position)
+    @available.delete(position)
+  end
+
+  def full_line?(marks)
+    !marks.any?(&:nil?)
+  end
+
+  def same_mark?(marks)
+    marks.count(marks.first) == size
+  end
+
+#  def win_positions
+#    @win_positions ||= diagonal_positions.concat(row_positions).concat(column_positions)
+#  end
 
   def row_positions
     moves.each_index.each_slice(size).to_a
@@ -85,25 +113,5 @@ class Board
       diagonal << row.reverse[i]
       diagonal
     end
-  end
-
-  def get_marks(positions)
-    positions.map { |position| moves[position] }
-  end
-
-  def update_moves(position, mark)
-    moves[position] = mark
-  end
-
-  def update_available(position)
-    @available.delete(position)
-  end
-
-  def full_line?(marks)
-    !marks.any?(&:nil?)
-  end
-
-  def same_mark?(marks)
-    marks.count(marks.first) == size
   end
 end

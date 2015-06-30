@@ -17,25 +17,24 @@ class Ai
 
   def pick_position
 
-    scored_position = ''
-    result = RubyProf.profile do
-      max = -Float::INFINITY
-      board.available.each do |position|
-        score = score(make_next_board(position), swap_mark(mark), 0)
-        if score > max
-          max = score
-          scored_position = ScoredPosition.new(position, score)
-        end
+    #scored_position = ''
+    #result = RubyProf.profile do
+      scored_position = board.available.map do |position|
+        ScoredPosition.new(
+          position,
+          score(make_next_board(position), swap_mark(mark), 0)
+        )
       end
-    end
+      .max_by(&:score).position
+    #end
 
-    File.open("./prof_graph.txt", "w") do |file|
-      RubyProf::GraphPrinter.new(result).print(file)
-    end
-    File.open("./prof_graph.html", "w") do |file|
-      RubyProf::GraphHtmlPrinter.new(result).print(file)
-    end
-    scored_position.position
+    #File.open("./prof_graph.txt", "w") do |file|
+    #  RubyProf::GraphPrinter.new(result).print(file)
+    #end
+    #File.open("./prof_graph.html", "w") do |file|
+    #  RubyProf::GraphHtmlPrinter.new(result).print(file)
+    #end
+    #scored_position
   end
 
   def score(current_board, current_mark, depth)

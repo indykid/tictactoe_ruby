@@ -31,11 +31,19 @@ class Board
     moves.count(nil) == 0
   end
 
+  # should require exactly 8 iterations, currently 216
   def winner_line
     win_positions.find do |line|
-      marks = get_marks(line)
-      full_line?(marks) && same_mark?(marks)
+      winner?(line) && occupied?(line[0])
     end
+  end
+  
+  def winner?(line)
+    moves[line[0]] == moves[line[1]] && moves[line[2]] == moves[line[1]]
+  end
+ 
+  def occupied?(position)
+    moves[position] != nil
   end
 
   def state_by_rows
@@ -81,41 +89,10 @@ class Board
     marks.each do |mark|
       return false if mark.nil?
     end
-    #!marks.any?(&:nil?)
     true
   end
 
   def same_mark?(marks)
     marks.count(marks.first) == size
-  end
-
-#  def win_positions
-#    @win_positions ||= diagonal_positions.concat(row_positions).concat(column_positions)
-#  end
-
-  def row_positions
-    moves.each_index.each_slice(size).to_a
-  end
-
-  def column_positions
-    row_positions.transpose
-  end
-
-  def diagonal_positions
-    [first_diagonal_positions, second_diagonal_positions]
-  end
-
-  def first_diagonal_positions
-    row_positions.each_with_index.reduce([]) do |diagonal, (row, i)|
-      diagonal << row[i]
-      diagonal
-    end
-  end
-
-  def second_diagonal_positions
-    row_positions.each_with_index.reduce([]) do |diagonal, (row, i)|
-      diagonal << row.reverse[i]
-      diagonal
-    end
   end
 end

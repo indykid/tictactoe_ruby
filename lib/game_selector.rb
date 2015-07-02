@@ -48,7 +48,7 @@ class GameSelector
   end
 
   def make_ai_player(mark)
-    ai_class.new(mark, board)
+    ai_class.new(mark)
   end
 
   def get_first_player

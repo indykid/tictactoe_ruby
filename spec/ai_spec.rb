@@ -2,8 +2,7 @@ require 'ai'
 
 describe Ai do
 
-  let(:board) { Board.new }
-  let(:ai)    { Ai.new(:x, board) }
+  let(:ai) { Ai.new(:x) }
   
   it 'assigns winning score to a win' do
     board = make_win_board
@@ -35,7 +34,7 @@ describe Ai do
     board = Board.new([:x, :x, :o,
                        :o, :x, :o,
                        :x, nil, nil])
-    ai = Ai.new(:o, board)
+    ai = Ai.new(:o)
 
     expect(ai.score(board, :o, 0)).to eq(9)
   end
@@ -67,7 +66,7 @@ describe Ai do
                         :x, nil, nil,
                         :x, :o,  :o ])
 
-    ai = Ai.new(:o, board)
+    ai = Ai.new(:o)
     expect(ai.score(board, :o, 0)).to eq(9)
   end
 
@@ -76,7 +75,7 @@ describe Ai do
                        nil, nil, :x,
                        nil, nil, :x ])
 
-    ai = Ai.new(:o, board)
+    ai = Ai.new(:o)
     expect(ai.score(board, ai.mark, 0)).to eq(9)
   end
 
@@ -84,71 +83,71 @@ describe Ai do
     board = Board.new([ :x, :o, nil,
                         nil, :o, nil,
                        :x, nil, nil ])
-    ai = Ai.new(:x, board)
+    ai = Ai.new(:x)
 
-    expect(ai.pick_position).to eq(3)
+    expect(ai.pick_position(board)).to eq(3)
   end
 
   it 'plays into blocking position at a threat' do
     board = Board.new([ :x, :x, :o,
                        nil, :o, nil,
                        nil, nil, nil ])
-    ai = Ai.new(:x, board)
+    ai = Ai.new(:x)
 
-    expect(ai.pick_position).to eq(6)
+    expect(ai.pick_position(board)).to eq(6)
   end
 
   it 'plays into blocking position at a threat' do
     board = Board.new([nil, nil, nil,
                        nil, :x, nil,
                        nil, :x, :o ])
-    ai = Ai.new(:o, board)
+    ai = Ai.new(:o)
 
-    expect(ai.pick_position).to eq(1)
+    expect(ai.pick_position(board)).to eq(1)
   end
 
   it 'plays into blocking position at a threat' do
     board = Board.new([nil, :o, :o,
                        nil, nil, :x,
                        nil, nil, :x ])
-    ai = Ai.new(:x, board)
+    ai = Ai.new(:x)
 
-    expect(ai.pick_position).to eq(0)
+    expect(ai.pick_position(board)).to eq(0)
   end
 
   it 'plays into blocking position at a threat' do
     board = Board.new([nil, nil, nil,
                        nil, :x, :x,
                        nil, nil, :o ])
-    ai = Ai.new(:o, board)
+    ai = Ai.new(:o)
 
-    expect(ai.pick_position).to eq(3)
+    expect(ai.pick_position(board)).to eq(3)
   end
 
   it 'blocks' do
     board = Board.new([:o, nil, :x,
                        nil, :x, nil,
                        nil, nil, nil ])
-    ai = Ai.new(:o, board)
-    expect(ai.pick_position).to eq(6)
+    ai = Ai.new(:o)
+    expect(ai.pick_position(board)).to eq(6)
   end
 
   it 'wins fast' do
     board = Board.new([ :o, :o, nil,
                         :x, :x, nil,
                        nil, nil, nil ])
-    ai = Ai.new(:x, board)
+    ai = Ai.new(:x)
 
-    expect(ai.pick_position).to eq(5)
+    expect(ai.pick_position(board)).to eq(5)
   end
 
   it 'wins fast' do
     board = Board.new([ :o, nil, nil,
                         :x, :x, nil,
                        nil, :o, nil ])
-    ai = Ai.new(:x, board)
+    ai = Ai.new(:x)
 
-    expect(ai.pick_position).to eq(5)
+    expect(ai.pick_position(board)).to eq(5)
   end
 
   def make_draw_board
@@ -173,10 +172,5 @@ describe Ai do
     Board.new([:x,  nil, nil,
                nil, nil, nil,
                nil, nil, nil])
-  end
-
-  def possible_combinations_for(available_positions)
-    remaining_available_count = available_positions.count - 1
-    available_positions.combination(remaining_available_count)
   end
 end

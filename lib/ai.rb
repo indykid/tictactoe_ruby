@@ -3,9 +3,8 @@ require 'benchmark'
 
 class Ai
   attr_reader :mark
-  def initialize(mark, board)
+  def initialize(mark)
     @mark = mark
-    @board = board
     @opponent_mark = set_opponent_mark
   end
 
@@ -15,26 +14,14 @@ class Ai
 
   ScoredPosition = Struct.new(:position, :score)
 
-  def pick_position
-
-    #scored_position = ''
-    #result = RubyProf.profile do
-      scored_position = board.available.map do |position|
-        ScoredPosition.new(
-          position,
-          score(make_next_board(position), swap_mark(mark), 0)
-        )
-      end
-      .max_by(&:score).position
-    #end
-
-    #File.open("./prof_graph.txt", "w") do |file|
-    #  RubyProf::GraphPrinter.new(result).print(file)
-    #end
-    #File.open("./prof_graph.html", "w") do |file|
-    #  RubyProf::GraphHtmlPrinter.new(result).print(file)
-    #end
-    #scored_position
+  def pick_position(board)
+    scored_position = board.available.map do |position|
+      ScoredPosition.new(
+        position,
+        score(next_board(board, position, mark), swap_mark(mark), 0)
+      )
+    end
+    .max_by(&:score).position
   end
 
   def score(current_board, current_mark, depth)
@@ -42,7 +29,7 @@ class Ai
     depth += 1
 
     scores = current_board.available.map do |position|
-      score(current_board.make_next_board(position, current_mark),
+      score(next_board(current_board, position, current_mark),
             swap_mark(current_mark),
             depth)
     end
@@ -52,7 +39,7 @@ class Ai
 
   private
 
-  attr_reader :board, :opponent_mark
+  attr_reader :opponent_mark
 
   def set_opponent_mark
     mark == :x ? :o : :x
@@ -90,8 +77,8 @@ class Ai
     board.winner_mark
   end
 
-  def make_next_board(position)
-    board.make_next_board(position, mark)
+  def next_board(board, position, mark)
+    board.add_move(position, mark)
   end
 
   def swap_mark(current_mark)

@@ -19,6 +19,12 @@ class Board
     update_available(position)
   end
 
+  def add_move(position, mark)
+    new_moves = moves.dup
+    new_moves[position] = mark
+    Board.new(new_moves)
+  end
+
   def mark_at(position)
     moves[position]
   end
@@ -57,14 +63,12 @@ class Board
     moves[winner_line.first]
   end
 
-  def make_next_board(position, mark)
-    new_moves = moves.dup
-    new_moves[position] = mark
-    Board.new(new_moves)
+  def ==(board)
+    self.moves == board.moves
   end
 
   private
-  attr_reader :size, :moves, :win_positions
+  attr_reader :size, :win_positions
   
   def available_positions
     moves.each_index.reduce([]) do |available, position|
@@ -95,4 +99,7 @@ class Board
   def same_mark?(marks)
     marks.count(marks.first) == size
   end
+
+  protected
+  attr_reader :moves
 end

@@ -1,5 +1,4 @@
 class Game
-
   def initialize(board, ui, player_x, player_o)
     @ui       = ui 
     @board    = board
@@ -13,6 +12,7 @@ class Game
   end
 
   def play
+    display_board
     while !over?
       play_turn
     end
@@ -20,14 +20,15 @@ class Game
   end
 
   def play_turn
-    display_board
     add_to_board(valid_position)
+    display_board
     swap_players
   end
 
   private
 
-  attr_reader :board, :player_x, :player_o, :ui, :current_player
+  attr_reader :player_x, :player_o, :ui, :current_player
+  attr_accessor :board
 
   def won?
     !board.winner_line.nil?
@@ -42,12 +43,13 @@ class Game
   end
 
   def add_to_board(position)
-    board.add_move(position, current_player.mark)
+    self.board = board.add_move(position, current_player.mark)
   end
 
   def valid_position
     loop do
-      position = current_player.pick_position
+      position = current_player.pick_position(board)
+
       return position if valid?(position)
       notify_of_invalid_option
     end
@@ -66,7 +68,6 @@ class Game
   end
 
   def finalize
-    display_board
     display_game_over
     display_result
   end

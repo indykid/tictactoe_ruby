@@ -37,7 +37,7 @@ describe Game do
 
     game.play_turn
 
-    expect(board.mark_at(0)).to eq(:x)
+    expect(ui).to have_received(:display_board).with([[:x, 1, 2], [3, 4, 5], [6, 7, 8]])
   end
 
   it 'switches player turns' do
@@ -45,7 +45,7 @@ describe Game do
 
     2.times { game.play_turn }
 
-    expect(board.mark_at(1)).not_to eq(board.mark_at(0))
+    expect(ui).to have_received(:display_board).with([[:x, :o, 2], [3, 4, 5], [6, 7, 8]])
   end
 
   it 'gets Ui to display the board' do
@@ -131,7 +131,7 @@ describe Game do
       @moves = moves
     end
 
-    def pick_position
+    def pick_position(board)
       moves.shift
     end
   end

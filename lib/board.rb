@@ -32,7 +32,6 @@ class Board
     moves.count(nil) == 0
   end
 
-  # should require exactly 8 iterations, currently 216
   def winner_line
     win_positions.find do |line|
       winner?(line) && occupied?(line[0])

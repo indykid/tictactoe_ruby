@@ -1,5 +1,4 @@
 require 'ruby-prof'
-require 'benchmark'
 
 class Ai
   attr_reader :mark

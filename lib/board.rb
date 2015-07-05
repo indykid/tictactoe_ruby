@@ -15,11 +15,6 @@ class Board
   end
 
   def add_move(position, mark)
-    update_moves(position, mark)
-    update_available(position)
-  end
-
-  def add_move(position, mark)
     new_moves = moves.dup
     new_moves[position] = mark
     Board.new(new_moves)

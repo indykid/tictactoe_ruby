@@ -55,7 +55,8 @@ class Board
   end
 
   def winner_mark
-    moves[winner_line.first]
+    line = winner_line
+    moves[line.first] if line
   end
 
   def ==(board)

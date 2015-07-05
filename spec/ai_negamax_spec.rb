@@ -1,23 +1,22 @@
 require 'ai_negamax'
 
 describe AiNegamax do
-
   it 'returns winner score if result is a win' do
     ai = AiNegamax.new(:x, :o)
 
-    expect(ai.final_score(:win)).to eq(10)
+    expect(ai.end_score(:win)).to eq(10)
   end
 
   it 'returns loser score if result is a loss' do
     ai = AiNegamax.new(:x, :o)
 
-    expect(ai.final_score(:loss)).to eq(-10)
+    expect(ai.end_score(:loss)).to eq(-10)
   end
 
   it 'returns draw score if drawn' do
     ai = AiNegamax.new(:x, :o)
 
-    expect(ai.final_score(:draw)).to eq(0)
+    expect(ai.end_score(:draw)).to eq(0)
   end
 
   it 'knows win result' do

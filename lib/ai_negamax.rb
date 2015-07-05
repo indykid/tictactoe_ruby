@@ -7,15 +7,8 @@ class AiNegamax
     @opponent_mark = opponent_mark
   end
 
-  def final_score(result)
-    case result
-    when :win
-      10
-    when :loss
-      -10
-    when :draw
-      0
-    end
+  def end_score(result)
+    SCORES[result]
   end
 
   def end_result(board)
@@ -31,4 +24,8 @@ class AiNegamax
 
   private
   attr_reader :opponent_mark
+
+  SCORES = { draw:  0,
+              win:  10,
+             loss: -10 }
 end

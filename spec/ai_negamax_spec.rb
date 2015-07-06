@@ -45,15 +45,15 @@ describe AiNegamax do
                          :o, :o, nil,
                         nil, nil, nil])
 
-      expect(ai.negamax_score(board, :x, 1)).to eq(10)
+      expect(ai.negamax_score(board, :x, 1, 0)).to eq(10)
     end
 
     it 'if loser, returns loss score' do
-      board = Board.new([:x, :x, :o,
+      board = Board.new([:x, :x, nil,
                          :o, :o, :o,
-                        nil, :x, :x])
+                        nil, nil, :x])
 
-      expect(ai.negamax_score(board, :x, 1)).to eq(-10)
+      expect(ai.negamax_score(board, :x, 1, 0)).to eq(-10)
     end
   end
 
@@ -63,23 +63,89 @@ describe AiNegamax do
                          :o, :o, nil,
                         nil, nil, nil])
 
-      expect(ai.negamax_score(board, ai.mark, 1)).to eq(10)
+      expect(ai.negamax_score(board, :x, 1, 0)).to eq(10)
     end
 
-    xit 'if about to lose, returns loss score' do
-      board = Board.new([:x, :x, nil,
-                         :o, :o, nil,
-                        nil, nil, :x])
-
-      expect(ai.negamax_score(board, :o, -1)).to eq(-10)
-    end
-
-    it 'scores intermediate board state based on the following end state' do
+    it 'if about to win, returns win score' do
       board = Board.new([:x, :o,  :x,
                          :x, :x,  :o,
                          :o, :o, nil])
 
-      expect(ai.negamax_score(board, :x, 1)).to eq(10)
+      expect(ai.negamax_score(board, :x, 1, 0)).to eq(10)
     end
+
+    it 'if about to lose, returns loss score' do
+      board = Board.new([:x, :x, nil,
+                         :o, :o, nil,
+                        nil, nil, :x])
+
+      expect(ai.negamax_score(board, :o, -1, 0)).to eq(10)
+    end
+  end
+
+  it 'plays into winning position' do
+    board = Board.new([ :x, :o, nil,
+                       nil, :o, nil,
+                       :x, nil, nil ])
+
+    expect(ai.pick_position(board)).to eq(3)
+  end
+
+  it 'plays into blocking position at a threat' do
+    board = Board.new([ :x, :x, :o,
+                       nil, :o, nil,
+                       nil, nil, nil ])
+
+    expect(ai.pick_position(board)).to eq(6)
+  end
+
+  it 'plays into blocking position at a threat' do
+    board = Board.new([nil, nil, nil,
+                       nil, :x, nil,
+                       nil, :x, :o ])
+    ai = AiNegamax.new(:o, :x)
+
+    expect(ai.pick_position(board)).to eq(1)
+  end
+
+  it 'plays into blocking position at a threat' do
+    board = Board.new([nil, :o, :o,
+                       nil, nil, :x,
+                       nil, nil, :x ])
+
+    expect(ai.pick_position(board)).to eq(0)
+  end
+
+  it 'plays into blocking position at a threat' do
+    board = Board.new([nil, nil, nil,
+                       nil, :x, :x,
+                       nil, nil, :o ])
+    ai = AiNegamax.new(:o, :x)
+
+    expect(ai.pick_position(board)).to eq(3)
+  end
+
+  it 'blocks' do
+    board = Board.new([:o, nil, :x,
+                       nil, :x, nil,
+                       nil, nil, nil ])
+    ai = AiNegamax.new(:o, :x)
+    expect(ai.pick_position(board)).to eq(6)
+  end
+
+  it 'wins fast' do
+    board = Board.new([ :o, :o, nil,
+                        :x, :x, nil,
+                       nil, nil, nil ])
+
+    expect(ai.pick_position(board)).to eq(5)
+  end
+
+  it 'wins fast' do
+    board = Board.new([ :o, nil, nil,
+                        :x, :x, nil,
+                       nil, :o, nil ])
+
+    expect(ai.pick_position(board)).to eq(5)
   end
 end

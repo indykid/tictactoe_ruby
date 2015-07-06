@@ -1,3 +1,5 @@
+require 'pry'
+
 class AiNegamax
 
   attr_reader :mark
@@ -15,25 +17,34 @@ class AiNegamax
     winner = board.winner_mark
     if winner == mark
       :win
-    elsif winner == opponent_mark
+    elsif winner == opponent_of(mark)
       :loss
     elsif board.full?
       :draw
     end
   end
 
-  def negamax_score(current_board, current_mark, multiplier)
+  def pick_position(board)
+    negamax_score(board, mark, 1, 0)
+    @best_position
+  end
+
+  def negamax_score(current_board, current_mark, point_of_view, depth)
     result = end_result(current_board)
-    return multiplier * end_score(result) if result
+    return point_of_view*end_score(result) if result
 
-    max = current_board.available.map do |position|
+    max = -Float::INFINITY
+
+    current_board.available.map do |position|
       next_board = current_board.add_move(position, current_mark)
-      score = -negamax_score(next_board, opponent_of(current_mark), -multiplier)
-   
-      ScoredPosition.new(score, position)
-    end.max_by(&:score)
+      score = -negamax_score(next_board, opponent_of(current_mark), -point_of_view, depth+1)
+      if score > max
+        max = score
+        @best_position = position if depth == 0
+      end
+    end
 
-    max.score
+    max
   end
 
   private

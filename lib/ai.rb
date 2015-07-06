@@ -25,12 +25,11 @@ class Ai
 
   def score(current_board, current_mark, depth)
     return score_end_state(current_board, depth) if end_state?(current_board)
-    depth += 1
 
     scores = current_board.available.map do |position|
       score(next_board(current_board, position, current_mark),
             swap_mark(current_mark),
-            depth)
+            depth+1)
     end
 
     current_mark == mark ? scores.max : scores.min

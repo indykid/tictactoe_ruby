@@ -9,8 +9,14 @@ class AiNegamax
     @opponent_mark = opponent_mark
   end
 
-  def end_score(result)
-    SCORES[result]
+  def end_score(result, depth)
+    if result == :win
+      SCORES[result] - depth
+    elsif result == :loss
+      SCORES[result] + depth
+    else
+      SCORES[result]
+    end
   end
 
   def end_result(board)
@@ -31,7 +37,7 @@ class AiNegamax
 
   def negamax_score(current_board, current_mark, point_of_view, depth)
     result = end_result(current_board)
-    return point_of_view*end_score(result) if result
+    return point_of_view*end_score(result, depth) if result
 
     max = -Float::INFINITY
 

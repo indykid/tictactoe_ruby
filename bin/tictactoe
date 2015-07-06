@@ -3,7 +3,7 @@
 dirname = File.expand_path(File.dirname(File.dirname(__FILE__))) + "/lib"
 $LOAD_PATH.unshift(dirname) unless $LOAD_PATH.include?(dirname)
 
-require 'ai'
+require 'ai_negamax'
 require 'cli'
 require 'game'
 require 'board'
@@ -15,7 +15,7 @@ require 'game_selector_ui'
 cli = Cli.new($stdin, $stdout)
 game_selector = GameSelector.new(Game, 
                                  Player, 
-                                 Ai, 
+                                 AiNegamax, 
                                  Board.new, 
                                  GameSelectorUi.new(cli),
                                  GamePlayUi.new(cli))

@@ -39,6 +39,14 @@ describe Ai do
     expect(ai.score(board, :o, 0)).to eq(9)
   end
 
+  it 'if about to lose, returns loss score' do
+    board = Board.new([:x, :x, nil,
+                       :o, :o, nil,
+                      nil, nil, :x])
+
+    expect(ai.score(board, :o, 0)).to eq(-9)
+  end
+
   it 'correctly scores intermediate board state with 6 possible outcomes' do
     board = Board.new([nil, :o, :x,
                        nil, :o, nil,

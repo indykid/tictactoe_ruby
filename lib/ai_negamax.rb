@@ -24,11 +24,11 @@ class AiNegamax
 
   def negamax_score(current_board, current_mark, multiplier)
     result = end_result(current_board)
-    return end_score(result) if result
+    return multiplier * end_score(result) if result
 
     max = current_board.available.map do |position|
       next_board = current_board.add_move(position, current_mark)
-      score = negamax_score(next_board, opponent_of(current_mark), multiplier*(-1))
+      score = -negamax_score(next_board, opponent_of(current_mark), -multiplier)
    
       ScoredPosition.new(score, position)
     end.max_by(&:score)

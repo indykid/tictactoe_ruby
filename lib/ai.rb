@@ -2,9 +2,9 @@ require 'ruby-prof'
 
 class Ai
   attr_reader :mark
-  def initialize(mark)
+  def initialize(mark, opponent_mark)
     @mark = mark
-    @opponent_mark = set_opponent_mark
+    @opponent_mark = opponent_mark
   end
 
   WIN_SCORE  = 10
@@ -38,10 +38,6 @@ class Ai
   private
 
   attr_reader :opponent_mark
-
-  def set_opponent_mark
-    mark == :x ? :o : :x
-  end
 
   def end_state?(board)
     won?(board) || full?(board)

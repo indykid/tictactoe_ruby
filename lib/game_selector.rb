@@ -20,14 +20,14 @@ class GameSelector
       player_x = make_human_player(:x)
       player_o = make_human_player(:o)
     when 'cvh'
-      player_x = make_ai_player(:x)
+      player_x = make_ai_player(:x, :o)
       player_o = make_human_player(:o)
     when 'hvc'
       player_x = make_human_player(:x)
-      player_o = make_ai_player(:o)
+      player_o = make_ai_player(:o, :x)
     when 'cvc'
-      player_x = make_ai_player(:x)
-      player_o = make_ai_player(:o)
+      player_x = make_ai_player(:x, :o)
+      player_o = make_ai_player(:o, :x)
     end
     [player_x, player_o]
   end
@@ -47,8 +47,8 @@ class GameSelector
     human_class.new(mark, game_play_ui)
   end
 
-  def make_ai_player(mark)
-    ai_class.new(mark)
+  def make_ai_player(mark, opponent_mark)
+    ai_class.new(mark, opponent_mark)
   end
 
   def get_first_player

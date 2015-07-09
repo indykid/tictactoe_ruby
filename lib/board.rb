@@ -4,20 +4,13 @@ class Board
     @size = size
     @moves = moves || Array.new(size**2)
     @available = available_positions
-    @win_positions = [[0, 1, 2],
-                      [3, 4, 5],
-                      [6, 7, 8],
-                      [0, 3, 6],
-                      [1, 4, 7],
-                      [2, 5, 8],
-                      [0, 4, 8],
-                      [2, 4, 6]]
+    @win_positions = rows.concat(columns).concat(diagonals)
   end
 
   def add_move(position, mark)
     new_moves = moves.dup
     new_moves[position] = mark
-    Board.new(new_moves)
+    Board.new(new_moves, size)
   end
 
   def mark_at(position)
@@ -37,11 +30,11 @@ class Board
       winner?(line) && occupied?(line[0])
     end
   end
-  
+
   def winner?(line)
     moves[line[0]] == moves[line[1]] && moves[line[2]] == moves[line[1]]
   end
- 
+
   def occupied?(position)
     moves[position] != nil
   end
@@ -64,7 +57,7 @@ class Board
 
   private
   attr_reader :size, :win_positions
-  
+
   def available_positions
     moves.each_index.reduce([]) do |available, position|
       available << position unless moves[position]
@@ -93,6 +86,36 @@ class Board
 
   def same_mark?(marks)
     marks.count(marks.first) == size
+  end
+
+  def lines
+    rows.concat(columns).concat(diagonals)
+  end
+
+  def rows
+    @rows ||= moves.each_index.each_slice(size).to_a
+  end
+
+  def columns
+    rows.transpose
+  end
+
+  def diagonals
+    [first_diagonal, second_diagonal]
+  end
+
+  def first_diagonal
+    rows.each_with_index.reduce([]) do |diagonal, (row, i)|
+      diagonal << row[i]
+    diagonal
+    end
+  end
+
+  def second_diagonal
+    rows.each_with_index.reduce([]) do |diagonal, (row, i)|
+      diagonal << row.reverse[i]
+    diagonal
+    end
   end
 
   protected

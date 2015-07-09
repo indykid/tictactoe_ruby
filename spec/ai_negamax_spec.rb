@@ -4,15 +4,15 @@ describe AiNegamax do
   let(:ai) { AiNegamax.new(:x, :o) }
 
   it 'returns winner score if result is a win' do
-    expect(ai.end_score(:win, 0)).to eq(10)
+    expect(ai.end_score(:win)).to eq(10)
   end
 
   it 'returns loser score if result is a loss' do
-    expect(ai.end_score(:loss, 0)).to eq(-10)
+    expect(ai.end_score(:loss)).to eq(-10)
   end
 
   it 'returns draw score if drawn' do
-    expect(ai.end_score(:draw, 0)).to eq(0)
+    expect(ai.end_score(:draw)).to eq(0)
   end
 
   it 'knows win result' do
@@ -45,7 +45,7 @@ describe AiNegamax do
                          :o, :o, nil,
                         nil, nil, nil])
 
-      expect(ai.negamax_score(board, :x, 1, 0)).to eq(10)
+      expect(ai.negamax_score(board, :x, 1, 1)).to eq(10)
     end
 
     it 'if loser, returns loss score' do
@@ -53,7 +53,7 @@ describe AiNegamax do
                          :o, :o, :o,
                         nil, nil, :x])
 
-      expect(ai.negamax_score(board, :x, 1, 0)).to eq(-10)
+      expect(ai.negamax_score(board, :x, 1, 1)).to eq(-10)
     end
   end
 
@@ -63,7 +63,7 @@ describe AiNegamax do
                          :o, :o, nil,
                         nil, nil, nil])
 
-      expect(ai.negamax_score(board, :x, 1, 0)).to eq(9)
+      expect(ai.negamax_score(board, :x, 1, 1)).to eq(5)
     end
 
     it 'if about to win, returns win score' do
@@ -71,7 +71,7 @@ describe AiNegamax do
                          :x, :x,  :o,
                          :o, :o, nil])
 
-      expect(ai.negamax_score(board, :x, 1, 0)).to eq(9)
+      expect(ai.negamax_score(board, :x, 1, 1)).to eq(5)
     end
 
     it 'if about to lose, returns loss score' do
@@ -79,7 +79,7 @@ describe AiNegamax do
                          :o, :o, nil,
                         nil, nil, :x])
 
-      expect(ai.negamax_score(board, :o, -1, 0)).to eq(9)
+      expect(ai.negamax_score(board, :o, -1, 1)).to eq(5)
     end
   end
 

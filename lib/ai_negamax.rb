@@ -23,40 +23,47 @@ class AiNegamax
 
   def adjusted_score(result, depth, point_of_view)
     score = end_score(result)
-    point_of_view*score/depth if score
+    ScoredPosition.new(point_of_view*score/depth) if score
   end
 
   def pick_position(board)
-    negamax_score(board, mark, 1, 1)
-    @best_position
+    negamax_score(board, mark, 1, 1, -INFINITY, INFINITY).position
   end
 
-  def negamax_score(current_board, current_mark, point_of_view, depth)
+  def negamax_score(current_board, current_mark, point_of_view, depth, a, b)
     result = end_result(current_board)
     return adjusted_score(result, depth, point_of_view) if result
 
-    max = -Float::INFINITY
+    best_position = nil
 
     current_board.available.map do |position|
-      next_board = current_board.add_move(position, current_mark)
-      score = -negamax_score(next_board, opponent_of(current_mark), -point_of_view, depth+1)
-      if score > max
-        max = score
-        @best_position = position if depth == 1
+      score = -negamax_score(
+                         current_board.add_move(position, current_mark),
+                         opponent_of(current_mark),
+                        -point_of_view,
+                         depth + 1,
+                        -b,
+                        -a).score
+
+      return ScoredPosition.new(a, position) if a >= b
+
+      if score > a
+        a = score
+        best_position = position
       end
     end
 
-    max
+    ScoredPosition.new(a, best_position)
   end
 
   private
   attr_reader :opponent_mark
 
   ScoredPosition = Struct.new(:score, :position)
-
   SCORES = { draw:  0,
               win:  10,
              loss: -10 }
+  INFINITY = Float::INFINITY
 
   def opponent_of(given_mark)
     given_mark == mark ? opponent_mark : mark

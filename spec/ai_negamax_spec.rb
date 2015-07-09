@@ -44,16 +44,18 @@ describe AiNegamax do
       board = Board.new([:x, :x, :x,
                          :o, :o, nil,
                         nil, nil, nil])
+      infinity = Float::INFINITY
 
-      expect(ai.negamax_score(board, :x, 1, 1)).to eq(10)
+      expect(score(board, :x, 1, 1, -infinity, infinity)).to eq(10)
     end
 
     it 'if loser, returns loss score' do
       board = Board.new([:x, :x, nil,
                          :o, :o, :o,
                         nil, nil, :x])
+      infinity = Float::INFINITY
 
-      expect(ai.negamax_score(board, :x, 1, 1)).to eq(-10)
+      expect(score(board, :x, 1, 1, -infinity, infinity)).to eq(-10)
     end
   end
 
@@ -62,24 +64,27 @@ describe AiNegamax do
       board = Board.new([:x, :x, nil,
                          :o, :o, nil,
                         nil, nil, nil])
+      infinity = Float::INFINITY
 
-      expect(ai.negamax_score(board, :x, 1, 1)).to eq(5)
+      expect(score(board, :x, 1, 1, -infinity, infinity)).to eq(5)
     end
 
     it 'if about to win, returns win score' do
       board = Board.new([:x, :o,  :x,
                          :x, :x,  :o,
                          :o, :o, nil])
+      infinity = Float::INFINITY
 
-      expect(ai.negamax_score(board, :x, 1, 1)).to eq(5)
+      expect(score(board, :x, 1, 1, -infinity, infinity)).to eq(5)
     end
 
     it 'if about to lose, returns loss score' do
       board = Board.new([:x, :x, nil,
                          :o, :o, nil,
                         nil, nil, :x])
+      infinity = Float::INFINITY
 
-      expect(ai.negamax_score(board, :o, -1, 1)).to eq(5)
+      expect(score(board, :o, -1, 1, -infinity, infinity)).to eq(5)
     end
   end
 
@@ -147,5 +152,9 @@ describe AiNegamax do
                        nil, :o, nil ])
 
     expect(ai.pick_position(board)).to eq(5)
+  end
+
+  def score(board, mark, point_of_view, depth, a, b)
+    ai.negamax_score(board, mark, point_of_view, depth, a, b).score
   end
 end

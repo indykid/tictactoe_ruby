@@ -2,18 +2,7 @@ require 'ai_negamax'
 
 describe AiNegamax do
   let(:ai) { AiNegamax.new(:x, :o) }
-
-  it 'returns winner score if result is a win' do
-    expect(ai.end_score(:win)).to eq(10)
-  end
-
-  it 'returns loser score if result is a loss' do
-    expect(ai.end_score(:loss)).to eq(-10)
-  end
-
-  it 'returns draw score if drawn' do
-    expect(ai.end_score(:draw)).to eq(0)
-  end
+  let(:infinity) { Float::INFINITY }
 
   it 'knows win result' do
     board = Board.new([:x, :x, :x,
@@ -44,7 +33,6 @@ describe AiNegamax do
       board = Board.new([:x, :x, :x,
                          :o, :o, nil,
                         nil, nil, nil])
-      infinity = Float::INFINITY
 
       expect(score(board, :x, 1, 1, -infinity, infinity)).to eq(10)
     end
@@ -53,7 +41,6 @@ describe AiNegamax do
       board = Board.new([:x, :x, nil,
                          :o, :o, :o,
                         nil, nil, :x])
-      infinity = Float::INFINITY
 
       expect(score(board, :x, 1, 1, -infinity, infinity)).to eq(-10)
     end
@@ -64,7 +51,6 @@ describe AiNegamax do
       board = Board.new([:x, :x, nil,
                          :o, :o, nil,
                         nil, nil, nil])
-      infinity = Float::INFINITY
 
       expect(score(board, :x, 1, 1, -infinity, infinity)).to eq(5)
     end
@@ -73,7 +59,6 @@ describe AiNegamax do
       board = Board.new([:x, :o,  :x,
                          :x, :x,  :o,
                          :o, :o, nil])
-      infinity = Float::INFINITY
 
       expect(score(board, :x, 1, 1, -infinity, infinity)).to eq(5)
     end
@@ -82,7 +67,6 @@ describe AiNegamax do
       board = Board.new([:x, :x, nil,
                          :o, :o, nil,
                         nil, nil, :x])
-      infinity = Float::INFINITY
 
       expect(score(board, :o, -1, 1, -infinity, infinity)).to eq(5)
     end
@@ -135,6 +119,7 @@ describe AiNegamax do
                        nil, :x, nil,
                        nil, nil, nil ])
     ai = AiNegamax.new(:o, :x)
+    
     expect(ai.pick_position(board)).to eq(6)
   end
 

@@ -6,26 +6,6 @@ class AiNegamax
     @opponent_mark = opponent_mark
   end
 
-  def end_score(result)
-    SCORES[result]
-  end
-
-  def end_result(board)
-    winner = board.winner_mark
-    if winner == mark
-      :win
-    elsif winner == opponent_of(mark)
-      :loss
-    elsif board.full?
-      :draw
-    end
-  end
-
-  def adjusted_score(result, depth, point_of_view)
-    score = end_score(result)
-    ScoredPosition.new(point_of_view*score/depth) if score
-  end
-
   def pick_position(board)
     negamax_score(board, mark, 1, 1, -INFINITY, INFINITY).position
   end
@@ -56,6 +36,17 @@ class AiNegamax
     ScoredPosition.new(a, best_position)
   end
 
+  def end_result(board)
+    winner = board.winner_mark
+    if winner == mark
+      :win
+    elsif winner == opponent_of(mark)
+      :loss
+    elsif board.full?
+      :draw
+    end
+  end
+
   private
   attr_reader :opponent_mark
 
@@ -67,5 +58,14 @@ class AiNegamax
 
   def opponent_of(given_mark)
     given_mark == mark ? opponent_mark : mark
+  end
+
+  def end_score(result)
+    SCORES[result]
+  end
+
+  def adjusted_score(result, depth, point_of_view)
+    score = end_score(result)
+    ScoredPosition.new(point_of_view*score/depth) if score
   end
 end

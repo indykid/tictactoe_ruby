@@ -154,6 +154,53 @@ describe AiNegamax do
     expect(ai.pick_position(board)).to eq(5)
   end
 
+  context '4 by 4 board' do
+    it 'knows if won' do
+      board = Board.new([:x, :o, nil, nil,
+                        :o, :x, nil, nil,
+                        :o, nil, :x, nil,
+                        nil, nil, nil, :x], 4)
+
+      expect(ai.end_result(board)).to eq(:win)
+    end
+
+    it 'knows if lost' do
+      board = Board.new([:o, :x, nil, nil,
+                        :x, :o, nil, nil,
+                        :x, nil, :o, nil,
+                        :x, nil, nil, :o], 4)
+
+      expect(ai.end_result(board)).to eq(:loss)
+    end
+
+    it 'if winner, returns win score' do
+      board = Board.new([:x, :o, nil, nil,
+                        :o, :x, nil, nil,
+                        :o, nil, :x, nil,
+                        nil, nil, nil, :x], 4)
+
+      expect(score(board, :x, 1, 1, -infinity, infinity)).to eq(10)
+    end
+
+    it 'if loser, returns loss score' do
+      board = Board.new([:o, :x, nil, nil,
+                        :x, :o, nil, nil,
+                        :x, nil, :o, nil,
+                        :x, nil, nil, :o], 4)
+
+      expect(score(board, :x, 1, 1, -infinity, infinity)).to eq(-10)
+    end
+
+    it 'if about to win, returns win score' do
+      board = Board.new([:x, :x, :x, nil,
+                        :o, :o, nil, :o,
+                        :nil, nil, nil, nil,
+                        nil, nil, nil, nil], 4)
+
+      expect(score(board, :x, 1, 1, -infinity, infinity)).to eq(5)
+    end
+  end
+
   def score(board, mark, point_of_view, depth, a, b)
     ai.negamax_score(board, mark, point_of_view, depth, a, b).score
   end

@@ -4,7 +4,7 @@ class Board
     @size = size
     @moves = moves || Array.new(size**2)
     @available = available_positions
-    @win_positions = rows.concat(columns).concat(diagonals)
+    @win_positions = rows+columns+diagonals
   end
 
   def add_move(position, mark)
@@ -27,12 +27,17 @@ class Board
 
   def winner_line
     win_positions.find do |line|
-      winner?(line) && occupied?(line[0])
+      occupied?(line[0]) && winner?(line) 
     end
   end
 
   def winner?(line)
-    moves[line[0]] == moves[line[1]] && moves[line[2]] == moves[line[1]]
+    line.each_index do |i|
+      if line[i + 1]
+        return false if moves[line[i]] != moves[line[i+1]]
+      end
+    end
+    true
   end
 
   def occupied?(position)
@@ -88,10 +93,6 @@ class Board
     marks.count(marks.first) == size
   end
 
-  def lines
-    rows.concat(columns).concat(diagonals)
-  end
-
   def rows
     @rows ||= moves.each_index.each_slice(size).to_a
   end
@@ -107,14 +108,27 @@ class Board
   def first_diagonal
     rows.each_with_index.reduce([]) do |diagonal, (row, i)|
       diagonal << row[i]
-    diagonal
+      diagonal
     end
   end
 
   def second_diagonal
     rows.each_with_index.reduce([]) do |diagonal, (row, i)|
       diagonal << row.reverse[i]
-    diagonal
+      diagonal
+    end
+  end
+
+  def set_win_positions
+    case size
+    when 3
+      [[0, 1, 2], [3, 4, 5], [6, 7, 8],
+       [0, 3, 6], [1, 4, 7], [2, 5, 8],
+       [0, 4, 8], [2, 4, 6]]
+    when 4
+      [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 10, 11], [12, 13, 14, 15],
+       [0, 4, 8, 12], [1, 5, 9, 13], [2, 6, 10, 14], [3, 7, 11, 15],
+       [0, 5, 10, 15], [3, 6, 9, 12]]
     end
   end
 

@@ -114,6 +114,41 @@ describe Board do
       expect(new_board.available.length).to eq(15)
     end
 
+    it 'knows that position outside the board is not valid' do
+      board = Board.new
+      expect(board.valid?(16)).to be(false)
+    end
+
+    it 'knows if there is no win' do
+      board = Board.new([:x, :x, :x, nil,
+                         :o, :o, :o, nil, 
+                        nil, nil, nil, nil,
+                        nil, nil, nil, nil], 4)
+      expect(board.winner_line).to be(nil)
+    end
+
+    it 'knows if there is a win on a row' do
+      board = make_win_board
+
+      expect(board.winner_line).to eq([0, 1, 2, 3])
+    end
+
+    it 'knows if there is a win on a diagonal' do
+      board = Board.new([:x, nil, nil, nil, 
+                        nil,  :x, nil, nil, 
+                        nil, nil, :x, nil,
+                        nil, nil, nil, :x], 4)
+      expect(board.winner_line).to eq([0, 5, 10, 15])
+    end
+
+    it 'knows if there is a win on a column' do
+      board = Board.new([nil, nil, :x, nil,
+                        nil, nil, :x, nil,
+                        nil, nil, :x, nil,
+                        nil, nil, :x, nil], 4)
+      expect(board.winner_line).to eq([2, 6, 10, 14])
+    end
+
     def make_empty_board
       Board.new([nil, nil, nil, nil, 
                  nil, nil, nil, nil, 

@@ -1,4 +1,4 @@
-require 'ruby-prof'
+#require 'ruby-prof'
 
 class Ai
   attr_reader :mark

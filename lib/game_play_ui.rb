@@ -1,7 +1,6 @@
 require 'cli'
 
 class GamePlayUi
-
   def initialize(cli)
     @cli = cli
   end

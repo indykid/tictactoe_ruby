@@ -1,11 +1,11 @@
 class GameSelector
 
-  def initialize(game_class, human_class, ai_class, board, game_selector_ui, game_play_ui)
+  def initialize(game_class, human_class, ai_class, board_class, game_selector_ui, game_play_ui)
     @game_selector_ui = game_selector_ui
     @human_class = human_class
     @ai_class = ai_class
     @game_class = game_class
-    @board = board
+    @board = board_class.new(nil, 4)
     @game_play_ui = game_play_ui
   end
 

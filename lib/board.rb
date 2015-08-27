@@ -1,5 +1,5 @@
 class Board
-  attr_reader :available
+  attr_reader :available, :size
   def initialize(moves = nil, size = 3)
     @size = size
     @moves = moves || Array.new(size**2)
@@ -61,7 +61,7 @@ class Board
   end
 
   private
-  attr_reader :size, :win_positions
+  attr_reader :win_positions
 
   def available_positions
     moves.each_index.reduce([]) do |available, position|

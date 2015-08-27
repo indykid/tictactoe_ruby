@@ -1,4 +1,5 @@
 require 'ai_negamax'
+require 'board'
 
 describe AiNegamax do
   let(:ai) { AiNegamax.new(:x, :o) }
@@ -139,8 +140,28 @@ describe AiNegamax do
     expect(ai.pick_position(board)).to eq(5)
   end
 
+  it 'move count is 0 at a start' do
+    expect(ai.move_count).to eq(0)
+  end
+
+  it 'increases move count by 1 everytime makes move' do
+    board = Board.new
+    ai.pick_position(board)
+
+    expect(ai.move_count).to eq(1)
+  end
+
   context '4 by 4 board' do
     it 'knows if won' do
+      board = Board.new([:x, :o, nil, nil,
+                        :o, :x, nil, nil,
+                        :o, nil, :x, nil,
+                        nil, nil, nil, :x], 4)
+
+      expect(ai.end_result(board)).to eq(:win)
+    end
+
+    it 'first 3 turns are played randomly' do
       board = Board.new([:x, :o, nil, nil,
                         :o, :x, nil, nil,
                         :o, nil, :x, nil,

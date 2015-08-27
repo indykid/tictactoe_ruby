@@ -16,7 +16,7 @@ cli = Cli.new($stdin, $stdout)
 game_selector = GameSelector.new(Game, 
                                  Player, 
                                  AiNegamax, 
-                                 Board.new, 
+                                 Board, 
                                  GameSelectorUi.new(cli),
                                  GamePlayUi.new(cli))
 

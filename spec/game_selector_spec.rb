@@ -1,11 +1,16 @@
 require 'game_selector'
+require 'game'
+require 'player'
+require 'ai'
+require 'board'
+require 'game_selector_ui'
+require 'game_play_ui'
 
 describe GameSelector do
 
   let(:ui) { instance_double(GameSelectorUi).as_null_object }
-  let(:board) { Board.new }
   let(:game_play_ui) { instance_double(GamePlayUi) }
-  let(:game_selector) { GameSelector.new(Game, Player, Ai, board, ui, game_play_ui) }
+  let(:game_selector) { GameSelector.new(Game, Player, Ai, Board, ui, game_play_ui) }
 
   it 'gets selector ui to greet' do
     game_selector.make_game

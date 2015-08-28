@@ -1,4 +1,5 @@
 class Game
+  attr_reader :board
   def initialize(board, ui, player_x, player_o)
     @ui       = ui 
     @board    = board
@@ -28,7 +29,7 @@ class Game
   private
 
   attr_reader :player_x, :player_o, :ui, :current_player
-  attr_accessor :board
+  attr_writer :board
 
   def won?
     !board.winner_line.nil?
@@ -73,7 +74,7 @@ class Game
   end
 
   def display_board
-    ui.display_board(board.state_by_rows)
+    ui.display_board(board)
   end
 
   def display_game_over

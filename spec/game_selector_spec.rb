@@ -13,18 +13,28 @@ describe GameSelector do
   let(:game_selector) { GameSelector.new(Game, Player, Ai, Board, ui, game_play_ui) }
 
   it 'gets selector ui to greet' do
+    allow(ui).to receive(:get_game_size)
     game_selector.make_game
 
     expect(ui).to have_received(:greet)
   end
 
+  it 'asks for game size' do
+    allow(ui).to receive(:get_game_size)
+    game_selector.make_game
+
+    expect(ui).to have_received(:get_game_size)
+  end
+
   it 'asks for game type choice' do
+    allow(ui).to receive(:get_game_size)
     game_selector.make_game
 
     expect(ui).to have_received(:get_game_type)
   end
 
   it 'makes game' do
+    allow(ui).to receive(:get_game_size)
     expect(game_selector.make_game).to be_instance_of(Game)
   end
 

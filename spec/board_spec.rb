@@ -3,6 +3,16 @@ require 'board'
 
 describe Board do
   context 'default size' do
+    it 'has a default size when no size specified' do
+      board = Board.new
+      expect(board.size).to eq(3)
+    end
+
+    it 'has a default size when invalid size specified' do
+      board = Board.new(nil, nil)
+      expect(board.size).to eq(3)
+    end
+
     it 'can be initialized with given moves' do
       board = make_one_move_board
       expect(board.mark_at(0)).to eq(:x)

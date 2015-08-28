@@ -1,17 +1,20 @@
 class GameSelector
-
   def initialize(game_class, human_class, ai_class, board_class, game_selector_ui, game_play_ui)
     @game_selector_ui = game_selector_ui
     @human_class = human_class
     @ai_class = ai_class
     @game_class = game_class
-    @board = board_class.new(nil, 4)
+    @board_class = board_class
     @game_play_ui = game_play_ui
   end
 
   def make_game
     greet
-    game_class.new(board, game_play_ui, *make_players(get_game_type))
+    game_class.new(
+      board_class.new(nil, get_game_size),
+      game_play_ui,
+      *make_players(get_game_type)
+    )
   end
 
   def make_players(players_code)
@@ -33,10 +36,14 @@ class GameSelector
   end
 
   private
-  attr_reader :game_selector_ui, :human_class, :game_play_ui, :ai_class, :board, :game_class
+  attr_reader :game_selector_ui, :human_class, :game_play_ui, :ai_class, :board_class, :game_class
+
+  def get_game_size
+    game_selector_ui.get_game_size
+  end
 
   def get_game_type
-    game_type = game_selector_ui.get_game_type
+    game_selector_ui.get_game_type
   end
 
   def greet

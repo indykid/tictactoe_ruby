@@ -1,4 +1,5 @@
 require 'game_selector_ui'
+require 'cli'
 
 describe GameSelectorUi do
 
@@ -9,6 +10,18 @@ describe GameSelectorUi do
     ui.greet
     
     expect(cli).to have_received(:show).with(GameSelectorUi::GREETING)
+  end
+
+  it 'shows game size options' do
+    ui.get_game_size
+
+      expect(cli).to have_received(:show).with(GameSelectorUi::GAME_SIZE_OPTIONS)
+  end
+
+  it 'gets game size' do
+    ui.get_game_size
+
+    expect(cli).to have_received(:get_clean_input)
   end
 
   it 'shows game type options' do

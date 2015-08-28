@@ -1,10 +1,20 @@
 class Board
+  DEFAULT_SIZE = 3
+  MAX_SIZE     = 4
   attr_reader :available, :size
-  def initialize(moves = nil, size = 3)
-    @size = size
-    @moves = moves || Array.new(size**2)
+  def initialize(moves = nil, size = nil)
+    @size = parse_size(size)
+    @moves = moves || Array.new(@size**2)
     @available = available_positions
     @win_positions = rows+columns+diagonals
+  end
+
+  def parse_size(size)
+    if size.to_i == MAX_SIZE
+      MAX_SIZE
+    else
+      DEFAULT_SIZE
+    end
   end
 
   def add_move(position, mark)
@@ -121,11 +131,11 @@ class Board
 
   def set_win_positions
     case size
-    when 3
+    when DEFAULT_SIZE
       [[0, 1, 2], [3, 4, 5], [6, 7, 8],
        [0, 3, 6], [1, 4, 7], [2, 5, 8],
        [0, 4, 8], [2, 4, 6]]
-    when 4
+    when MAX_SIZE
       [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 10, 11], [12, 13, 14, 15],
        [0, 4, 8, 12], [1, 5, 9, 13], [2, 6, 10, 14], [3, 7, 11, 15],
        [0, 5, 10, 15], [3, 6, 9, 12]]

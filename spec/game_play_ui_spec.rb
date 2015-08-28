@@ -1,4 +1,5 @@
 require 'game_play_ui'
+require 'board'
 
 describe GamePlayUi do
 
@@ -18,11 +19,21 @@ describe GamePlayUi do
     expect(cli).to have_received(:show).with("Player x " + GamePlayUi::MOVE_REQUEST)
   end
 
-  it 'shows user friendly board' do
-    ui.display_board([[:x, 1, 2], [3, 4, 5], [6, 7, 8]])
+  it 'shows user friendly 3x3 board' do
+    board = Board.new([:x, nil, nil, nil, nil, nil, nil, nil, nil])
+    ui.display_board(board)
 
     expect(cli).to have_received(:show).with(
-      " x | 2 | 3 \n-----------\n 4 | 5 | 6 \n-----------\n 7 | 8 | 9 \n"
+      "  x |  2 |  3 \n--------------\n  4 |  5 |  6 \n--------------\n  7 |  8 |  9 \n"
+    )
+  end
+
+  it 'shows user friendly 4x4 board' do
+    board = Board.new([:x, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil], 4)
+    ui.display_board(board)
+
+    expect(cli).to have_received(:show).with(
+      "  x |  2 |  3 |  4 \n-------------------\n  5 |  6 |  7 |  8 \n-------------------\n  9 | 10 | 11 | 12 \n-------------------\n 13 | 14 | 15 | 16 \n"
     )
   end
 

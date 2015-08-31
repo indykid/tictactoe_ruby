@@ -1,7 +1,6 @@
 require 'cli'
 
 class GamePlayUi
-
   def initialize(cli)
     @cli = cli
   end
@@ -11,6 +10,8 @@ class GamePlayUi
   WINNER_ANNOUNCEMENT = "And the winner is - "
   GAME_OVER = "GAME OVER"
   GAME_DRAWN = "It's a DRAW"
+  NEW_LINE = "\n"
+  PADDING = ' '
 
   def notify_of_invalid_option
     show(INVALID_OPTION_NOTICE)
@@ -21,8 +22,8 @@ class GamePlayUi
     get_move
   end
 
-  def display_board(board_state)
-    show(draw(board_state))
+  def display_board(board)
+    show(draw(board))
   end
 
   def display_winner(player)
@@ -56,12 +57,40 @@ class GamePlayUi
     normalize(get_input)
   end
 
-  def draw(board_state)
-      offset(board_state).map do |row|
-      " " + row.join(" | ") + " "
-      end
-    .join("\n-----------\n") +
-      "\n"
+  def draw(board)
+    offset(board_state(board)).map do |row|
+      add_row_padding(row)
+    end
+    .join(row_border(board.size)) + NEW_LINE
+  end
+
+  def add_row_padding(row)
+    row.map do |position|
+      position = position.to_s
+      add_cell_padding(position)
+    end
+    .join('|')
+  end
+
+  def add_cell_padding(value)
+    PADDING * padding_amount(value) + value + PADDING
+  end
+
+  def padding_amount(value)
+    max_padding = 2
+    max_padding / value.length
+  end
+
+  def row_border(size)
+    NEW_LINE + border_line(size) + NEW_LINE
+  end
+
+  def border_line(size)
+    ('-----'*size)[0..-2]
+  end
+
+  def board_state(board)
+    board.state_by_rows
   end
 
   def offset(board_state)

@@ -1,13 +1,14 @@
 require 'spec_helper'
 require 'board'
 require 'game'
+require 'game_play_ui'
 
 describe Game do
-
   let(:ui)       { instance_double(GamePlayUi).as_null_object }
   let(:board)    { Board.new }
   let(:player_x) { FakePlayer.new(:x) }
   let(:player_o) { FakePlayer.new(:o) }
+  let(:board_double) { instance_double(Board).as_null_object }
 
   it 'is not over at the start' do
     game = Game.new(board, ui, player_x, player_o)
@@ -33,23 +34,24 @@ describe Game do
   end
 
   it 'adds player moves to the board' do
-    game = Game.new(board, ui, *setup_players([0], []))
+    game = Game.new(board_double, ui, *setup_players([0], []))
 
     game.play_turn
 
-    expect(board.mark_at(0)).to eq(:x)
+    expect(board_double).to have_received(:add_move).with(0, :x)
   end
 
   it 'switches player turns' do
-    game = Game.new(board, ui, *setup_players([0], [1]))
+    game = Game.new(board_double, ui, *setup_players([0], [1]))
 
     2.times { game.play_turn }
 
-    expect(board.mark_at(1)).not_to eq(board.mark_at(0))
+    expect(board_double).to have_received(:add_move).with(0, :x)
+    expect(board_double).to have_received(:add_move).with(1, :o)
   end
 
   it 'gets Ui to display the board' do
-    game = Game.new(board, ui, *setup_players([0], []))
+    game = Game.new(board_double, ui, *setup_players([0], []))
 
     game.play_turn
 
@@ -81,7 +83,8 @@ describe Game do
   end
 
   it 'gets ui to display board one extra time after it is over' do
-    game = setup_for_win
+#    allow(board_double).to receive(:add_move).and_return(board_double)
+    game = Game.new(board, ui, *setup_players([0, 1, 2], [3, 4]))
 
     game.play
 
@@ -131,7 +134,7 @@ describe Game do
       @moves = moves
     end
 
-    def pick_position
+    def pick_position(board)
       moves.shift
     end
   end

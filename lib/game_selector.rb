@@ -1,3 +1,31 @@
+class PlayerFactory
+  def self.make_players(players_code, ui)
+    case players_code
+    when 'hvh'
+      player_x = make_human_player(:x, ui)
+      player_o = make_human_player(:o, ui)
+    when 'cvh'
+      player_x = make_ai_player(:x, :o)
+      player_o = make_human_player(:o, ui)
+    when 'hvc'
+      player_x = make_human_player(:x, ui)
+      player_o = make_ai_player(:o, :x)
+    when 'cvc'
+      player_x = make_ai_player(:x, :o)
+      player_o = make_ai_player(:o, :x)
+    end
+    [player_x, player_o]
+  end
+
+  def self.make_human_player(mark, ui)
+    Player.new(mark, ui)
+  end
+
+  def self.make_ai_player(mark, opponent_mark)
+    Ai.new(mark, opponent_mark)
+  end
+end
+
 class GameSelector
   def initialize(game_class, human_class, ai_class, board_class, game_selector_ui, game_play_ui)
     @game_selector_ui = game_selector_ui
@@ -13,26 +41,8 @@ class GameSelector
     game_class.new(
       board_class.new(nil, get_game_size),
       game_play_ui,
-      *make_players(get_game_type)
+      *PlayerFactory.make_players(get_game_type, game_play_ui)
     )
-  end
-
-  def make_players(players_code)
-    case players_code
-    when 'hvh'
-      player_x = make_human_player(:x)
-      player_o = make_human_player(:o)
-    when 'cvh'
-      player_x = make_ai_player(:x, :o)
-      player_o = make_human_player(:o)
-    when 'hvc'
-      player_x = make_human_player(:x)
-      player_o = make_ai_player(:o, :x)
-    when 'cvc'
-      player_x = make_ai_player(:x, :o)
-      player_o = make_ai_player(:o, :x)
-    end
-    [player_x, player_o]
   end
 
   private
@@ -48,24 +58,6 @@ class GameSelector
 
   def greet
     game_selector_ui.greet
-  end
-
-  def make_human_player(mark)
-    human_class.new(mark, game_play_ui)
-  end
-
-  def make_ai_player(mark, opponent_mark)
-    ai_class.new(mark, opponent_mark)
-  end
-
-  def get_first_player
-    first = game_selector_ui.get_first_player
-    case first
-    when 'c'
-      'cvh'
-    when 'h'
-      'hvc'
-    end
   end
 
   def show_human_instructions

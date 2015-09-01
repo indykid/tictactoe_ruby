@@ -39,6 +39,6 @@ describe GameSelectorUi do
   it 'makes game' do
     allow(cli).to receive(:get_clean_input).and_return('')
     ui = described_class.new(cli)
-    expect(ui.make_game).to be_instance_of(Game)
+    expect(ui.make_game).to be_instance_of(TictactoeCore::Game)
   end
 end

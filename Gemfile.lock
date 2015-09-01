@@ -1,3 +1,9 @@
+GIT
+  remote: git@github.com:indykid/tictactoe_core_gem_ruby.git
+  revision: a61a7947c2938306580bc98b063101b94536841e
+  specs:
+    tictactoe_core (0.0.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -74,3 +80,4 @@ DEPENDENCIES
   pry
   rspec
   simplecov
+  tictactoe_core!

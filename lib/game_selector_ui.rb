@@ -1,7 +1,7 @@
-require 'player_factory'
+require 'tictactoe_core/player_factory'
+require 'tictactoe_core/game'
+require 'tictactoe_core/board'
 require 'game_play_ui'
-require 'game'
-require 'board'
 
 class GameSelectorUi
 
@@ -35,10 +35,10 @@ class GameSelectorUi
   def make_game
     greet
     game_play_ui = GamePlayUi.new(cli)
-    Game.new(
-      Board.new(nil, get_game_size),
+    TictactoeCore::Game.new(
+      TictactoeCore::Board.new(nil, get_game_size),
       game_play_ui,
-      *PlayerFactory.make_players(get_game_type, game_play_ui)
+      *TictactoeCore::PlayerFactory.make_players(get_game_type, game_play_ui)
     )
   end
 

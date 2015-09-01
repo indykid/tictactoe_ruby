@@ -1,5 +1,3 @@
-#require 'ruby-prof'
-
 class Ai
   attr_reader :mark
   def initialize(mark, opponent_mark)

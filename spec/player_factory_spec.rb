@@ -1,10 +1,8 @@
-require 'game_selector'
+require 'player_factory'
 require 'game'
 require 'player'
 require 'ai'
 require 'board'
-require 'game_selector_ui'
-require 'game_play_ui'
 
 describe PlayerFactory do
   let(:ui) { double.as_null_object }
@@ -25,14 +23,14 @@ describe PlayerFactory do
   it 'returns computer players for computer vs computer game' do
     player_x, player_o = described_class.make_players('cvc', ui)
 
-    expect(player_x).to be_instance_of(Ai)
-    expect(player_o).to be_instance_of(Ai)
+    expect(player_x).to be_instance_of(AiNegamax)
+    expect(player_o).to be_instance_of(AiNegamax)
   end
 
   it 'returns computer as x and human as o players for computer vs human game' do
     player_x, player_o = described_class.make_players('cvh', ui)
 
-    expect(player_x).to be_instance_of(Ai)
+    expect(player_x).to be_instance_of(AiNegamax)
     expect(player_o).to be_instance_of(Player)
   end
 
@@ -40,39 +38,6 @@ describe PlayerFactory do
     player_x, player_o = described_class.make_players('hvc', ui)
 
     expect(player_x).to be_instance_of(Player)
-    expect(player_o).to be_instance_of(Ai)
-  end
-end
-
-describe GameSelector do
-
-  let(:ui) { instance_double(GameSelectorUi).as_null_object }
-  let(:game_play_ui) { instance_double(GamePlayUi) }
-  let(:game_selector) { GameSelector.new(Game, Player, Ai, Board, ui, game_play_ui) }
-
-  it 'gets selector ui to greet' do
-    allow(ui).to receive(:get_game_size)
-    game_selector.make_game
-
-    expect(ui).to have_received(:greet)
-  end
-
-  it 'asks for game size' do
-    allow(ui).to receive(:get_game_size)
-    game_selector.make_game
-
-    expect(ui).to have_received(:get_game_size)
-  end
-
-  it 'asks for game type choice' do
-    allow(ui).to receive(:get_game_size)
-    game_selector.make_game
-
-    expect(ui).to have_received(:get_game_type)
-  end
-
-  it 'makes game' do
-    allow(ui).to receive(:get_game_size)
-    expect(game_selector.make_game).to be_instance_of(Game)
+    expect(player_o).to be_instance_of(AiNegamax)
   end
 end

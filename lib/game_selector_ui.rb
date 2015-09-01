@@ -1,3 +1,8 @@
+require 'player_factory'
+require 'game_play_ui'
+require 'game'
+require 'board'
+
 class GameSelectorUi
 
   def initialize(cli)
@@ -19,7 +24,7 @@ class GameSelectorUi
   end
 
   def get_game_type
-    display_game_type_options
+    show(GAME_TYPE_OPTIONS)
     get_clean_input
   end
 
@@ -27,12 +32,18 @@ class GameSelectorUi
     show(HUMAN_GAME_INSTRUCTIONS)
   end
 
+  def make_game
+    greet
+    game_play_ui = GamePlayUi.new(cli)
+    Game.new(
+      Board.new(nil, get_game_size),
+      game_play_ui,
+      *PlayerFactory.make_players(get_game_type, game_play_ui)
+    )
+  end
+
   private
   attr_reader :cli
-
-  def display_game_type_options
-    show(GAME_TYPE_OPTIONS)
-  end
 
   def show(message)
     cli.show(message)

@@ -58,4 +58,10 @@ describe GamePlayUi do
 
     expect(cli).to have_received(:show).with(GamePlayUi::GAME_DRAWN)
   end
+
+  it 'clears screen' do
+    ui.clear_screen
+
+    expect(cli).to have_received(:show).with("\e[H\e[2J")
+  end
 end

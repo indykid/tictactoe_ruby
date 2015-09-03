@@ -28,6 +28,7 @@ class GamePlayUi
 
   def display_winner(player)
     show(WINNER_ANNOUNCEMENT + player.to_s)
+    show(NEW_LINE)
   end
 
   def display_game_over
@@ -36,6 +37,10 @@ class GamePlayUi
 
   def display_draw
     show(GAME_DRAWN)
+  end
+
+  def clear_screen
+    show("\e[H\e[2J")
   end
 
   private

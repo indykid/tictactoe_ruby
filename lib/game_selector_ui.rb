@@ -4,15 +4,14 @@ require 'tictactoe_core/board'
 require 'game_play_ui'
 
 class GameSelectorUi
+  GREETING          = "Welcome to TicTacToe"
+  GAME_SIZE_OPTIONS = "Enter 4 for 4x4 game, or any key for 3x3"
+  GAME_TYPE_OPTIONS = "You have 4 options:\ncvc - Computer against computer\nhvc - You play first against computer\ncvh - Computer plays first againt you\nhvh - You plays against your friend\nPlease enter option 'cvc', 'hvc', 'cvh' or 'hvh'"
+  HUMAN_GAME_INSTRUCTIONS = "Each player enters move in turn\nFirst player is assigned 'X' mark"
 
   def initialize(cli)
     @cli = cli
   end
-
-  GREETING = "Welcome to TicTacToe"
-  GAME_SIZE_OPTIONS = "Enter 4 for 4x4 game, or any key for 3x3"
-  GAME_TYPE_OPTIONS = "You have 4 options:\ncvc - Computer against computer\nhvc - You play first against computer\ncvh - Computer plays first againt you\nhvh - You plays against your friend\nPlease enter option 'cvc', 'hvc', 'cvh' or 'hvh'"
-  HUMAN_GAME_INSTRUCTIONS = "Each player enters move in turn\nFirst player is assigned 'X' mark"
 
   def greet
     show(GREETING)
@@ -43,6 +42,7 @@ class GameSelectorUi
   end
 
   private
+
   attr_reader :cli
 
   def show(message)

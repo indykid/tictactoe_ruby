@@ -1,17 +1,17 @@
 require 'cli'
 
 class GamePlayUi
+  NEW_LINE     = "\n"
+  PADDING      = ' '
+  GAME_DRAWN   = "It's a DRAW"
+  GAME_OVER    = "GAME OVER"
+  MOVE_REQUEST = "Please enter position to play into"
+  WINNER_ANNOUNCEMENT   = "And the winner is - "
+  INVALID_OPTION_NOTICE = "******************************\nINVALID option, please try again\n******************************"
+
   def initialize(cli)
     @cli = cli
   end
-
-  INVALID_OPTION_NOTICE    = "******************************\nINVALID option, please try again\n******************************"
-  MOVE_REQUEST = "Please enter position to play into"
-  WINNER_ANNOUNCEMENT = "And the winner is - "
-  GAME_OVER = "GAME OVER"
-  GAME_DRAWN = "It's a DRAW"
-  NEW_LINE = "\n"
-  PADDING = ' '
 
   def notify_of_invalid_option
     show(INVALID_OPTION_NOTICE)
@@ -39,6 +39,7 @@ class GamePlayUi
   end
 
   private
+
   attr_reader :cli
 
   def show(message)

@@ -2,7 +2,6 @@ require 'game_play_ui'
 require 'tictactoe_core/board'
 
 describe GamePlayUi do
-
   let(:cli) { instance_double(Cli).as_null_object }
   let(:ui) { GamePlayUi.new(cli) }
 
@@ -20,7 +19,9 @@ describe GamePlayUi do
   end
 
   it 'shows user friendly 3x3 board' do
-    board = TictactoeCore::Board.new([:x, nil, nil, nil, nil, nil, nil, nil, nil])
+    board = TictactoeCore::Board.new([:x, nil, nil,
+                                      nil, nil, nil,
+                                      nil, nil, nil])
     ui.display_board(board)
 
     expect(cli).to have_received(:show).with(
@@ -29,7 +30,10 @@ describe GamePlayUi do
   end
 
   it 'shows user friendly 4x4 board' do
-    board = TictactoeCore::Board.new([:x, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil], 4)
+    board = TictactoeCore::Board.new([:x, nil, nil, nil,
+                                      nil, nil, nil, nil,
+                                      nil, nil, nil, nil,
+                                      nil, nil, nil, nil], 4)
     ui.display_board(board)
 
     expect(cli).to have_received(:show).with(
@@ -51,6 +55,7 @@ describe GamePlayUi do
 
   it 'displays game is drawn' do
     ui.display_draw
+
     expect(cli).to have_received(:show).with(GamePlayUi::GAME_DRAWN)
   end
 end

@@ -1,5 +1,4 @@
 class Cli
-
   attr_reader :output
 
   def initialize(input, output)
@@ -20,5 +19,6 @@ class Cli
   end
 
   private
+  
   attr_reader :input
 end

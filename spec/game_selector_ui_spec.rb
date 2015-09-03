@@ -2,7 +2,6 @@ require 'game_selector_ui'
 require 'cli'
 
 describe GameSelectorUi do
-
   let(:cli) { instance_double(Cli).as_null_object }
   let(:ui) { GameSelectorUi.new(cli) }
 
@@ -39,6 +38,7 @@ describe GameSelectorUi do
   it 'makes game' do
     allow(cli).to receive(:get_clean_input).and_return('')
     ui = described_class.new(cli)
+
     expect(ui.make_game).to be_instance_of(TictactoeCore::Game)
   end
 end

@@ -1,12 +1,12 @@
 require 'cli'
 
 describe Cli do
-
-  let(:input) { StringIO.new }
   let(:output) { StringIO.new }
-  let(:cli) { Cli.new(input, output) }
 
   it 'prints to output' do
+    input = StringIO.new
+    cli = Cli.new(input, output)
+
     cli.show('a')
 
     expect(output.string).to include('a')
